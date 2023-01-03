@@ -1,16 +1,16 @@
 <template>
   <div class="map">
-    <regionUnderFog v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :key="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
+    <regionItem v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
   </div>
 </template>
 
 <script>
-import regionUnderFog from '@/components/regions/regionUnderFog.vue'
+import regionItem from '@/components/regions/regionItem.vue'
 
 export default {
   name: 'mainView',
   components: {
-    regionUnderFog
+    regionItem
   },
   data () {
     return {
@@ -29,7 +29,7 @@ export default {
     }
   },
   created () {
-    this.currentCountGamers = 3
+    this.currentCountGamers = 2
   },
   mounted () {
   },
