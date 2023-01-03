@@ -7,6 +7,7 @@
         id="svg5"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:svg="http://www.w3.org/2000/svg">
+        <!-- TODO: Если не стартовые регионы и еще неразведанные регионы -->
         <template v-if="!startRegions.includes(number)">
             <defs
                 id="defs2" />
@@ -19,6 +20,7 @@
                 id="path1196" />
             </g>
         </template>
+        <!-- всего 20 типов регионов, кроме неразведанного -->
         <template v-else>
             <g
                 inkscape:groupmode="layer"
@@ -45,10 +47,10 @@
                 id="path640-3-4-9"
                 sodipodi:insensitive="true" />
             </g>
-            <tile-item type="forest"/>
-            <tile-item type="wasteland"/>
-            <tile-item type="field"/>
-            <tile-item type="mountains"/>
+            <g>
+                <!-- TODO: добавить переворот региона, больше регионов в справочник и понятие unFog региона -->
+                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i" :type="item.type" :transform="giveTranslateAttr(item.translate)"/>
+            </g>
         </template>
     </svg>
 </template>
@@ -62,7 +64,27 @@ export default {
   components: { tileItem },
   props: {
     number: Number,
-    startRegions: Array
+    startRegions: Array,
+    region_info: Object
+  },
+  data () {
+    return {
+      // 7.5 , 4.5
+      // справочник расположения регионов относительно стартовой свг-шки
+      mapTilesInRegion: {
+        1: [
+          { type: 'field', translate: [0, 0] },
+          { type: 'forest', translate: [0, 0] },
+          { type: 'mountains', translate: [0, 0] },
+          { type: 'wasteland', translate: [0, 0] }
+        ]
+      }
+    }
+  },
+  methods: {
+    giveTranslateAttr (value) {
+      return `translate(${value.toString()})`
+    }
   }
 }
 </script>

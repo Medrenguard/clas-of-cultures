@@ -3,6 +3,7 @@
         <g v-if="type === 'mountains'"
             inkscape:groupmode="layer"
             id="layer4"
+            :transform="transform"
             inkscape:label="Горы">
             <path
             style="fill:none;stroke:#000000;stroke-width:0.05825;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
@@ -20,6 +21,7 @@
         <g v-if="type === 'field'"
             inkscape:groupmode="layer"
             id="layer6"
+            :transform="transform"
             inkscape:label="Луга">
             <path
             style="fill:none;stroke:#000000;stroke-width:0.05;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
@@ -29,6 +31,7 @@
         <g v-if="type === 'wasteland'"
             inkscape:groupmode="layer"
             id="layer5"
+            :transform="transform"
             inkscape:label="Пустошь">
             <path
             style="fill:none;stroke:#000000;stroke-width:0.0499999;stroke-dasharray:none"
@@ -118,6 +121,7 @@
         <g v-if="type === 'forest'"
             inkscape:groupmode="layer"
             id="layer3"
+            :transform="transform"
             inkscape:label="Лес">
             <path
             style="fill:none;stroke:#000000;stroke-width:0.0499999;stroke-dasharray:none"
@@ -163,7 +167,8 @@
 export default {
   name: 'tileItem',
   props: {
-    type: String
+    type: String,
+    transform: String
   }
 }
 </script>

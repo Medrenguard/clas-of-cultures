@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <region-item v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :startRegions="layoutByCountGamers[currentCountGamers].regonsForStart" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
+    <region-item v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :startRegions="layoutByCountGamers[currentCountGamers].regonsForStart" :region_info="regionItemsOnMap[i-1]" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
   </div>
 </template>
 
@@ -26,15 +26,27 @@ export default {
           regionsCount: 18
         }
       },
-      currentCountGamers: null
+      currentCountGamers: null,
+      regionItemsOnMap: []
     }
   },
   created () {
     this.currentCountGamers = 2
+    this.fillInfoAboutRegions()
   },
   mounted () {
   },
   methods: {
+    fillInfoAboutRegions () {
+      for (let i = 0; i < this.layoutByCountGamers[this.currentCountGamers].regionsCount; i++) {
+        const filler = { region_type: undefined, orientation: undefined }
+        if (this.currentCountGamers === 2) {
+          if (i === 0) { filler.region_type = 1; filler.orientation = 'avers' }
+          if (i === 9) { filler.region_type = 1; filler.orientation = 'revers' }
+          this.regionItemsOnMap.push(filler)
+        }
+      }
+    },
     shiftRegion (regionNum) {
       // размер тайла на данный момент - 32.7 пикселя
       const gamers = this.currentCountGamers
