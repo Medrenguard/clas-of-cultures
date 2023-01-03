@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <regionItem v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
+    <region-item v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :startRegions="layoutByCountGamers[currentCountGamers].regonsForStart" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
     return {
       layoutByCountGamers: {
         2: {
-          regionsCount: 10
+          regionsCount: 10,
+          regonsForStart: [1, 10]
         },
         3: {
           regionsCount: 15
