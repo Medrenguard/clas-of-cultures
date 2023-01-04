@@ -43,6 +43,9 @@ export default {
         if (this.currentCountGamers === 2) {
           if (i === 0) { filler.region_type = 1; filler.orientation = 'avers' }
           if (i === 9) { filler.region_type = 1; filler.orientation = 'revers' }
+          // тестовые данные
+          // if (i === 1) { filler.region_type = 2; filler.orientation = 'avers' }
+          // if (i === 2) { filler.region_type = 2; filler.orientation = 'revers' }
           this.regionItemsOnMap.push(filler)
         }
       }

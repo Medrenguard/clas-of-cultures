@@ -47,7 +47,7 @@
                 sodipodi:insensitive="true" />
             </g>
             <g>
-                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i" :type="item.type" :transform="giveTranslateAttr(item.translate, i)"/>
+                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i" :type="item.type" :transform="giveTranslateAttr(item.translate, item.type)"/>
             </g>
         </template>
     </svg>
@@ -70,49 +70,67 @@ export default {
   },
   data () {
     return {
-      // справочник расположения регионов относительно стартовой свг-шки
+      // Общий справочник регионов
       mapTilesInRegion: {
         1: [
-          { type: 'field', translate: [0, 0] },
-          { type: 'forest', translate: [0, 0] },
-          { type: 'mountains', translate: [0, 0] },
-          { type: 'wasteland', translate: [0, 0] }
+          { type: 'field', translate: 'top' },
+          { type: 'forest', translate: 'left' },
+          { type: 'mountains', translate: 'right' },
+          { type: 'wasteland', translate: 'bottom' }
         ],
-        2: [
-          { type: 'field', translate: [0, 8.5] },
-          { type: 'forest', translate: [7.5, -4.25] },
-          { type: 'mountains', translate: [-15, 0] },
-          { type: 'wasteland', translate: [7.5, -4.25] }
+        2: [// тестовый регион
+          { type: 'forest', translate: 'top' },
+          { type: 'mountains', translate: 'left' },
+          { type: 'wasteland', translate: 'right' },
+          { type: 'field', translate: 'bottom' }
         ]
       }
     }
   },
   methods: {
-    giveTranslateAttr (value, tileNumber) {
-      const res = this.calcTranslateAttr(value, tileNumber)
+    giveTranslateAttr (position, tileType) {
+      let res = []
+      if (this.region_info.orientation === 'avers') { res = this.calcTranslateAttr(position, tileType) }
+      if (this.region_info.orientation === 'revers') { res = this.calcTranslateAttr(this.getReversePosition(position), tileType) }
       return `translate(${res.toString()})`
     },
-    calcTranslateAttr (value, tileNumber) {
-      if (this.region_info.orientation === 'avers') { return value }
-      if (this.region_info.orientation === 'revers') {
-        const res = { x: value[0], y: value[1] }
-        const shift = { x: 7.5, y: 4.25 }
-        switch (tileNumber) {
-          case 0:
-            res.y += shift.y * 2
-            break
-          case 1:
-            res.x += shift.x * 2
-            break
-          case 2:
-            res.x -= shift.x * 2
-            break
-          case 3:
-            res.y -= shift.y * 2
-            break
-        }
-        return [res.x, res.y]
+    getReversePosition (position) {
+      if (position === 'top') { return 'bottom' }
+      if (position === 'bottom') { return 'top' }
+      if (position === 'left') { return 'right' }
+      if (position === 'right') { return 'left' }
+    },
+    calcTranslateAttr (position, tileType) {
+      let res = []
+      // при изменении размеров тайлов - изменить значение смещения
+      const shift = { x: 7.5, y: 4.25 }
+      switch (position) {
+        case 'top':
+          if (tileType === 'field') { res = [0, 0] }
+          if (tileType === 'forest') { res = [shift.x, -shift.y] }
+          if (tileType === 'mountains') { res = [-shift.x, -shift.y] }
+          if (tileType === 'wasteland') { res = [0, -shift.y * 2] }
+          break
+        case 'left':
+          if (tileType === 'field') { res = [-shift.x, shift.y] }
+          if (tileType === 'forest') { res = [0, 0] }
+          if (tileType === 'mountains') { res = [-shift.x * 2, 0] }
+          if (tileType === 'wasteland') { res = [-shift.x, -shift.y] }
+          break
+        case 'right':
+          if (tileType === 'field') { res = [shift.x, shift.y] }
+          if (tileType === 'forest') { res = [shift.x * 2, 0] }
+          if (tileType === 'mountains') { res = [0, 0] }
+          if (tileType === 'wasteland') { res = [shift.x, -shift.y] }
+          break
+        case 'bottom':
+          if (tileType === 'field') { res = [0, shift.y * 2] }
+          if (tileType === 'forest') { res = [shift.x, shift.y] }
+          if (tileType === 'mountains') { res = [-shift.x, shift.y] }
+          if (tileType === 'wasteland') { res = [0, 0] }
+          break
       }
+      return res
     }
   },
   computed: {
