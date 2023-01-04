@@ -39,7 +39,7 @@ export default {
   methods: {
     fillInfoAboutRegions () {
       for (let i = 0; i < this.layoutByCountGamers[this.currentCountGamers].regionsCount; i++) {
-        const filler = { region_type: undefined, orientation: undefined }
+        const filler = { region_type: null, orientation: undefined }
         if (this.currentCountGamers === 2) {
           if (i === 0) { filler.region_type = 1; filler.orientation = 'avers' }
           if (i === 9) { filler.region_type = 1; filler.orientation = 'revers' }

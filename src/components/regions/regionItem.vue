@@ -7,8 +7,7 @@
         id="svg5"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:svg="http://www.w3.org/2000/svg">
-        <!-- TODO: Если не стартовые регионы и еще неразведанные регионы -->
-        <template v-if="!startRegions.includes(number)">
+        <template v-if="isRegionUnderFog">
             <defs
                 id="defs2" />
             <g
@@ -48,8 +47,7 @@
                 sodipodi:insensitive="true" />
             </g>
             <g>
-                <!-- TODO: добавить переворот региона, больше регионов в справочник и понятие unFog региона -->
-                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i" :type="item.type" :transform="giveTranslateAttr(item.translate)"/>
+                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i" :type="item.type" :transform="giveTranslateAttr(item.translate, i)"/>
             </g>
         </template>
     </svg>
@@ -65,11 +63,13 @@ export default {
   props: {
     number: Number,
     startRegions: Array,
-    region_info: Object
+    region_info: {
+      region_type: Number,
+      orientation: String
+    }
   },
   data () {
     return {
-      // 7.5 , 4.5
       // справочник расположения регионов относительно стартовой свг-шки
       mapTilesInRegion: {
         1: [
@@ -77,13 +77,47 @@ export default {
           { type: 'forest', translate: [0, 0] },
           { type: 'mountains', translate: [0, 0] },
           { type: 'wasteland', translate: [0, 0] }
+        ],
+        2: [
+          { type: 'field', translate: [0, 8.5] },
+          { type: 'forest', translate: [7.5, -4.25] },
+          { type: 'mountains', translate: [-15, 0] },
+          { type: 'wasteland', translate: [7.5, -4.25] }
         ]
       }
     }
   },
   methods: {
-    giveTranslateAttr (value) {
-      return `translate(${value.toString()})`
+    giveTranslateAttr (value, tileNumber) {
+      const res = this.calcTranslateAttr(value, tileNumber)
+      return `translate(${res.toString()})`
+    },
+    calcTranslateAttr (value, tileNumber) {
+      if (this.region_info.orientation === 'avers') { return value }
+      if (this.region_info.orientation === 'revers') {
+        const res = { x: value[0], y: value[1] }
+        const shift = { x: 7.5, y: 4.25 }
+        switch (tileNumber) {
+          case 0:
+            res.y += shift.y * 2
+            break
+          case 1:
+            res.x += shift.x * 2
+            break
+          case 2:
+            res.x -= shift.x * 2
+            break
+          case 3:
+            res.y -= shift.y * 2
+            break
+        }
+        return [res.x, res.y]
+      }
+    }
+  },
+  computed: {
+    isRegionUnderFog () {
+      return this.region_info.region_type === null
     }
   }
 }
