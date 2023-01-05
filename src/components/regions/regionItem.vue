@@ -72,16 +72,106 @@ export default {
     return {
       // Общий справочник регионов
       mapTilesInRegion: {
-        1: [
+        1: [// стандартный стартовый регион
           { type: 'field', translate: 'top' },
           { type: 'forest', translate: 'left' },
           { type: 'mountains', translate: 'right' },
           { type: 'wasteland', translate: 'bottom' }
+        ], // далее идут регионы с присвоением реального номера из игры(кроме специальных стартовых: для них резерв 2,3,4)
+        5: [
+          { type: 'sea', translate: 'top' },
+          { type: 'mountains', translate: 'left' },
+          { type: 'sea', translate: 'right' },
+          { type: 'mountains', translate: 'bottom' }
         ],
-        2: [// тестовый регион
+        6: [
+          { type: 'sea', translate: 'top' },
+          { type: 'sea', translate: 'left' },
+          { type: 'mountains', translate: 'right' },
+          { type: 'field', translate: 'bottom' }
+        ],
+        7: [
+          { type: 'forest', translate: 'top' },
+          { type: 'forest', translate: 'left' },
+          { type: 'sea', translate: 'right' },
+          { type: 'sea', translate: 'bottom' }
+        ],
+        8: [
+          { type: 'field', translate: 'top' },
+          { type: 'sea', translate: 'left' },
+          { type: 'forest', translate: 'right' },
+          { type: 'sea', translate: 'bottom' }
+        ],
+        9: [
           { type: 'forest', translate: 'top' },
           { type: 'mountains', translate: 'left' },
+          { type: 'mountains', translate: 'right' },
+          { type: 'sea', translate: 'bottom' }
+        ],
+        10: [
+          { type: 'mountains', translate: 'top' },
+          { type: 'sea', translate: 'left' },
+          { type: 'field', translate: 'right' },
+          { type: 'mountains', translate: 'bottom' }
+        ],
+        11: [
+          { type: 'sea', translate: 'top' },
+          { type: 'field', translate: 'left' },
+          { type: 'forest', translate: 'right' },
+          { type: 'mountains', translate: 'bottom' }
+        ],
+        12: [
+          { type: 'forest', translate: 'top' },
+          { type: 'sea', translate: 'left' },
+          { type: 'field', translate: 'right' },
+          { type: 'forest', translate: 'bottom' }
+        ],
+        13: [
+          { type: 'field', translate: 'top' },
+          { type: 'sea', translate: 'left' },
           { type: 'wasteland', translate: 'right' },
+          { type: 'mountains', translate: 'bottom' }
+        ],
+        14: [
+          { type: 'sea', translate: 'top' },
+          { type: 'wasteland', translate: 'left' },
+          { type: 'forest', translate: 'right' },
+          { type: 'field', translate: 'bottom' }
+        ],
+        15: [
+          { type: 'sea', translate: 'top' },
+          { type: 'field', translate: 'left' },
+          { type: 'field', translate: 'right' },
+          { type: 'wasteland', translate: 'bottom' }
+        ],
+        16: [
+          { type: 'field', translate: 'top' },
+          { type: 'sea', translate: 'left' },
+          { type: 'field', translate: 'right' },
+          { type: 'wasteland', translate: 'bottom' }
+        ],
+        17: [
+          { type: 'mountains', translate: 'top' },
+          { type: 'forest', translate: 'left' },
+          { type: 'mountains', translate: 'right' },
+          { type: 'wasteland', translate: 'bottom' }
+        ],
+        18: [
+          { type: 'forest', translate: 'top' },
+          { type: 'mountains', translate: 'left' },
+          { type: 'field', translate: 'right' },
+          { type: 'mountains', translate: 'bottom' }
+        ],
+        19: [
+          { type: 'field', translate: 'top' },
+          { type: 'forest', translate: 'left' },
+          { type: 'mountains', translate: 'right' },
+          { type: 'field', translate: 'bottom' }
+        ],
+        20: [
+          { type: 'forest', translate: 'top' },
+          { type: 'field', translate: 'left' },
+          { type: 'field', translate: 'right' },
           { type: 'field', translate: 'bottom' }
         ]
       }
@@ -102,29 +192,30 @@ export default {
     },
     calcTranslateAttr (position, tileType) {
       let res = []
-      // при изменении размеров тайлов - изменить значение смещения
+      // при изменении размеров тайлов - изменить значения смещения
       const shift = { x: 7.5, y: 4.25 }
+      // при перерисовке тайлов - возможно, изменить логику смещения
       switch (position) {
         case 'top':
-          if (tileType === 'field') { res = [0, 0] }
+          if (['field', 'sea'].includes(tileType)) { res = [0, 0] }
           if (tileType === 'forest') { res = [shift.x, -shift.y] }
           if (tileType === 'mountains') { res = [-shift.x, -shift.y] }
           if (tileType === 'wasteland') { res = [0, -shift.y * 2] }
           break
         case 'left':
-          if (tileType === 'field') { res = [-shift.x, shift.y] }
+          if (['field', 'sea'].includes(tileType)) { res = [-shift.x, shift.y] }
           if (tileType === 'forest') { res = [0, 0] }
           if (tileType === 'mountains') { res = [-shift.x * 2, 0] }
           if (tileType === 'wasteland') { res = [-shift.x, -shift.y] }
           break
         case 'right':
-          if (tileType === 'field') { res = [shift.x, shift.y] }
+          if (['field', 'sea'].includes(tileType)) { res = [shift.x, shift.y] }
           if (tileType === 'forest') { res = [shift.x * 2, 0] }
           if (tileType === 'mountains') { res = [0, 0] }
           if (tileType === 'wasteland') { res = [shift.x, -shift.y] }
           break
         case 'bottom':
-          if (tileType === 'field') { res = [0, shift.y * 2] }
+          if (['field', 'sea'].includes(tileType)) { res = [0, shift.y * 2] }
           if (tileType === 'forest') { res = [shift.x, shift.y] }
           if (tileType === 'mountains') { res = [-shift.x, shift.y] }
           if (tileType === 'wasteland') { res = [0, 0] }
