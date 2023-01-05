@@ -73,10 +73,10 @@ export default {
       // Общий справочник регионов
       mapTilesInRegion: {
         1: [// стандартный стартовый регион
-          { type: 'field', translate: 'top' },
-          { type: 'forest', translate: 'left' },
-          { type: 'mountains', translate: 'right' },
-          { type: 'wasteland', translate: 'bottom' }
+          { type: 'wasteland', translate: 'top' },
+          { type: 'mountains', translate: 'left' },
+          { type: 'forest', translate: 'right' },
+          { type: 'field', translate: 'bottom' }
         ], // далее идут регионы с присвоением реального номера из игры(кроме специальных стартовых: для них резерв 2,3,4)
         5: [
           { type: 'sea', translate: 'top' },
