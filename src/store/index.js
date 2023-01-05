@@ -6,17 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentCountGamers: 2,
-    layoutByCountGamers: {
-      2: {
-        regionsCount: 10,
-        regonsForStart: [1, 10]
-      },
-      3: {
-        regionsCount: 15
-      },
-      4: {
-        regionsCount: 18
-      }
+    layoutByCount: {
+      regionsCount: null,
+      regionsForStart: []
     },
     layout: {
       my: {
@@ -61,6 +53,9 @@ export default new Vuex.Store({
   mutations: {
     updateRegionInfo (state, payload) {
       state.regionItemsOnMap[payload.regionNum] = payload.info
+    },
+    updateLayoutByCount (state, payload) {
+      state.layoutByCount = payload
     }
   },
   actions: {
