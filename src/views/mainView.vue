@@ -6,6 +6,7 @@
 
 <script>
 import regionItem from '@/components/regions/regionItem.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'mainView',
@@ -26,40 +27,11 @@ export default {
           regionsCount: 18
         }
       },
-      startLayout: {
-        // стандартная раскладка, не ускоренная
-        city: [
-          {
-            region: null,
-            tile: null,
-            mood: 'happy'
-          }
-        ],
-        settlers: [
-          {
-            region: null,
-            tile: null
-          }
-        ],
-        achivements: [/** TODO **/]
-      },
-      layout: {
-        my: {},
-        rival: {}
-      },
-      currentCountGamers: null,
       regionItemsOnMap: []
     }
   },
   created () {
-    this.currentCountGamers = 2
     this.fillInfoAboutRegions()
-    if (this.currentCountGamers === 2) {
-      this.layout.my = this.getDeepCopy(this.startLayout)
-      this.layout.rival = this.getDeepCopy(this.startLayout)
-      this.layout.my.city[0] = this.layout.my.settlers[0] = { region: 10, tile: 1 }
-      this.layout.rival.city[0] = this.layout.rival.settlers[0] = { region: 1, tile: 4 }
-    }
   },
   mounted () {
   },
@@ -187,10 +159,13 @@ export default {
       } else {
         if ([3, 5, 9, 10, 14].includes(regionNum)) { return '60deg' } else if ([4, 6, 11, 12, 13].includes(regionNum)) { return '-60deg' } else { return '0' }
       }
-    },
-    getDeepCopy (object) {
-      return JSON.parse(JSON.stringify(object))
     }
+  },
+  computed: {
+    ...mapState([
+      'currentCountGamers',
+      'layout'
+    ])
   }
 }
 </script>
