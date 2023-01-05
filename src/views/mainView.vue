@@ -27,24 +27,26 @@ export default {
         }
       },
       startLayout: {
-        basic: {
-          city: [
-            {
-              region: null,
-              tile: null,
-              mood: 'happy'
-            }
-          ],
-          settlers: [
-            {
-              region: null,
-              tile: null
-            }
-          ],
-          achivements: [/** TODO **/]
-        }
+        // стандартная раскладка, не ускоренная
+        city: [
+          {
+            region: null,
+            tile: null,
+            mood: 'happy'
+          }
+        ],
+        settlers: [
+          {
+            region: null,
+            tile: null
+          }
+        ],
+        achivements: [/** TODO **/]
       },
-      myLayout: {},
+      layout: {
+        my: {},
+        rival: {}
+      },
       currentCountGamers: null,
       regionItemsOnMap: []
     }
@@ -52,8 +54,12 @@ export default {
   created () {
     this.currentCountGamers = 2
     this.fillInfoAboutRegions()
-    this.myLayout = this.getDeepCopy(this.startLayout.basic)
-    this.myLayout.city[0] = this.myLayout.settlers[0] = { region: 10, tile: 1 }
+    if (this.currentCountGamers === 2) {
+      this.layout.my = this.getDeepCopy(this.startLayout)
+      this.layout.rival = this.getDeepCopy(this.startLayout)
+      this.layout.my.city[0] = this.layout.my.settlers[0] = { region: 10, tile: 1 }
+      this.layout.rival.city[0] = this.layout.rival.settlers[0] = { region: 1, tile: 4 }
+    }
   },
   mounted () {
   },
