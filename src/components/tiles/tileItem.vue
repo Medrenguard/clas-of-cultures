@@ -184,15 +184,43 @@
             inkscape:path-effect="#path-effect2987"
             inkscape:original-d="m 9.8221554,3.9965167 c 0.4640886,2.646e-4 0.9123216,2.646e-4 1.3680856,0 0.455764,-2.645e-4 0.0081,0.031446 0.01169,0.046772 0.0036,0.015327 0.935708,0.015854 1.403165,0.023386 0.467457,0.00753 0.01586,-0.054303 0.02339,-0.081851 0.0075,-0.027548 1.091615,-0.00753 1.637026,-0.011695 0.545411,-0.00416 0.03145,0.078218 0.04677,0.1169305 0.01533,0.038712 0.694052,-0.023122 1.040681,-0.035079" />
         </g>
+        <g v-if="mySettlersInThisTile">
+            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i"></settler-item>
+        </g>
     </g>
 </template>
 
 <script>
+
+import settlerItem from '@/components/settlerItem.vue'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'tileItem',
+  components: { settlerItem },
   props: {
+    numberRegion: Number,
+    numberTile: Number,
+    orientation: String,
     type: String,
     transform: String
+  },
+  mounted () {
+  },
+  computed: {
+    ...mapGetters([
+      'MY_SETTLERS'
+    ]),
+    mySettlersInThisTile () {
+      let res = 0
+      for (let i = 0; i < this.MY_SETTLERS.length; i++) {
+        if (this.MY_SETTLERS[i].region === this.numberRegion && this.MY_SETTLERS[i].tile === this.numberTile) {
+          res += 1
+        }
+      }
+      return res
+    }
+
   }
 }
 </script>

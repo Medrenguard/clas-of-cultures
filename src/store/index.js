@@ -49,6 +49,9 @@ export default new Vuex.Store({
 
   },
   getters: {
+    MY_SETTLERS (state) {
+      return state.layout.my.settlers
+    }
   },
   mutations: {
     updateRegionInfo (state, payload) {
