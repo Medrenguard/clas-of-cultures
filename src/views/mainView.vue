@@ -15,19 +15,7 @@ export default {
   },
   data () {
     return {
-      layoutByCountGamers: {
-        2: {
-          regionsCount: 10,
-          regonsForStart: [1, 10]
-        },
-        3: {
-          regionsCount: 15
-        },
-        4: {
-          regionsCount: 18
-        }
-      },
-      regionItemsOnMap: []
+      //
     }
   },
   created () {
@@ -42,16 +30,8 @@ export default {
         if (this.currentCountGamers === 2) {
           if (i === 0) { filler.region_type = 1; filler.orientation = 'avers' }
           if (i === 9) { filler.region_type = 1; filler.orientation = 'revers' }
-          // тестовые данные
-          // if (i === 1) { filler.region_type = 13; filler.orientation = 'avers' }
-          // if (i === 2) { filler.region_type = 14; filler.orientation = 'avers' }
-          // if (i === 3) { filler.region_type = 15; filler.orientation = 'avers' }
-          // if (i === 4) { filler.region_type = 16; filler.orientation = 'avers' }
-          // if (i === 5) { filler.region_type = 17; filler.orientation = 'avers' }
-          // if (i === 6) { filler.region_type = 18; filler.orientation = 'avers' }
-          // if (i === 7) { filler.region_type = 19; filler.orientation = 'avers' }
-          // if (i === 8) { filler.region_type = 20; filler.orientation = 'avers' }
-          this.regionItemsOnMap.push(filler)
+
+          this.$store.commit('updateRegionInfo', { regionNum: i, info: filler })
         }
       }
     },
@@ -164,7 +144,9 @@ export default {
   computed: {
     ...mapState([
       'currentCountGamers',
-      'layout'
+      'layout',
+      'regionItemsOnMap',
+      'layoutByCountGamers'
     ])
   }
 }

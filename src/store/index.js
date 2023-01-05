@@ -6,6 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentCountGamers: 2,
+    layoutByCountGamers: {
+      2: {
+        regionsCount: 10,
+        regonsForStart: [1, 10]
+      },
+      3: {
+        regionsCount: 15
+      },
+      4: {
+        regionsCount: 18
+      }
+    },
     layout: {
       my: {
         city: [
@@ -39,12 +51,17 @@ export default new Vuex.Store({
         ],
         achivements: [/** TODO **/]
       }
-    }
+    },
+    regionItemsOnMap: []
+    //
 
   },
   getters: {
   },
   mutations: {
+    updateRegionInfo (state, payload) {
+      state.regionItemsOnMap[payload.regionNum] = payload.info
+    }
   },
   actions: {
   },
