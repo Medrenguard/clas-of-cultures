@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <region-item v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :startRegions="layoutByCountGamers[currentCountGamers].regionsForStart" :region_info="regionItemsOnMap[i-1]" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
+    <region-item v-for="i in layoutByCountGamers[currentCountGamers].regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :number="i" :style="{ margin: shiftRegion(i), rotate: rotateRegion(i) }"/>
   </div>
 </template>
 
@@ -159,7 +159,8 @@ export default {
     ...mapState([
       'currentCountGamers',
       'layout',
-      'regionItemsOnMap'
+      'regionItemsOnMap',
+      'layoutByCount'
     ])
   }
 }

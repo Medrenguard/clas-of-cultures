@@ -62,7 +62,6 @@ export default {
   components: { tileItem },
   props: {
     number: Number,
-    startRegions: Array,
     region_info: {
       region_type: Number,
       orientation: String
