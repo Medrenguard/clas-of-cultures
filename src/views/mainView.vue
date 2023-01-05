@@ -26,6 +26,25 @@ export default {
           regionsCount: 18
         }
       },
+      startLayout: {
+        basic: {
+          city: [
+            {
+              region: null,
+              tile: null,
+              mood: 'happy'
+            }
+          ],
+          settlers: [
+            {
+              region: null,
+              tile: null
+            }
+          ],
+          achivements: [/** TODO **/]
+        }
+      },
+      myLayout: {},
       currentCountGamers: null,
       regionItemsOnMap: []
     }
@@ -33,6 +52,8 @@ export default {
   created () {
     this.currentCountGamers = 2
     this.fillInfoAboutRegions()
+    this.myLayout = this.getDeepCopy(this.startLayout.basic)
+    this.myLayout.city[0] = this.myLayout.settlers[0] = { region: 10, tile: 1 }
   },
   mounted () {
   },
@@ -160,6 +181,9 @@ export default {
       } else {
         if ([3, 5, 9, 10, 14].includes(regionNum)) { return '60deg' } else if ([4, 6, 11, 12, 13].includes(regionNum)) { return '-60deg' } else { return '0' }
       }
+    },
+    getDeepCopy (object) {
+      return JSON.parse(JSON.stringify(object))
     }
   }
 }
