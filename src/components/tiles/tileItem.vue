@@ -185,10 +185,16 @@
             inkscape:original-d="m 9.8221554,3.9965167 c 0.4640886,2.646e-4 0.9123216,2.646e-4 1.3680856,0 0.455764,-2.645e-4 0.0081,0.031446 0.01169,0.046772 0.0036,0.015327 0.935708,0.015854 1.403165,0.023386 0.467457,0.00753 0.01586,-0.054303 0.02339,-0.081851 0.0075,-0.027548 1.091615,-0.00753 1.637026,-0.011695 0.545411,-0.00416 0.03145,0.078218 0.04677,0.1169305 0.01533,0.038712 0.694052,-0.023122 1.040681,-0.035079" />
         </g>
         <g v-if="mySettlersInThisTile">
-            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr(i)"></settler-item>
+            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)"></settler-item>
         </g>
         <g v-if="rivalSettlersInThisTile">
-            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr(i)"></settler-item>
+            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)"></settler-item>
+        </g>
+        <g v-if="myInfantryInThisTile">
+            <infantry-item v-for="(Infantry, i) in myInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)"></infantry-item>
+        </g>
+        <g v-if="rivalInfantryInThisTile">
+            <infantry-item v-for="(Infantry, i) in rivalInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)"></infantry-item>
         </g>
     </g>
 </template>
@@ -196,11 +202,12 @@
 <script>
 
 import settlerItem from '@/components/settlerItem.vue'
+import infantryItem from '@/components/infantryItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'tileItem',
-  components: { settlerItem },
+  components: { settlerItem, infantryItem },
   props: {
     numberRegion: Number,
     numberTile: Number,
@@ -210,24 +217,32 @@ export default {
     transform: String
   },
   methods: {
-    giveTranslateAttr (numberSettler) {
-      const res = this.calcTranslateAttr(this.positionTile, numberSettler)
-      return `matrix(1.4512788,0,0,1.4509685,${res.toString()})`
+    giveTranslateAttr (unitType, unitNumber) {
+      const res = this.calcTranslateAttr(this.positionTile, unitType, unitNumber)
+      return `matrix(${res.toString()})`
     },
-    calcTranslateAttr (position, numberSettler) {
+    calcTranslateAttr (position, unitType, unitNumber) {
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
       const shiftTile = { x: 7.5, y: 4.35 }
       const shiftUnit = 1.25
-      // стартовая точка поселенца на svg-шке
-      const startPoint = { x: -6.7424739, y: -9.033277 }
+      // стартовая точка юнитов на svg-шке
+      const startPoint = {
+        settler: { x: -6.7424739, y: -9.033277 },
+        infantry: { x: -6.7206329, y: -7.6900277 }
+      }
+      // при перерисовке - изменить значения
+      const matrixValue = {
+        settler: [1.4512788, 0, 0, 1.4509685],
+        infantry: [1.4497717, 0, 0, 1.4497717]
+      }
       // при перерисовке тайлов - возможно, изменить логику смещения
-      if (position === 'bottom') { res = [startPoint.x, startPoint.y] }
-      if (position === 'top') { res = [startPoint.x, startPoint.y - shiftTile.y * 2] }
-      if (position === 'left') { res = [startPoint.x - shiftTile.x, startPoint.y - shiftTile.y] }
-      if (position === 'right') { res = [startPoint.x + shiftTile.x, startPoint.y - shiftTile.y] }
+      if (position === 'bottom') { res = [startPoint[unitType].x, startPoint[unitType].y] }
+      if (position === 'top') { res = [startPoint[unitType].x, startPoint[unitType].y - shiftTile.y * 2] }
+      if (position === 'left') { res = [startPoint[unitType].x - shiftTile.x, startPoint[unitType].y - shiftTile.y] }
+      if (position === 'right') { res = [startPoint[unitType].x + shiftTile.x, startPoint[unitType].y - shiftTile.y] }
       // возвращает позицию со сдвигом относительно положения тайла и кол-ва юнитов на тайле
-      return [res[0] - shiftUnit * numberSettler, [res[1]]]
+      return [...matrixValue[unitType], res[0] - shiftUnit * unitNumber, res[1]]
     }
   },
   mounted () {
@@ -235,7 +250,9 @@ export default {
   computed: {
     ...mapGetters([
       'MY_SETTLERS',
-      'RIVAL_SETTLERS'
+      'RIVAL_SETTLERS',
+      'MY_INFANTRY',
+      'RIVAL_INFANTRY'
     ]),
     mySettlersInThisTile () {
       let res = 0
@@ -250,6 +267,24 @@ export default {
       let res = 0
       for (let i = 0; i < this.RIVAL_SETTLERS.length; i++) {
         if (this.RIVAL_SETTLERS[i].region === this.numberRegion && this.RIVAL_SETTLERS[i].tile === this.numberTile) {
+          res += 1
+        }
+      }
+      return res
+    },
+    myInfantryInThisTile () {
+      let res = 0
+      for (let i = 0; i < this.MY_INFANTRY.length; i++) {
+        if (this.MY_INFANTRY[i].region === this.numberRegion && this.MY_INFANTRY[i].tile === this.numberTile) {
+          res += 1
+        }
+      }
+      return res
+    },
+    rivalInfantryInThisTile () {
+      let res = 0
+      for (let i = 0; i < this.RIVAL_INFANTRY.length; i++) {
+        if (this.RIVAL_INFANTRY[i].region === this.numberRegion && this.RIVAL_INFANTRY[i].tile === this.numberTile) {
           res += 1
         }
       }
