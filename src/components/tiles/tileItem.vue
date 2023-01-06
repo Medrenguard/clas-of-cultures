@@ -185,10 +185,10 @@
             inkscape:original-d="m 9.8221554,3.9965167 c 0.4640886,2.646e-4 0.9123216,2.646e-4 1.3680856,0 0.455764,-2.645e-4 0.0081,0.031446 0.01169,0.046772 0.0036,0.015327 0.935708,0.015854 1.403165,0.023386 0.467457,0.00753 0.01586,-0.054303 0.02339,-0.081851 0.0075,-0.027548 1.091615,-0.00753 1.637026,-0.011695 0.545411,-0.00416 0.03145,0.078218 0.04677,0.1169305 0.01533,0.038712 0.694052,-0.023122 1.040681,-0.035079" />
         </g>
         <g v-if="mySettlersInThisTile">
-            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr()"></settler-item>
+            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr(i)"></settler-item>
         </g>
         <g v-if="rivalSettlersInThisTile">
-            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr()"></settler-item>
+            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr(i)"></settler-item>
         </g>
     </g>
 </template>
@@ -210,20 +210,24 @@ export default {
     transform: String
   },
   methods: {
-    giveTranslateAttr () {
-      const res = this.calcTranslateAttr(this.positionTile)
-      return `matrix(1.6609504,0,0,1.6609504,${res.toString()})`
+    giveTranslateAttr (numberSettler) {
+      const res = this.calcTranslateAttr(this.positionTile, numberSettler)
+      return `matrix(1.4512788,0,0,1.4509685,${res.toString()})`
     },
-    calcTranslateAttr (position) {
+    calcTranslateAttr (position, numberSettler) {
+      let res = []
       // при изменении размеров тайлов - изменить значения смещения
-      const shift = { x: 7.5, y: 4.25 }
-      // стартовая точка на svg-шке
-      const startPoint = { x: -9.8770861, y: -12.675803 }
+      const shiftTile = { x: 7.5, y: 4.25 }
+      const shiftUnit = 1.25
+      // стартовая точка поселенца на svg-шке
+      const startPoint = { x: -6.7424739, y: -9.033277 }
       // при перерисовке тайлов - возможно, изменить логику смещения
-      if (position === 'bottom') { return [startPoint.x, startPoint.y] }
-      if (position === 'top') { return [startPoint.x, startPoint.y - shift.y * 2] }
-      if (position === 'left') { return [startPoint.x - shift.x, startPoint.y - shift.y] }
-      if (position === 'right') { return [startPoint.x + shift.x, startPoint.y - shift.y] }
+      if (position === 'bottom') { res = [startPoint.x, startPoint.y] }
+      if (position === 'top') { res = [startPoint.x, startPoint.y - shiftTile.y * 2] }
+      if (position === 'left') { res = [startPoint.x - shiftTile.x, startPoint.y - shiftTile.y] }
+      if (position === 'right') { res = [startPoint.x + shiftTile.x, startPoint.y - shiftTile.y] }
+      // возвращает позицию со сдвигом относительно положения тайла и кол-ва юнитов на тайле
+      return [res[0] - shiftUnit * numberSettler, [res[1]]]
     }
   },
   mounted () {
