@@ -51,6 +51,9 @@ export default new Vuex.Store({
   getters: {
     MY_SETTLERS (state) {
       return state.layout.my.settlers
+    },
+    RIVAL_SETTLERS (state) {
+      return state.layout.rival.settlers
     }
   },
   mutations: {

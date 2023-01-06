@@ -3,7 +3,6 @@
      inkscape:groupmode="layer"
      id="layer8-4"
      inkscape:label="Крестьянин"
-     transform="matrix(1.6609504,0,0,1.6609504,-9.8770861,-12.675803)"
      sodipodi:insensitive="true">
     <path
        sodipodi:type="star"

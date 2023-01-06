@@ -47,7 +47,7 @@
                 sodipodi:insensitive="true" />
             </g>
             <g>
-                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :transform="giveTranslateAttr(item.translate, item.type)"/>
+                <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
             </g>
         </template>
     </svg>
