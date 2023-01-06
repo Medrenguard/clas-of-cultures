@@ -196,6 +196,12 @@
         <g v-if="rivalInfantryInThisTile">
             <infantry-item v-for="(Infantry, i) in rivalInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)"></infantry-item>
         </g>
+        <g v-if="myShipsInThisTile">
+            <ship-item v-for="(ship, i) in myShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)"></ship-item>
+        </g>
+        <g v-if="rivalShipsInThisTile">
+            <ship-item v-for="(ship, i) in rivalShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)"></ship-item>
+        </g>
     </g>
 </template>
 
@@ -203,11 +209,12 @@
 
 import settlerItem from '@/components/onMap/onTile/settlerItem.vue'
 import infantryItem from '@/components/onMap/onTile/infantryItem.vue'
+import shipItem from '@/components/onMap/onTile/shipItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'tileItem',
-  components: { settlerItem, infantryItem },
+  components: { settlerItem, infantryItem, shipItem },
   props: {
     numberRegion: Number,
     numberTile: Number,
@@ -222,6 +229,7 @@ export default {
       return `matrix(${res.toString()})`
     },
     calcTranslateAttr (position, unitType, unitNumber) {
+      // TODO: нужно добавить логику отрисовки на морских тайлах, т.к. на них нет предела военного присутствия, т.е. 4 корабля могут везти 8 сухопутных юнитов
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
       const shiftTile = { x: 7.5, y: 4.35 }
@@ -229,11 +237,13 @@ export default {
       // стартовая точка юнитов на svg-шке
       const startPoint = {
         settler: { x: -6.7424739, y: -9.033277 },
+        ship: { x: -6.7424739, y: -10.364462 },
         infantry: { x: -6.7206329, y: -7.6900277 }
       }
       // при перерисовке - изменить значения
       const matrixValue = {
         settler: [1.4512788, 0, 0, 1.4509685],
+        ship: [1.4512788, 0, 0, 1.4509685],
         infantry: [1.4497717, 0, 0, 1.4497717]
       }
       // при перерисовке тайлов - возможно, изменить логику смещения
@@ -252,7 +262,9 @@ export default {
       'MY_SETTLERS',
       'RIVAL_SETTLERS',
       'MY_INFANTRY',
-      'RIVAL_INFANTRY'
+      'RIVAL_INFANTRY',
+      'MY_SHIPS',
+      'RIVAL_SHIPS'
     ]),
     mySettlersInThisTile () {
       let res = 0
@@ -285,6 +297,24 @@ export default {
       let res = 0
       for (let i = 0; i < this.RIVAL_INFANTRY.length; i++) {
         if (this.RIVAL_INFANTRY[i].region === this.numberRegion && this.RIVAL_INFANTRY[i].tile === this.numberTile) {
+          res += 1
+        }
+      }
+      return res
+    },
+    myShipsInThisTile () {
+      let res = 0
+      for (let i = 0; i < this.MY_SHIPS.length; i++) {
+        if (this.MY_SHIPS[i].region === this.numberRegion && this.MY_SHIPS[i].tile === this.numberTile) {
+          res += 1
+        }
+      }
+      return res
+    },
+    rivalShipsInThisTile () {
+      let res = 0
+      for (let i = 0; i < this.RIVAL_SHIPS.length; i++) {
+        if (this.RIVAL_SHIPS[i].region === this.numberRegion && this.RIVAL_SHIPS[i].tile === this.numberTile) {
           res += 1
         }
       }

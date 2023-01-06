@@ -31,6 +31,7 @@ export default new Vuex.Store({
           //   tile: 1
           // }
         ],
+        ships: [],
         achivements: [/** TODO **/]
       },
       rival: {
@@ -48,6 +49,7 @@ export default new Vuex.Store({
           }
         ],
         infantry: [],
+        ships: [],
         achivements: [/** TODO **/]
       }
     },
@@ -67,6 +69,12 @@ export default new Vuex.Store({
     },
     RIVAL_INFANTRY (state) {
       return state.layout.rival.infantry
+    },
+    MY_SHIPS (state) {
+      return state.layout.my.ships
+    },
+    RIVAL_SHIPS (state) {
+      return state.layout.rival.ships
     }
   },
   mutations: {
