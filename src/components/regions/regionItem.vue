@@ -192,7 +192,7 @@ export default {
     calcTranslateAttr (position, tileType) {
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
-      const shift = { x: 7.5, y: 4.25 }
+      const shift = { x: 7.5, y: 4.35 }
       // при перерисовке тайлов - возможно, изменить логику смещения
       switch (position) {
         case 'top':

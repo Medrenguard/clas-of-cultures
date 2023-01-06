@@ -217,7 +217,7 @@ export default {
     calcTranslateAttr (position, numberSettler) {
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
-      const shiftTile = { x: 7.5, y: 4.25 }
+      const shiftTile = { x: 7.5, y: 4.35 }
       const shiftUnit = 1.25
       // стартовая точка поселенца на svg-шке
       const startPoint = { x: -6.7424739, y: -9.033277 }
