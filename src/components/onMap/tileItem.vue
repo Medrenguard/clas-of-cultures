@@ -201,8 +201,8 @@
 
 <script>
 
-import settlerItem from '@/components/settlerItem.vue'
-import infantryItem from '@/components/infantryItem.vue'
+import settlerItem from '@/components/onMap/onTile/settlerItem.vue'
+import infantryItem from '@/components/onMap/onTile/infantryItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {

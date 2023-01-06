@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import regionItem from '@/components/regions/regionItem.vue'
+import regionItem from '@/components/onMap/regionItem.vue'
 import { mapState } from 'vuex'
 
 export default {

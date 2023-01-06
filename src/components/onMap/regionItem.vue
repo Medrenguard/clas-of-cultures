@@ -55,7 +55,7 @@
 
 <script>
 
-import tileItem from '@/components/tiles/tileItem.vue'
+import tileItem from '@/components/onMap/tileItem.vue'
 
 export default {
   name: 'regionItem',
