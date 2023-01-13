@@ -14,6 +14,8 @@ export default new Vuex.Store({
       my: {
         city: [
           {
+            id: 1,
+            destroyed: false,
             region: 10,
             tile: 1,
             mood: 'happy'
@@ -21,12 +23,18 @@ export default new Vuex.Store({
         ],
         settlers: [
           {
+            id: 1,
+            alive: true,
+            died_in_battle: false,
+            founded_the_city: false,
             region: 10,
             tile: 1
           }
         ],
         infantry: [
           // {
+          //   id: 1,
+          //   alive: true,
           //   region: 10,
           //   tile: 1
           // }
@@ -37,6 +45,8 @@ export default new Vuex.Store({
       rival: {
         city: [
           {
+            id: 1,
+            destroyed: false,
             region: 1,
             tile: 4,
             mood: 'happy'
@@ -44,6 +54,10 @@ export default new Vuex.Store({
         ],
         settlers: [
           {
+            id: 1,
+            alive: true,
+            died_in_battle: false,
+            founded_the_city: false,
             region: 1,
             tile: 4
           }
@@ -59,22 +73,22 @@ export default new Vuex.Store({
   },
   getters: {
     MY_SETTLERS (state) {
-      return state.layout.my.settlers
+      return state.layout.my.settlers.filter(unit => unit.alive === true)
     },
     RIVAL_SETTLERS (state) {
-      return state.layout.rival.settlers
+      return state.layout.rival.settlers.filter(unit => unit.alive === true)
     },
     MY_INFANTRY (state) {
-      return state.layout.my.infantry
+      return state.layout.my.infantry.filter(unit => unit.alive === true)
     },
     RIVAL_INFANTRY (state) {
-      return state.layout.rival.infantry
+      return state.layout.rival.infantry.filter(unit => unit.alive === true)
     },
     MY_SHIPS (state) {
-      return state.layout.my.ships
+      return state.layout.my.ships.filter(unit => unit.alive === true)
     },
     RIVAL_SHIPS (state) {
-      return state.layout.rival.ships
+      return state.layout.rival.ships.filter(unit => unit.alive === true)
     }
   },
   mutations: {
