@@ -72,6 +72,12 @@ export default new Vuex.Store({
 
   },
   getters: {
+    MY_CITIES (state) {
+      return state.layout.my.city.filter(unit => unit.destroyed === false)
+    },
+    RIVAL_CITIES (state) {
+      return state.layout.rival.city.filter(unit => unit.destroyed === false)
+    },
     MY_SETTLERS (state) {
       return state.layout.my.settlers.filter(unit => unit.alive === true)
     },
