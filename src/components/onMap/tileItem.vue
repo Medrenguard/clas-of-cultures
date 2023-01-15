@@ -33,9 +33,9 @@
 <script>
 import terrainItem from '@/components/onMap/onTile/terrainItem.vue'
 import cityItem from '@/components/onMap/onTile/cityItem.vue'
-import settlerItem from '@/components/onMap/onTile/settlerItem.vue'
-import infantryItem from '@/components/onMap/onTile/infantryItem.vue'
-import shipItem from '@/components/onMap/onTile/shipItem.vue'
+import settlerItem from '@/components/onMap/onTile/units/settlerItem.vue'
+import infantryItem from '@/components/onMap/onTile/units/infantryItem.vue'
+import shipItem from '@/components/onMap/onTile/units/shipItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {
