@@ -31,7 +31,7 @@
         id="path15690-5-5"
         inkscape:label="Дом-1"
         style="display:inline;fill:#000000;fill-opacity:1;stroke:#959595;stroke-width:0.035;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
-        <mood-indicator :mood="cityInfo.mood"></mood-indicator>
+        <mood-indicator :mood="cityInfo.mood"/>
   </g>
 </template>
 

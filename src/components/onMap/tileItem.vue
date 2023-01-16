@@ -4,28 +4,28 @@
             <terrain-item :type="type"/>
         </g>
         <g v-if="myCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityInfo="myCityInThisTile[0]"></city-item>
+            <city-item :transform="giveTranslateAttr('city')" :cityInfo="myCityInThisTile[0]"/>
         </g>
         <g v-if="rivalCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityInfo="rivalCityInThisTile[0]"></city-item>
+            <city-item :transform="giveTranslateAttr('city')" :cityInfo="rivalCityInThisTile[0]"/>
         </g>
         <g v-if="mySettlersInThisTile.length">
-            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"></settler-item>
+            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"/>
         </g>
         <g v-if="rivalSettlersInThisTile.length">
-            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"></settler-item>
+            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"/>
         </g>
         <g v-if="myInfantryInThisTile.length">
-            <infantry-item v-for="(infantry, i) in myInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"></infantry-item>
+            <infantry-item v-for="(infantry, i) in myInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"/>
         </g>
         <g v-if="rivalInfantryInThisTile.length">
-            <infantry-item v-for="(infantry, i) in rivalInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"></infantry-item>
+            <infantry-item v-for="(infantry, i) in rivalInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"/>
         </g>
         <g v-if="myShipsInThisTile.length">
-            <ship-item v-for="(ship, i) in myShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"></ship-item>
+            <ship-item v-for="(ship, i) in myShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"/>
         </g>
         <g v-if="rivalShipsInThisTile.length">
-            <ship-item v-for="(ship, i) in rivalShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"></ship-item>
+            <ship-item v-for="(ship, i) in rivalShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"/>
         </g>
     </g>
 </template>
