@@ -10,6 +10,17 @@ export default new Vuex.Store({
       regionsCount: null,
       regionsForStart: []
     },
+    stage: 'readyToGame', // beforeStart, start, changeColor, readyToGame
+    opponents: {
+      player: {
+        color: undefined,
+        nation: undefined
+      },
+      AI: {
+        color: undefined,
+        nation: undefined
+      }
+    },
     layout: {
       my: {
         city: [
@@ -114,6 +125,13 @@ export default new Vuex.Store({
     },
     updateLayoutByCount (state, payload) {
       state.layoutByCount = payload
+    },
+    updateStage (state, newValue) {
+      state.stage = newValue
+    },
+    updateOpponentsColor (state, payload) {
+      state.opponents.player.color = payload.player
+      state.opponents.AI.color = payload.AI
     }
   },
   actions: {
