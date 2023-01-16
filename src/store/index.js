@@ -16,9 +16,19 @@ export default new Vuex.Store({
           {
             id: 1,
             destroyed: false,
+            onEventCard: false, // поселение находится на карточке события
             region: 10,
             tile: 1,
-            mood: 'happy' // happy, neutral, angry
+            mood: 'happy', // happy, neutral, angry
+            buildings: [
+              // {
+              //   id: 1,
+              //   type: 'temple',
+              //   destroyed: false,
+              //   onEventCard: false, // здание находится на карточке события
+              //   owner: 'creator' // creator, enemy, rebel ; TODO: переопределить
+              // }
+            ]
           }
         ],
         settlers: [
@@ -49,7 +59,8 @@ export default new Vuex.Store({
             destroyed: false,
             region: 1,
             tile: 4,
-            mood: 'happy' // happy, neutral, angry
+            mood: 'happy', // happy, neutral, angry
+            buildings: []
           }
         ],
         settlers: [
