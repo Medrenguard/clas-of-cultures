@@ -31,14 +31,23 @@
         id="path15690-5-5"
         inkscape:label="Дом-1"
         style="display:inline;fill:#000000;fill-opacity:1;stroke:#959595;stroke-width:0.035;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
-    </g>
+        <mood-indicator :mood="cityInfo.mood"></mood-indicator>
+  </g>
 </template>
 
 <script>
+import moodIndicator from '@/components/onMap/onTile/moodIndicator.vue'
 
 export default {
   name: 'cityItem',
+  components: {
+    moodIndicator
+  },
   props: {
+    cityInfo: {
+      id: Number,
+      mood: String
+    }
   },
   mounted () {
   },

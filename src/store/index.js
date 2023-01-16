@@ -18,7 +18,7 @@ export default new Vuex.Store({
             destroyed: false,
             region: 10,
             tile: 1,
-            mood: 'happy'
+            mood: 'happy' // happy, neutral, angry
           }
         ],
         settlers: [
@@ -49,7 +49,7 @@ export default new Vuex.Store({
             destroyed: false,
             region: 1,
             tile: 4,
-            mood: 'happy'
+            mood: 'happy' // happy, neutral, angry
           }
         ],
         settlers: [

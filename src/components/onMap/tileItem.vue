@@ -4,10 +4,10 @@
             <terrain-item :type="type"/>
         </g>
         <g v-if="myCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityID="myCityInThisTile[0]"></city-item>
+            <city-item :transform="giveTranslateAttr('city')" :cityInfo="myCityInThisTile[0]"></city-item>
         </g>
         <g v-if="rivalCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityID="rivalCityInThisTile[0]"></city-item>
+            <city-item :transform="giveTranslateAttr('city')" :cityInfo="rivalCityInThisTile[0]"></city-item>
         </g>
         <g v-if="mySettlersInThisTile.length">
             <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"></settler-item>
@@ -111,7 +111,7 @@ export default {
       const res = []
       for (let i = 0; i < this.MY_CITIES.length; i++) {
         if (this.MY_CITIES[i].region === this.numberRegion && this.MY_CITIES[i].tile === this.numberTile) {
-          res.push(this.MY_CITIES[i].id)
+          res.push({ id: this.MY_CITIES[i].id, mood: this.MY_CITIES[i].mood })
         }
       }
       return res
@@ -120,7 +120,7 @@ export default {
       const res = []
       for (let i = 0; i < this.RIVAL_CITIES.length; i++) {
         if (this.RIVAL_CITIES[i].region === this.numberRegion && this.RIVAL_CITIES[i].tile === this.numberTile) {
-          res.push(this.RIVAL_CITIES[i].id)
+          res.push({ id: this.RIVAL_CITIES[i].id, mood: this.RIVAL_CITIES[i].mood })
         }
       }
       return res
