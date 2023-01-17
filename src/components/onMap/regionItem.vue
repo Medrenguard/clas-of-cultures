@@ -1,12 +1,5 @@
 <template>
-    <svg
-        width="24.995148mm"
-        height="17.376385mm"
-        viewBox="0 0 24.995148 17.326385"
-        version="1.1"
-        id="svg5"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:svg="http://www.w3.org/2000/svg">
+    <g>
         <template v-if="isRegionUnderFog">
             <defs
                 id="defs2" />
@@ -50,7 +43,7 @@
                 <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
             </g>
         </template>
-    </svg>
+      </g>
 </template>
 
 <script>
@@ -192,7 +185,7 @@ export default {
     calcTranslateAttr (position, tileType) {
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
-      const shift = { x: 7.5, y: 4.35 }
+      const shift = { x: 7.5, y: 4.33 }
       // при перерисовке тайлов - возможно, изменить логику смещения
       switch (position) {
         case 'top':

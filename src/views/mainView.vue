@@ -1,6 +1,13 @@
 <template>
-  <div class="map">
-    <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :style="{ margin: shiftRegion(i) }"/>
+  <div class="main">
+    <svg
+      viewBox="-47.5 0 120 70"
+      version="1.1"
+      id="map"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg">
+        <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :transform="giveTranslateAttr(i)"/>
+    </svg>
   </div>
 </template>
 
@@ -58,30 +65,22 @@ export default {
         this.suggestColorChoice()
       }
     },
-    shiftRegion (regionNum) {
-      // размер тайла на данный момент - 32.7 пикселя
-      const tileHeight = 32.7
-      const baseShiftByX = 32.7 * 1.725770642201835 // сдвиг по оси X для большинства тайлов
-      switch (regionNum) {
-        case 2:
-          return `${tileHeight}px 0px 0px -${baseShiftByX}px`
-        case 3:
-          return `${tileHeight}px 0px 0px ${baseShiftByX}px`
-        case 4:
-          return `${tileHeight * 2}px 0px 0px 0px`
-        case 5:
-          return `${tileHeight * 3}px 0px 0px -${baseShiftByX}px`
-        case 6:
-          return `${tileHeight * 3}px 0px 0px ${baseShiftByX}px`
-        case 7:
-          return `${tileHeight * 4}px 0px 0px 0px`
-        case 8:
-          return `${tileHeight * 5}px 0px 0px -${baseShiftByX}px`
-        case 9:
-          return `${tileHeight * 5}px 0px 0px ${baseShiftByX}px`
-        case 10:
-          return `${tileHeight * 6}px 0px 0px 0px`
-      }
+    giveTranslateAttr (numberRegion) {
+      const res = this.calcTranslateAttr(numberRegion)
+      return `translate(${res.toString()})`
+    },
+    calcTranslateAttr (numberRegion) {
+      const res = []
+      const shift = { x: 15, y: 8.66 }
+      // описываем заполнение полей x
+      if ((numberRegion - 1) % 3 === 0) { res[0] = 0 }
+      if ((numberRegion - 2) % 3 === 0) { res[0] = 0 - shift.x }
+      if ((numberRegion - 3) % 3 === 0) { res[0] = shift.x }
+      // описываем заполнение полей y
+      res[1] = Math.floor((1 + numberRegion) / 3) * shift.y
+      if ((numberRegion - 1) % 3 !== 0) { res[1] += Math.floor((numberRegion - 2) / 3) * shift.y }
+      if ((numberRegion - 1) % 3 === 0) { res[1] += Math.floor(numberRegion / 3) * shift.y }
+      return res
     }
   },
   computed: {
@@ -97,10 +96,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.map {
-  text-align: center;
-}
-.map svg {
-  position: absolute;
-}
+
 </style>
