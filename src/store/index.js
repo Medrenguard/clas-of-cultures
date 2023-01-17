@@ -14,80 +14,75 @@ export default new Vuex.Store({
     opponents: {
       player: {
         color: undefined,
-        nation: undefined
+        nation: undefined,
+        achivements: [/** TODO **/]
       },
       AI: {
         color: undefined,
-        nation: undefined
+        nation: undefined,
+        achivements: [/** TODO **/]
       }
     },
     layout: {
-      my: {
-        city: [
-          {
-            id: 1,
-            destroyed: false,
-            onEventCard: false, // поселение находится на карточке события
-            region: 10,
-            tile: 1,
-            mood: 'happy', // happy, neutral, angry
-            buildings: [
-              // {
-              //   id: 1,
-              //   type: 'temple',
-              //   destroyed: false,
-              //   onEventCard: false, // здание находится на карточке события
-              //   owner: 'creator' // creator, enemy, rebel ; TODO: переопределить
-              // }
-            ]
-          }
-        ],
-        settlers: [
-          {
-            id: 1,
-            alive: true,
-            died_in_battle: false,
-            founded_the_city: false,
-            region: 10,
-            tile: 1
-          }
-        ],
-        infantry: [
-          // {
-          //   id: 1,
-          //   alive: true,
-          //   region: 10,
-          //   tile: 1
-          // }
-        ],
-        ships: [],
-        achivements: [/** TODO **/]
-      },
-      rival: {
-        city: [
-          {
-            id: 1,
-            destroyed: false,
-            region: 1,
-            tile: 4,
-            mood: 'happy', // happy, neutral, angry
-            buildings: []
-          }
-        ],
-        settlers: [
-          {
-            id: 1,
-            alive: true,
-            died_in_battle: false,
-            founded_the_city: false,
-            region: 1,
-            tile: 4
-          }
-        ],
-        infantry: [],
-        ships: [],
-        achivements: [/** TODO **/]
-      }
+      city: [
+        {
+          id: 1,
+          destroyed: false,
+          onEventCard: false, // поселение находится на карточке события
+          region: 10,
+          tile: 1,
+          mood: 'happy', // happy, neutral, angry
+          owner: 'player' // player, AI, rebels
+        },
+        {
+          id: 2,
+          destroyed: false,
+          region: 1,
+          tile: 4,
+          mood: 'happy', // happy, neutral, angry
+          owner: 'AI' // player, AI, rebels
+        }
+      ],
+      buildings: [
+        // {
+        //   id: 1,
+        //   cityId: 1,
+        //   type: 'temple',
+        //   destroyed: false,
+        //   onEventCard: false, // здание находится на карточке события
+        //   owner: 'player' // player, AI, rebels ; TODO: переопределить
+        // }
+      ],
+      settlers: [
+        {
+          id: 1,
+          alive: true,
+          died_in_battle: false,
+          founded_the_city: false,
+          region: 10,
+          tile: 1,
+          owner: 'player'
+        },
+        {
+          id: 2,
+          alive: true,
+          died_in_battle: false,
+          founded_the_city: false,
+          region: 1,
+          tile: 4,
+          owner: 'AI'
+        }
+      ],
+      infantry: [
+        // {
+        //   id: 1,
+        //   alive: true,
+        //   region: 10,
+        //   tile: 1,
+        //   owner: 'player'
+        // }
+      ],
+      ships: []
     },
     regionItemsOnMap: []
     //
@@ -95,28 +90,28 @@ export default new Vuex.Store({
   },
   getters: {
     MY_CITIES (state) {
-      return state.layout.my.city.filter(unit => unit.destroyed === false)
+      return state.layout.city.filter(city => city.owner === 'player' && city.destroyed === false)
     },
     RIVAL_CITIES (state) {
-      return state.layout.rival.city.filter(unit => unit.destroyed === false)
+      return state.layout.city.filter(city => city.owner === 'AI' && city.destroyed === false)
     },
     MY_SETTLERS (state) {
-      return state.layout.my.settlers.filter(unit => unit.alive === true)
+      return state.layout.settlers.filter(unit => unit.owner === 'player' && unit.alive === true)
     },
     RIVAL_SETTLERS (state) {
-      return state.layout.rival.settlers.filter(unit => unit.alive === true)
+      return state.layout.settlers.filter(unit => unit.owner === 'AI' && unit.alive === true)
     },
     MY_INFANTRY (state) {
-      return state.layout.my.infantry.filter(unit => unit.alive === true)
+      return state.layout.infantry.filter(unit => unit.owner === 'player' && unit.alive === true)
     },
     RIVAL_INFANTRY (state) {
-      return state.layout.rival.infantry.filter(unit => unit.alive === true)
+      return state.layout.infantry.filter(unit => unit.owner === 'AI' && unit.alive === true)
     },
     MY_SHIPS (state) {
-      return state.layout.my.ships.filter(unit => unit.alive === true)
+      return state.layout.ships.filter(unit => unit.owner === 'player' && unit.alive === true)
     },
     RIVAL_SHIPS (state) {
-      return state.layout.rival.ships.filter(unit => unit.alive === true)
+      return state.layout.ships.filter(unit => unit.owner === 'AI' && unit.alive === true)
     }
   },
   mutations: {
