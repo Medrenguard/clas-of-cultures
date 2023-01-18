@@ -1,5 +1,11 @@
 <template>
     <g>
+      <path
+        :transform="giveTranslateAttr('cell')"
+        style="fill:none;stroke:#000000;stroke-width:0.05px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+        d="M 7.494359,12.996442 9.9947349,8.6656632 h 4.9958081 l 2.501396,4.3325488 -2.498864,4.328161 H 9.9960809 Z"
+        id="path640-3-4-9"
+        sodipodi:insensitive="true" />
         <g :transform="transform">
             <terrain-item :type="type"/>
         </g>
@@ -58,7 +64,7 @@ export default {
   methods: {
     giveTranslateAttr (elType, elNumber = 0) {
       const res = this.calcTranslateAttr(this.positionTile, elType, elNumber)
-      if (elType === 'city') { // рисуется не через матрицу на данный момент
+      if (['city', 'cell'].includes(elType)) { // рисуется не через матрицу на данный момент
         return `translate(${res.toString()})`
       } else {
         return `matrix(${res.toString()})`
@@ -68,12 +74,13 @@ export default {
       // TODO: нужно добавить логику отрисовки на морских тайлах, т.к. на них нет предела военного присутствия, т.е. 4 корабля могут везти 8 сухопутных юнитов
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
-      const shiftTile = { x: 7.5, y: 4.35 }
+      const shiftTile = { x: 7.5, y: 4.33 }
       // смещение для отрядов
       const shiftUnit = 1.25
       // стартовая точка юнитов на svg-шке
       const startPoint = {
         city: { x: 0, y: 0 },
+        cell: { x: 0, y: 0 },
         settler: { x: -6.7424739, y: -9.033277 },
         ship: { x: -6.7424739, y: -10.364462 },
         infantry: { x: -6.7206329, y: -7.6900277 }
@@ -81,6 +88,7 @@ export default {
       // при перерисовке - изменить значения
       const matrixValue = {
         city: [], // рисуется не через матрицу на данный момент
+        cell: [], // рисуется не через матрицу на данный момент
         settler: [1.4512788, 0, 0, 1.4509685],
         ship: [1.4512788, 0, 0, 1.4509685],
         infantry: [1.4497717, 0, 0, 1.4497717]
