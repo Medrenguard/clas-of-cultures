@@ -28,7 +28,7 @@ export default {
           regionsForStart: [1, 10]
         }
       },
-      colors: { красный: '#ff0000', голубой: '#00c4ff', желтый: '#fff200', фиолетовый: '#8500ff' }
+      colors: { красный: 'red', голубой: 'blue', желтый: 'yellow', фиолетовый: 'purple' }
     }
   },
   created () {
@@ -94,6 +94,25 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.redSVG.redSVG {
+  fill: #ff0000;
+  stroke:#ff0000;
+}
+.blueSVG.blueSVG {
+  fill: #00c4ff;
+  stroke: #00c4ff;
+}
+.yellowSVG.yellowSVG {
+  fill: #fff200;
+  stroke: #fff200;
+}
+.purpleSVG.purpleSVG {
+  fill: #8500ff;
+  stroke: #8500ff;
+}
+</style>
 
 <style scoped lang="scss">
 

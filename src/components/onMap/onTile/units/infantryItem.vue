@@ -1,13 +1,13 @@
 <template>
   <g
      inkscape:groupmode="layer"
-     id="layer8"
+     class="infantry"
      inkscape:label="Пехота"
      sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0499999;stroke-dasharray:none"
-       id="path3835"
+       class="pentahedron"
+       :class="colorClass"
        inkscape:flatsided="true"
        sodipodi:sides="5"
        sodipodi:cx="39.03125"
@@ -32,7 +32,8 @@
        cx="14.546916"
        inkscape:label="Шлем" />
     <path
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0521119;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       class="helmet-slot"
+       :class="colorClass"
        d="m 14.46621,17.061173 v -0.232671 l -0.05694,-0.03287 v -0.05115 l 0.05322,-0.03073 0.08453,0.0488 0.08793,-0.05077 0.0457,0.02639 v 0.05585 l -0.0601,0.0347 v 0.234598 z"
        id="path3839"
        inkscape:label="Прорези шлема" />
@@ -44,6 +45,9 @@
 export default {
   name: 'infantryItem',
   props: {
+    infantryID: Number,
+    infantryOwner: String,
+    colorClass: String
   },
   mounted () {
   },
@@ -53,5 +57,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.pentahedron {
+   fill:#000000;
+   fill-opacity:1;
+   stroke:#000000;
+   stroke-width:0.0499999;
+   stroke-dasharray:none;
+}
+.helmet-slot {
+   fill:#000000;
+   fill-opacity:1;
+   stroke:#000000;
+   stroke-width:0.0521119;
+}
 </style>

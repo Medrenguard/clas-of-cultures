@@ -13,12 +13,12 @@ export default new Vuex.Store({
     stage: 'readyToGame', // beforeStart, start, changeColor, readyToGame
     opponents: {
       player: {
-        color: undefined,
+        color: 'red',
         nation: undefined,
         achivements: [/** TODO **/]
       },
       AI: {
-        color: undefined,
+        color: 'blue',
         nation: undefined,
         achivements: [/** TODO **/]
       }
@@ -89,6 +89,13 @@ export default new Vuex.Store({
 
   },
   getters: {
+    PLAYER_COLORS (state) {
+      const res = {}
+      for (const key in state.opponents) {
+        res[key] = state.opponents[key].color
+      }
+      return res
+    },
     MY_CITIES (state) {
       return state.layout.city.filter(city => city.owner === 'player' && city.destroyed === false)
     },
@@ -101,11 +108,8 @@ export default new Vuex.Store({
     RIVAL_SETTLERS (state) {
       return state.layout.settlers.filter(unit => unit.owner === 'AI' && unit.alive === true)
     },
-    MY_INFANTRY (state) {
-      return state.layout.infantry.filter(unit => unit.owner === 'player' && unit.alive === true)
-    },
-    RIVAL_INFANTRY (state) {
-      return state.layout.infantry.filter(unit => unit.owner === 'AI' && unit.alive === true)
+    LIVING_INFANTRY (state) {
+      return state.layout.infantry.filter(unit => unit.alive === true)
     },
     MY_SHIPS (state) {
       return state.layout.ships.filter(unit => unit.owner === 'player' && unit.alive === true)

@@ -21,11 +21,8 @@
         <g v-if="rivalSettlersInThisTile.length">
             <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"/>
         </g>
-        <g v-if="myInfantryInThisTile.length">
-            <infantry-item v-for="(infantry, i) in myInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"/>
-        </g>
-        <g v-if="rivalInfantryInThisTile.length">
-            <infantry-item v-for="(infantry, i) in rivalInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry"/>
+        <g v-if="livingInfantryInThisTile.length">
+            <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
         </g>
         <g v-if="myShipsInThisTile.length">
             <ship-item v-for="(ship, i) in myShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"/>
@@ -100,18 +97,21 @@ export default {
       if (position === 'right') { res = [startPoint[elType].x + shiftTile.x, startPoint[elType].y - shiftTile.y] }
       // возвращает позицию со сдвигом относительно положения тайла и, если нужно, кол-ва юнитов на тайле
       return [...matrixValue[elType], res[0] - shiftUnit * elNumber, res[1]]
+    },
+    getColorElement (_owner) {
+      return this.PLAYER_COLORS[_owner] + 'SVG'
     }
   },
   mounted () {
   },
   computed: {
     ...mapGetters([
+      'PLAYER_COLORS',
       'MY_CITIES',
       'RIVAL_CITIES',
       'MY_SETTLERS',
       'RIVAL_SETTLERS',
-      'MY_INFANTRY',
-      'RIVAL_INFANTRY',
+      'LIVING_INFANTRY',
       'MY_SHIPS',
       'RIVAL_SHIPS'
     ]),
@@ -151,20 +151,11 @@ export default {
       }
       return res
     },
-    myInfantryInThisTile () {
+    livingInfantryInThisTile () {
       const res = []
-      for (let i = 0; i < this.MY_INFANTRY.length; i++) {
-        if (this.MY_INFANTRY[i].region === this.numberRegion && this.MY_INFANTRY[i].tile === this.numberTile) {
-          res.push(this.MY_INFANTRY[i].id)
-        }
-      }
-      return res
-    },
-    rivalInfantryInThisTile () {
-      const res = []
-      for (let i = 0; i < this.RIVAL_INFANTRY.length; i++) {
-        if (this.RIVAL_INFANTRY[i].region === this.numberRegion && this.RIVAL_INFANTRY[i].tile === this.numberTile) {
-          res.push(this.RIVAL_INFANTRY[i].id)
+      for (let i = 0; i < this.LIVING_INFANTRY.length; i++) {
+        if (this.LIVING_INFANTRY[i].region === this.numberRegion && this.LIVING_INFANTRY[i].tile === this.numberTile) {
+          res.push({ id: this.LIVING_INFANTRY[i].id, owner: this.LIVING_INFANTRY[i].owner })
         }
       }
       return res
