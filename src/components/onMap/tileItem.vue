@@ -15,11 +15,8 @@
         <g v-if="rivalCityInThisTile.length">
             <city-item :transform="giveTranslateAttr('city')" :cityInfo="rivalCityInThisTile[0]"/>
         </g>
-        <g v-if="mySettlersInThisTile.length">
-            <settler-item v-for="(settler, i) in mySettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"/>
-        </g>
-        <g v-if="rivalSettlersInThisTile.length">
-            <settler-item v-for="(settler, i) in rivalSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler"/>
+        <g v-if="livingSettlersInThisTile.length">
+            <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
         </g>
         <g v-if="livingInfantryInThisTile.length">
             <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
@@ -109,8 +106,7 @@ export default {
       'PLAYER_COLORS',
       'MY_CITIES',
       'RIVAL_CITIES',
-      'MY_SETTLERS',
-      'RIVAL_SETTLERS',
+      'LIVING_SETTLERS',
       'LIVING_INFANTRY',
       'MY_SHIPS',
       'RIVAL_SHIPS'
@@ -133,20 +129,11 @@ export default {
       }
       return res
     },
-    mySettlersInThisTile () {
+    livingSettlersInThisTile () {
       const res = []
-      for (let i = 0; i < this.MY_SETTLERS.length; i++) {
-        if (this.MY_SETTLERS[i].region === this.numberRegion && this.MY_SETTLERS[i].tile === this.numberTile) {
-          res.push(this.MY_SETTLERS[i].id)
-        }
-      }
-      return res
-    },
-    rivalSettlersInThisTile () {
-      const res = []
-      for (let i = 0; i < this.RIVAL_SETTLERS.length; i++) {
-        if (this.RIVAL_SETTLERS[i].region === this.numberRegion && this.RIVAL_SETTLERS[i].tile === this.numberTile) {
-          res.push(this.RIVAL_SETTLERS[i].id)
+      for (let i = 0; i < this.LIVING_SETTLERS.length; i++) {
+        if (this.LIVING_SETTLERS[i].region === this.numberRegion && this.LIVING_SETTLERS[i].tile === this.numberTile) {
+          res.push({ id: this.LIVING_SETTLERS[i].id, owner: this.LIVING_SETTLERS[i].owner })
         }
       }
       return res

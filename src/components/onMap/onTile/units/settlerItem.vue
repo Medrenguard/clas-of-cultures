@@ -1,13 +1,13 @@
 <template>
     <g
      inkscape:groupmode="layer"
-     id="layer8-4"
-     inkscape:label="Крестьянин"
+     class="settler"
+     inkscape:label="Поселенец"
      sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0499999;stroke-dasharray:none"
-       id="path3835-7"
+       class="pentahedron"
+       :class="colorClass"
        inkscape:flatsided="true"
        sodipodi:sides="5"
        sodipodi:cx="39.03125"
@@ -27,7 +27,7 @@
     <path
        style="fill:#f9f9f9;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 14.472248,17.016708 h 0.134969 v -0.08971 h 0.180009 l 0.0021,-0.35048 h -0.08073 l 3.3e-5,0.254116 -0.119103,-0.001 -3.4e-5,-0.253082 h -0.100329 l -3.3e-5,0.252005 -0.11173,-3.3e-5 -10e-4,-0.253579 h -0.07139 v 0.352054 l 0.168289,0.0011 z"
-       id="path4260"
+       class="hayfork"
        inkscape:label="Вилы"
        sodipodi:nodetypes="ccccccccccccccccc" />
   </g>
@@ -38,6 +38,9 @@
 export default {
   name: 'settlerItem',
   props: {
+    settlerID: Number,
+    settlerOwner: String,
+    colorClass: String
   },
   mounted () {
   },
@@ -47,5 +50,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.pentahedron {
+   fill:#000000;
+   fill-opacity:1;
+   stroke:#000000;
+   stroke-width:0.0499999;
+   stroke-dasharray:none;
+}
 </style>

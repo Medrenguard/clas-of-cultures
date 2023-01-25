@@ -102,11 +102,8 @@ export default new Vuex.Store({
     RIVAL_CITIES (state) {
       return state.layout.city.filter(city => city.owner === 'AI' && city.destroyed === false)
     },
-    MY_SETTLERS (state) {
-      return state.layout.settlers.filter(unit => unit.owner === 'player' && unit.alive === true)
-    },
-    RIVAL_SETTLERS (state) {
-      return state.layout.settlers.filter(unit => unit.owner === 'AI' && unit.alive === true)
+    LIVING_SETTLERS (state) {
+      return state.layout.settlers.filter(unit => unit.alive === true)
     },
     LIVING_INFANTRY (state) {
       return state.layout.infantry.filter(unit => unit.alive === true)
