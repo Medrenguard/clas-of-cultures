@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <svg
-      viewBox="-47.5 0 120 70"
+      class="map"
+      height="100vh"
+      viewBox="-43 0 55 69.5"
       version="1.1"
       id="map"
       xmlns="http://www.w3.org/2000/svg"
@@ -115,5 +117,8 @@ export default {
 </style>
 
 <style scoped lang="scss">
-
+.map {
+  margin: 0 auto;
+  display: block;
+}
 </style>

@@ -70,11 +70,11 @@ export default {
       const shiftUnit = 1.25
       // стартовая точка юнитов на svg-шке
       const startPoint = {
-        city: { x: 0, y: 0 },
-        cell: { x: 0, y: 0 },
-        settler: { x: -6.7424739, y: -9.033277 },
-        ship: { x: -6.7424739, y: -10.364462 },
-        infantry: { x: -6.7206329, y: -7.6900277 }
+        city: { x: -28, y: 0 },
+        cell: { x: -28, y: 0 },
+        settler: { x: -34.7424739, y: -9.033277 },
+        ship: { x: -34.7424739, y: -10.364462 },
+        infantry: { x: -34.7206329, y: -7.6900277 }
       }
       // при перерисовке - изменить значения
       const matrixValue = {

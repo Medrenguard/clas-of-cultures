@@ -1,5 +1,6 @@
 <template>
-    <g>
+    <g
+    transform="translate(-28 0)">
         <g v-if="type === 'mountains'"
             inkscape:groupmode="layer"
             id="layer4"
