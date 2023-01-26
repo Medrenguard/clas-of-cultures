@@ -108,11 +108,8 @@ export default new Vuex.Store({
     LIVING_INFANTRY (state) {
       return state.layout.infantry.filter(unit => unit.alive === true)
     },
-    MY_SHIPS (state) {
-      return state.layout.ships.filter(unit => unit.owner === 'player' && unit.alive === true)
-    },
-    RIVAL_SHIPS (state) {
-      return state.layout.ships.filter(unit => unit.owner === 'AI' && unit.alive === true)
+    LIVING_SHIPS (state) {
+      return state.layout.ships.filter(unit => unit.alive === true)
     }
   },
   mutations: {

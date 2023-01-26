@@ -21,11 +21,8 @@
         <g v-if="livingInfantryInThisTile.length">
             <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
         </g>
-        <g v-if="myShipsInThisTile.length">
-            <ship-item v-for="(ship, i) in myShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"/>
-        </g>
-        <g v-if="rivalShipsInThisTile.length">
-            <ship-item v-for="(ship, i) in rivalShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship"/>
+        <g v-if="livingShipsInThisTile.length">
+            <ship-item v-for="(ship, i) in livingShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)"  :shipID="ship.id" :shipOwner="ship.owner" :colorClass="getColorElement(ship.owner)"/>
         </g>
     </g>
 </template>
@@ -108,8 +105,7 @@ export default {
       'RIVAL_CITIES',
       'LIVING_SETTLERS',
       'LIVING_INFANTRY',
-      'MY_SHIPS',
-      'RIVAL_SHIPS'
+      'LIVING_SHIPS'
     ]),
     myCityInThisTile () {
       const res = []
@@ -147,20 +143,11 @@ export default {
       }
       return res
     },
-    myShipsInThisTile () {
+    livingShipsInThisTile () {
       const res = []
-      for (let i = 0; i < this.MY_SHIPS.length; i++) {
-        if (this.MY_SHIPS[i].region === this.numberRegion && this.MY_SHIPS[i].tile === this.numberTile) {
-          res.push(this.MY_SHIPS[i].id)
-        }
-      }
-      return res
-    },
-    rivalShipsInThisTile () {
-      const res = []
-      for (let i = 0; i < this.RIVAL_SHIPS.length; i++) {
-        if (this.RIVAL_SHIPS[i].region === this.numberRegion && this.RIVAL_SHIPS[i].tile === this.numberTile) {
-          res.push(this.RIVAL_SHIPS[i].id)
+      for (let i = 0; i < this.LIVING_SHIPS.length; i++) {
+        if (this.LIVING_SHIPS[i].region === this.numberRegion && this.LIVING_SHIPS[i].tile === this.numberTile) {
+          res.push({ id: this.LIVING_SHIPS[i].id, owner: this.LIVING_SHIPS[i].owner })
         }
       }
       return res
