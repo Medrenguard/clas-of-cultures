@@ -5,8 +5,8 @@
        inkscape:label="Поселение"
        style="display:inline">
        <circle
-         style="fill:#000000;stroke:#959595;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-         id="path910"
+         class="circle"
+         :class="colorClass"
          cx="11.166244"
          cy="11.335546"
          r="0.92122394"
@@ -46,8 +46,10 @@ export default {
   props: {
     cityInfo: {
       id: Number,
-      mood: String
-    }
+      mood: String,
+      owner: String
+    },
+    colorClass: String
   },
   mounted () {
   },
@@ -57,5 +59,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.circle {
+  fill:#000000;
+  stroke:#959595;
+  stroke-width:0.1;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:stroke markers fill;
+}
 </style>

@@ -9,11 +9,8 @@
         <g :transform="transform">
             <terrain-item :type="type"/>
         </g>
-        <g v-if="myCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityInfo="myCityInThisTile[0]"/>
-        </g>
-        <g v-if="rivalCityInThisTile.length">
-            <city-item :transform="giveTranslateAttr('city')" :cityInfo="rivalCityInThisTile[0]"/>
+        <g v-if="cityInThisTile !== false">
+            <city-item :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
         </g>
         <g v-if="livingSettlersInThisTile.length">
             <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
@@ -101,29 +98,18 @@ export default {
   computed: {
     ...mapGetters([
       'PLAYER_COLORS',
-      'MY_CITIES',
-      'RIVAL_CITIES',
+      'CITIES',
       'LIVING_SETTLERS',
       'LIVING_INFANTRY',
       'LIVING_SHIPS'
     ]),
-    myCityInThisTile () {
-      const res = []
-      for (let i = 0; i < this.MY_CITIES.length; i++) {
-        if (this.MY_CITIES[i].region === this.numberRegion && this.MY_CITIES[i].tile === this.numberTile) {
-          res.push({ id: this.MY_CITIES[i].id, mood: this.MY_CITIES[i].mood })
+    cityInThisTile () {
+      for (let i = 0; i < this.CITIES.length; i++) {
+        if (this.CITIES[i].region === this.numberRegion && this.CITIES[i].tile === this.numberTile) {
+          return { id: this.CITIES[i].id, mood: this.CITIES[i].mood, owner: this.CITIES[i].owner }
         }
       }
-      return res
-    },
-    rivalCityInThisTile () {
-      const res = []
-      for (let i = 0; i < this.RIVAL_CITIES.length; i++) {
-        if (this.RIVAL_CITIES[i].region === this.numberRegion && this.RIVAL_CITIES[i].tile === this.numberTile) {
-          res.push({ id: this.RIVAL_CITIES[i].id, mood: this.RIVAL_CITIES[i].mood })
-        }
-      }
-      return res
+      return false
     },
     livingSettlersInThisTile () {
       const res = []

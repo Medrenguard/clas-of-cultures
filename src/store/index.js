@@ -96,11 +96,8 @@ export default new Vuex.Store({
       }
       return res
     },
-    MY_CITIES (state) {
-      return state.layout.city.filter(city => city.owner === 'player' && city.destroyed === false)
-    },
-    RIVAL_CITIES (state) {
-      return state.layout.city.filter(city => city.owner === 'AI' && city.destroyed === false)
+    CITIES (state) {
+      return state.layout.city.filter(city => city.destroyed === false)
     },
     LIVING_SETTLERS (state) {
       return state.layout.settlers.filter(unit => unit.alive === true)
