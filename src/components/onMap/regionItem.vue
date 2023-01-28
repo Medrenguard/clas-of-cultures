@@ -1,16 +1,10 @@
 <template>
-  <g>
+  <g class="region-wrap">
     <template v-if="isRegionUnderFog">
-      <defs
-        id="defs2" />
-      <g
-        id="layer1"
-        transform="translate(-50.614968,-78.206734)">
-        <path
-        style="fill:#fff6d5;stroke-width:0.05; stroke: black;"
+      <path
+        transform="translate(-50.614968,-78.206734)"
         d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
-        id="path1196" />
-      </g>
+        class="regionUnderFog" />
     </template>
     <template v-else>
       <tile-item v-for="(item, i) in mapTilesInRegion[region_info.region_type]" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
@@ -197,5 +191,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.regionUnderFog {
+  fill:#fff6d5;
+  stroke-width:0.05;
+  stroke: black;
+}
 </style>

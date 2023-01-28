@@ -1,27 +1,26 @@
 <template>
-    <g>
-      <path
-        :transform="giveTranslateAttr('cell')"
-        style="fill:none;stroke:#000000;stroke-width:0.05px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-        d="M 7.494359,12.996442 9.9947349,8.6656632 h 4.9958081 l 2.501396,4.3325488 -2.498864,4.328161 H 9.9960809 Z"
-        id="path640-3-4-9"
-        sodipodi:insensitive="true" />
-        <g :transform="transform">
-            <terrain-item :type="type"/>
-        </g>
-        <g v-if="cityInThisTile !== false">
-            <city-item :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
-        </g>
-        <g v-if="livingSettlersInThisTile.length">
-            <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
-        </g>
-        <g v-if="livingInfantryInThisTile.length">
-            <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
-        </g>
-        <g v-if="livingShipsInThisTile.length">
-            <ship-item v-for="(ship, i) in livingShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)"  :shipID="ship.id" :shipOwner="ship.owner" :colorClass="getColorElement(ship.owner)"/>
-        </g>
+  <g>
+    <path
+      :transform="giveTranslateAttr('cell')"
+      d="M 7.494359,12.996442 9.9947349,8.6656632 h 4.9958081 l 2.501396,4.3325488 -2.498864,4.328161 H 9.9960809 Z"
+      class="tile"
+      sodipodi:insensitive="true" />
+    <g :transform="transform">
+        <terrain-item :type="type"/>
     </g>
+    <g v-if="cityInThisTile !== false">
+        <city-item :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
+    </g>
+    <g v-if="livingSettlersInThisTile.length">
+        <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
+    </g>
+    <g v-if="livingInfantryInThisTile.length">
+        <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
+    </g>
+    <g v-if="livingShipsInThisTile.length">
+        <ship-item v-for="(ship, i) in livingShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship.id" :shipOwner="ship.owner" :colorClass="getColorElement(ship.owner)"/>
+    </g>
+  </g>
 </template>
 
 <script>
@@ -143,5 +142,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.tile {
+  fill:none;stroke:#000000;
+  stroke-width:0.05px;
+  stroke-linecap:butt;
+  stroke-linejoin:miter;
+  stroke-opacity:1
+}
 </style>

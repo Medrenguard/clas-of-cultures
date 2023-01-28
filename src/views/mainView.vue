@@ -2,7 +2,7 @@
   <div class="main">
     <svg
       class="map"
-      height="100vh"
+      width="1300"
       viewBox="-43 0 55 69.5"
       version="1.1"
       id="map"
