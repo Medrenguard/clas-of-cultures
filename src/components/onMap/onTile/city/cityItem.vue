@@ -4,6 +4,9 @@
        id="layer1"
        inkscape:label="Поселение"
        style="display:inline">
+       <g v-if="buildingsInThisCity.length">
+        <platform-item v-for="(building, i) in buildingsInThisCity" :key="i+1" :buildingNumber="i+1" :buildingType="building.type"></platform-item>
+      </g>
        <circle
          class="circle"
          :class="colorClass"
@@ -37,12 +40,14 @@
 
 <script>
 import moodIndicator from '@/components/onMap/onTile/city/moodIndicator.vue'
+import platformItem from '@/components/onMap/onTile/city/buildings/platformItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'cityItem',
   components: {
-    moodIndicator
+    moodIndicator,
+    platformItem
   },
   props: {
     cityInfo: {

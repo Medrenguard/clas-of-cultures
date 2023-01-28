@@ -1,10 +1,10 @@
 <template>
   <g
     inkscape:groupmode="layer"
-    id="layer1"
+    class="platform-wrap"
     inkscape:label="Платформа"
     style="display:inline">
-    <path
+    <path v-if="buildingNumber === 4"
       class="platform"
       sodipodi:type="arc"
       sodipodi:cx="-11.292514"
@@ -17,7 +17,7 @@
       d="m -11.292514,9.2150505 a 1.894254,1.894254 0 0 1 1.8942541,1.8942535 h -1.8942541 z"
       transform="rotate(-90,-0.028645,-0.08026059)"
       inkscape:label="Левая верхняя плашка" />
-    <path
+    <path v-else-if="buildingNumber === 3"
       class="platform"
       sodipodi:type="arc"
       sodipodi:cx="-11.109127"
@@ -30,7 +30,7 @@
       d="m -11.109127,-13.266128 a 1.894254,1.894254 0 0 1 1.8942539,1.894254 h -1.8942539 z"
       transform="rotate(180,0.02580779,-0.05445279)"
       inkscape:label="Левая нижняя плашка" />
-    <path
+    <path v-else-if="buildingNumber === 2"
       class="platform"
       sodipodi:type="arc"
       sodipodi:cx="11.371855"
@@ -43,7 +43,7 @@
       d="m 11.371855,-13.109127 a 1.894254,1.894254 0 0 1 1.894254,1.894254 h -1.894254 z"
       transform="rotate(90,0.0802606,-0.028645)"
       inkscape:label="Правая нижняя плашка" />
-    <path
+    <path v-else-if="buildingNumber === 1"
       class="platform"
       sodipodi:type="arc"
       sodipodi:cx="11.089598"
@@ -56,16 +56,24 @@
       d="M 11.089598,9.6953477 A 1.6963626,1.6963626 0 0 1 12.78596,11.39171 h -1.696362 z"
       inkscape:label="Правая верхняя плашка"
       transform="matrix(1.1166563,0,0,1.1166563,-1.1167798,-1.5374033)" />
+    <g v-if="buildingType === 'temple'">
+      <temple-item :buildingNumber="buildingNumber"></temple-item>
+    </g>
   </g>
 </template>
 
 <script>
+import templeItem from '@/components/onMap/onTile/city/buildings/templeItem.vue'
 
 export default {
   name: 'platformItem',
   components: {
+    templeItem
   },
-  props: {},
+  props: {
+    buildingNumber: Number,
+    buildingType: String
+  },
   mounted () {
   },
   computed: {

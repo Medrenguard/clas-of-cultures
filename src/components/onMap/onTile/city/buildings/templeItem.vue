@@ -5,7 +5,7 @@
     inkscape:label="Храм"
     style="display:inline;stroke-width:0.895531;stroke-dasharray:none"
     transform="matrix(1.1166563,0,0,1.1166563,-1.1167798,-1.5374033)">
-    <g
+    <g v-if="buildingNumber === 4"
       inkscape:groupmode="layer"
       id="layer9-5"
       inkscape:label="Храм сверху слева"
@@ -24,7 +24,7 @@
         inkscape:label="Храм маленький"
         style="display:inline;fill:#000000;fill-opacity:1;stroke:#949494;stroke-width:0.0994039;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
     </g>
-    <g
+    <g v-else-if="buildingNumber === 3"
       inkscape:groupmode="layer"
       id="layer9-8-9"
       inkscape:label="Храм снизу слева"
@@ -43,7 +43,7 @@
         inkscape:label="Храм маленький"
         style="display:inline;fill:#000000;fill-opacity:1;stroke:#949494;stroke-width:0.0994039;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
     </g>
-    <g
+    <g v-else-if="buildingNumber === 2"
       inkscape:groupmode="layer"
       id="layer9-8"
       inkscape:label="Храм снизу справа"
@@ -62,7 +62,7 @@
         inkscape:label="Храм маленький"
         style="display:inline;fill:#000000;fill-opacity:1;stroke:#949494;stroke-width:0.0994039;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
     </g>
-    <g
+    <g v-else-if="buildingNumber === 1"
       inkscape:groupmode="layer"
       id="layer9"
       inkscape:label="Храм сверху справа"
@@ -89,7 +89,9 @@ export default {
   name: 'templeItem',
   components: {
   },
-  props: {},
+  props: {
+    buildingNumber: Number
+  },
   mounted () {
   },
   computed: {
