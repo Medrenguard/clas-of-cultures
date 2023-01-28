@@ -37,6 +37,7 @@
 
 <script>
 import moodIndicator from '@/components/onMap/onTile/city/moodIndicator.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'cityItem',
@@ -54,6 +55,18 @@ export default {
   mounted () {
   },
   computed: {
+    ...mapGetters([
+      'BUILDINGS'
+    ]),
+    buildingsInThisCity () {
+      const res = []
+      for (let i = 0; i < this.BUILDINGS.length; i++) {
+        if (this.BUILDINGS[i].cityId === this.cityInfo.id) {
+          res.push({ id: this.BUILDINGS[i].id, type: this.BUILDINGS[i].type, owner: this.BUILDINGS[i].owner })
+        }
+      }
+      return res
+    }
   }
 }
 </script>

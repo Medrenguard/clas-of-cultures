@@ -99,6 +99,9 @@ export default new Vuex.Store({
     CITIES (state) {
       return state.layout.city.filter(city => city.destroyed === false)
     },
+    BUILDINGS (state) {
+      return state.layout.buildings.filter(building => building.destroyed === false)
+    },
     LIVING_SETTLERS (state) {
       return state.layout.settlers.filter(unit => unit.alive === true)
     },
