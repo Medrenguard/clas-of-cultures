@@ -26,7 +26,7 @@
 
 <script>
 import terrainItem from '@/components/onMap/onTile/terrainItem.vue'
-import cityItem from '@/components/onMap/onTile/cityItem.vue'
+import cityItem from '@/components/onMap/onTile/city/cityItem.vue'
 import settlerItem from '@/components/onMap/onTile/units/settlerItem.vue'
 import infantryItem from '@/components/onMap/onTile/units/infantryItem.vue'
 import shipItem from '@/components/onMap/onTile/units/shipItem.vue'

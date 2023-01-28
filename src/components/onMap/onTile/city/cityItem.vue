@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import moodIndicator from '@/components/onMap/onTile/moodIndicator.vue'
+import moodIndicator from '@/components/onMap/onTile/city/moodIndicator.vue'
 
 export default {
   name: 'cityItem',
