@@ -65,6 +65,9 @@
     <g v-else-if="buildingType === 'castle'">
       <castle-item :buildingNumber="buildingNumber" />
     </g>
+    <g v-else-if="buildingType === 'port'">
+      <port-item :buildingNumber="buildingNumber" />
+    </g>
   </g>
 </template>
 
@@ -72,10 +75,12 @@
 import templeItem from '@/components/onMap/onTile/city/buildings/templeItem.vue'
 import academyItem from '@/components/onMap/onTile/city/buildings/academyItem.vue'
 import castleItem from '@/components/onMap/onTile/city/buildings/castleItem.vue'
+import portItem from '@/components/onMap/onTile/city/buildings/portItem.vue'
 
 export default {
   name: 'platformItem',
   components: {
+    portItem,
     castleItem,
     templeItem,
     academyItem
