@@ -56,18 +56,10 @@
       d="M 11.089598,9.6953477 A 1.6963626,1.6963626 0 0 1 12.78596,11.39171 h -1.696362 z"
       inkscape:label="Правая верхняя плашка"
       transform="matrix(1.1166563,0,0,1.1166563,-1.1167798,-1.5374033)" />
-    <g v-if="buildingType === 'temple'">
-      <temple-item :buildingNumber="buildingNumber" />
-    </g>
-    <g v-else-if="buildingType === 'academy'">
-      <academy-item :buildingNumber="buildingNumber" />
-    </g>
-    <g v-else-if="buildingType === 'castle'">
-      <castle-item :buildingNumber="buildingNumber" />
-    </g>
-    <g v-else-if="buildingType === 'port'">
-      <port-item :buildingNumber="buildingNumber" />
-    </g>
+      <temple-item v-if="buildingType === 'temple'" :buildingNumber="buildingNumber" />
+      <academy-item v-else-if="buildingType === 'academy'" :buildingNumber="buildingNumber" />
+      <castle-item v-else-if="buildingType === 'castle'" :buildingNumber="buildingNumber" />
+      <port-item v-else-if="buildingType === 'port'" :buildingNumber="buildingNumber" />
   </g>
 </template>
 

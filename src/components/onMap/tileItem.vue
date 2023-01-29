@@ -8,9 +8,7 @@
     <g :transform="transform">
         <terrain-item :type="type"/>
     </g>
-    <g v-if="cityInThisTile !== false">
-        <city-item :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
-    </g>
+    <city-item v-if="cityInThisTile !== false" :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
     <g v-if="livingSettlersInThisTile.length">
         <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
     </g>
