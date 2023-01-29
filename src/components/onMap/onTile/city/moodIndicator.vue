@@ -3,7 +3,7 @@
   inkscape:groupmode="layer"
   class="mood-wrap"
   inkscape:label="Настроение"
-  transform="matrix(0.00124192,0,0,0.00124192,14.237255,11.299148)">
+  transform="matrix(0.00124192,0,0,0.00124192,15.328661,11.629877)">
     <path
     d="m 13.748385,10.883906 h 1 v 0.55 c 0,0.26836 -0.351871,0.449208 -0.5,0.449208 -0.15572,0 -0.5,-0.186963 -0.5,-0.449208 z"
     sodipodi:nodetypes="cccccc"
