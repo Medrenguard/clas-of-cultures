@@ -57,18 +57,23 @@
       inkscape:label="Правая верхняя плашка"
       transform="matrix(1.1166563,0,0,1.1166563,-1.1167798,-1.5374033)" />
     <g v-if="buildingType === 'temple'">
-      <temple-item :buildingNumber="buildingNumber"></temple-item>
+      <temple-item :buildingNumber="buildingNumber" />
+    </g>
+    <g v-else-if="buildingType === 'academy'">
+      <academy-item :buildingNumber="buildingNumber" />
     </g>
   </g>
 </template>
 
 <script>
 import templeItem from '@/components/onMap/onTile/city/buildings/templeItem.vue'
+import academyItem from '@/components/onMap/onTile/city/buildings/academyItem.vue'
 
 export default {
   name: 'platformItem',
   components: {
-    templeItem
+    templeItem,
+    academyItem
   },
   props: {
     buildingNumber: Number,
