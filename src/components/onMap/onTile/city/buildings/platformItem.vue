@@ -62,16 +62,21 @@
     <g v-else-if="buildingType === 'academy'">
       <academy-item :buildingNumber="buildingNumber" />
     </g>
+    <g v-else-if="buildingType === 'castle'">
+      <castle-item :buildingNumber="buildingNumber" />
+    </g>
   </g>
 </template>
 
 <script>
 import templeItem from '@/components/onMap/onTile/city/buildings/templeItem.vue'
 import academyItem from '@/components/onMap/onTile/city/buildings/academyItem.vue'
+import castleItem from '@/components/onMap/onTile/city/buildings/castleItem.vue'
 
 export default {
   name: 'platformItem',
   components: {
+    castleItem,
     templeItem,
     academyItem
   },
