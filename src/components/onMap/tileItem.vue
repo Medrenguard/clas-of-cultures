@@ -49,7 +49,7 @@ export default {
   methods: {
     giveTranslateAttr (elType, elNumber = 0) {
       const res = this.calcTranslateAttr(this.positionTile, elType, elNumber)
-      if (['city', 'cell'].includes(elType)) { // рисуется не через матрицу на данный момент
+      if (['cell'].includes(elType)) { // рисуется не через матрицу на данный момент
         return `translate(${res.toString()})`
       } else {
         return `matrix(${res.toString()})`
@@ -64,7 +64,7 @@ export default {
       const shiftUnit = 1.25
       // стартовая точка юнитов на svg-шке
       const startPoint = {
-        city: { x: -28, y: 0 },
+        city: { x: -29.5, y: -1.7 },
         cell: { x: -28, y: 0 },
         settler: { x: -34.7424739, y: -9.033277 },
         ship: { x: -34.7424739, y: -10.364462 },
@@ -72,7 +72,7 @@ export default {
       }
       // при перерисовке - изменить значения
       const matrixValue = {
-        city: [], // рисуется не через матрицу на данный момент
+        city: [1.179, 0, 0, 1.179],
         cell: [], // рисуется не через матрицу на данный момент
         settler: [1.4512788, 0, 0, 1.4509685],
         ship: [1.4512788, 0, 0, 1.4509685],
