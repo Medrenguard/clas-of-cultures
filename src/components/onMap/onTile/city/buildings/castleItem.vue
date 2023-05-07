@@ -4,13 +4,15 @@
     id="layer18"
     inkscape:label="Крепость"
     style="display:inline"
-    transform="matrix(0.8793692,0,0,0.8793692,0.82520918,1.0620142)">
+    transform="matrix(0.8793692,0,0,0.8793692,0.82520918,1.0620142)"
+    class="castle-wrap">
     <g v-if="buildingNumber === 4"
       inkscape:groupmode="layer"
       id="layer11-5-7-8"
       inkscape:label="Замок сверху слева"
       style="display:inline"
-      transform="matrix(-1.1373071,0,0,1.1371132,24.505934,-3.6267471)">
+      transform="matrix(-1.1373071,0,0,1.1371132,24.505934,-3.6267471)"
+      class="castle-item">
       <path
         style="display:inline;fill:#0b0b0b;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
         d="m 11.241508,12.112991 -0.0032,0.169351 0.129642,0.109034 v 0.387998 l -0.10627,0.112513 -5.2e-4,0.125854 h 0.687166 v -0.117153 l -0.105202,-0.126435 v -0.390316 l 0.123519,-0.10208 5.2e-4,-0.169931 H 11.82918 l -0.0024,0.06843 h -0.128512 v -0.07018 h -0.178601 v 0.08235 h -0.136852 v -0.08062 z"
@@ -63,7 +65,8 @@
       id="layer11-9"
       inkscape:label="Замок снизу слева"
       style="display:inline"
-      transform="matrix(-1.1373334,0,0,1.1372376,24.525992,-1.3321315)">
+      transform="matrix(-1.1373334,0,0,1.1372376,24.525992,-1.3321315)"
+      class="castle-item">
       <path
         style="fill:#0b0b0b;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
         d="m 11.502442,12.298591 -0.0036,0.183503 0.140473,0.118148 v 0.42042 l -0.115152,0.121915 -5.63e-4,0.13637 h 0.744587 v -0.126944 l -0.113963,-0.136999 v -0.422932 l 0.133842,-0.110605 5.63e-4,-0.184131 h -0.149513 l -0.0025,0.07415 h -0.139254 v -0.07604 h -0.193527 v 0.08924 h -0.148286 v -0.08736 z"
@@ -116,7 +119,8 @@
       id="layer11"
       inkscape:label="Замок снизу справа"
       style="display:inline"
-      transform="matrix(1.1371788,0,0,1.1371788,-0.87971421,-1.3315452)">
+      transform="matrix(1.1371788,0,0,1.1371788,-0.87971421,-1.3315452)"
+      class="castle-item">
       <path
         style="fill:#0b0b0b;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
         d="m 11.502442,12.298591 -0.0036,0.183503 0.140473,0.118148 v 0.42042 l -0.115152,0.121915 -5.63e-4,0.13637 h 0.744587 v -0.126944 l -0.113963,-0.136999 v -0.422932 l 0.133842,-0.110605 5.63e-4,-0.184131 h -0.149513 l -0.0025,0.07415 h -0.139254 v -0.07604 h -0.193527 v 0.08924 h -0.148286 v -0.08736 z"
@@ -169,7 +173,8 @@
       id="layer11-5-7"
       inkscape:label="Замок сверху справа"
       style="display:inline"
-      transform="matrix(1.1373071,0,0,1.1371132,-0.8806819,-3.6267471)">
+      transform="matrix(1.1373071,0,0,1.1371132,-0.8806819,-3.6267471)"
+      class="castle-item">
       <path
         style="display:inline;fill:#0b0b0b;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
         d="m 11.241508,12.112991 -0.0032,0.169351 0.129642,0.109034 v 0.387998 l -0.10627,0.112513 -5.2e-4,0.125854 h 0.687166 v -0.117153 l -0.105202,-0.126435 v -0.390316 l 0.123519,-0.10208 5.2e-4,-0.169931 H 11.82918 l -0.0024,0.06843 h -0.128512 v -0.07018 h -0.178601 v 0.08235 h -0.136852 v -0.08062 z"

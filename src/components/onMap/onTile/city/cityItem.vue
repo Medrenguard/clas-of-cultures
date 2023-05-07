@@ -3,7 +3,7 @@
     inkscape:groupmode="layer"
     class="city-item"
     inkscape:label="Поселение">
-    <g v-if="buildingsInThisCity.length">
+    <g v-if="buildingsInThisCity.length" class="platform-container">
       <platform-item v-for="(building, i) in buildingsInThisCity" :key="i+1" :buildingNumber="i+1" :buildingType="building.type"></platform-item>
     </g>
     <circle
