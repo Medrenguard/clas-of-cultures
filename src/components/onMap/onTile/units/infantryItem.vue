@@ -1,7 +1,7 @@
 <template>
   <g
     inkscape:groupmode="layer"
-    class="infantry"
+    class="infantry-item"
     inkscape:label="Пехота"
     sodipodi:insensitive="true">
     <path

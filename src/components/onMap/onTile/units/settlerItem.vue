@@ -1,7 +1,7 @@
 <template>
   <g
     inkscape:groupmode="layer"
-    class="settler"
+    class="settler-item"
     inkscape:label="Поселенец"
     sodipodi:insensitive="true">
     <path

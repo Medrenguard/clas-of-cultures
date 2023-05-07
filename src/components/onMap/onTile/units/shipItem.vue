@@ -1,7 +1,7 @@
 <template>
   <g
     inkscape:groupmode="layer"
-    class="ship"
+    class="ship-item"
     inkscape:label="Корабль">
     <path
       sodipodi:type="star"
