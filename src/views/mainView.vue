@@ -30,7 +30,7 @@ export default {
           regionsForStart: [1, 10]
         }
       },
-      colors: { красный: 'red', голубой: 'blue', желтый: 'yellow', фиолетовый: 'purple' }
+      colors: { красный: 'red', голубой: 'blue', желтый: 'yellow', фиолетовый: 'purple' } // название на английском используется в классах для раскраски
     }
   },
   created () {
@@ -99,25 +99,39 @@ export default {
 
 <style lang="scss">
 .redColor {
-  &.color-main {
+  .color-main {
     fill: #ff0000;
     stroke: #ff0000;
   }
 }
 .blueColor {
-  &.color-main {
+  .color-main {
     fill: #00c4ff;
-    stroke: #00c4ff;
+    &.borderless-color {
+      stroke: #00c4ff;
+    }
+  }
+  .color-lighter {
+    fill: #80e5ff;
+    &.borderless-color {
+      stroke: #80e5ff;
+    }
+  }
+  .color-darker {
+    fill: #0088aa;
+    &.borderless-color {
+      stroke: #0088aa;
+    }
   }
 }
 .yellowColor {
-  &.color-main {
+  .color-main {
     fill: #fff200;
     stroke: #fff200;
   }
 }
 .purpleColor {
-  &.color-main {
+  .color-main {
   fill: #8500ff;
   stroke: #8500ff;
   }

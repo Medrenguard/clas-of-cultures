@@ -2,12 +2,12 @@
   <g
     inkscape:groupmode="layer"
     class="settler-item"
+    :class="colorClass"
     inkscape:label="Поселенец"
     sodipodi:insensitive="true">
     <path
       sodipodi:type="star"
-      class="pentahedron color-main"
-      :class="colorClass"
+      class="pentahedron color-main borderless-color"
       inkscape:flatsided="true"
       sodipodi:sides="5"
       sodipodi:cx="39.03125"

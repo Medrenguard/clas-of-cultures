@@ -2,12 +2,12 @@
   <g
     inkscape:groupmode="layer"
     class="infantry-item"
+    :class="colorClass"
     inkscape:label="Пехота"
     sodipodi:insensitive="true">
     <path
       sodipodi:type="star"
-      class="pentahedron color-main"
-      :class="colorClass"
+      class="pentahedron color-main borderless-color"
       inkscape:flatsided="true"
       sodipodi:sides="5"
       sodipodi:cx="39.03125"
@@ -31,8 +31,7 @@
       cx="14.546916"
       inkscape:label="Шлем" />
     <path
-      class="helmet-slot"
-      :class="colorClass"
+      class="helmet-slot color-main borderless-color"
       d="m 14.46621,17.061173 v -0.232671 l -0.05694,-0.03287 v -0.05115 l 0.05322,-0.03073 0.08453,0.0488 0.08793,-0.05077 0.0457,0.02639 v 0.05585 l -0.0601,0.0347 v 0.234598 z"
       inkscape:label="Прорези шлема" />
   </g>
