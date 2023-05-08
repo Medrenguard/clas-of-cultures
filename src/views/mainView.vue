@@ -100,27 +100,65 @@ export default {
 <style lang="scss">
 .redColor {
   .color-main {
-    fill: #ff0000;
-    stroke: #ff0000;
+    fill: #ff8080;
+    stroke: #660000;
+    &.borderless-color {
+      stroke: #ff8080;
+    }
+    &.border-color-special {
+      fill: #660000;
+    }
+  }
+  .color-lighter {
+    fill: #ffd2d2;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #ffd2d2;
+    }
+    &.border-color-special {
+      fill: #959595;
+    }
+  }
+  .color-darker {
+    fill: #aa1515;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #aa1515;
+    }
+    &.border-color-special {
+      fill: #959595;
+    }
   }
 }
 .blueColor {
   .color-main {
     fill: #80e5ff;
+    stroke: #008496;
     &.borderless-color {
       stroke: #80e5ff;
+    }
+    &.border-color-special {
+      fill: #008496;
     }
   }
   .color-lighter {
     fill: #d2f6ff;
+    stroke: #959595;
     &.borderless-color {
       stroke: #d2f6ff;
+    }
+    &.border-color-special {
+      stroke: #959595;
     }
   }
   .color-darker {
     fill: #158caa;
+    stroke: #959595;
     &.borderless-color {
       stroke: #158caa;
+    }
+    &.border-color-special {
+      stroke: #959595;
     }
   }
 }
