@@ -6,7 +6,7 @@
     inkscape:label="Корабль">
     <path
       sodipodi:type="star"
-      class="pentahedron color-main borderless-color"
+      class="pentahedron color-darker borderless-color"
       inkscape:flatsided="true"
       sodipodi:sides="5"
       sodipodi:cx="39.03125"

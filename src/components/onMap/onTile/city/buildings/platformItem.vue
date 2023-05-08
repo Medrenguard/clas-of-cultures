@@ -5,7 +5,7 @@
     inkscape:label="Платформа"
     style="display:inline">
     <path v-if="buildingNumber === 4"
-      class="platform-item color-main"
+      class="platform-item color-darker"
       sodipodi:type="arc"
       sodipodi:cx="-11.292514"
       sodipodi:cy="11.109304"
@@ -18,7 +18,7 @@
       transform="rotate(-90,-0.028645,-0.08026059)"
       inkscape:label="Левая верхняя плашка" />
     <path v-else-if="buildingNumber === 3"
-      class="platform-item color-main"
+      class="platform-item color-darker"
       sodipodi:type="arc"
       sodipodi:cx="-11.109127"
       sodipodi:cy="-11.371874"
@@ -31,7 +31,7 @@
       transform="rotate(180,0.02580779,-0.05445279)"
       inkscape:label="Левая нижняя плашка" />
     <path v-else-if="buildingNumber === 2"
-      class="platform-item color-main"
+      class="platform-item color-darker"
       sodipodi:type="arc"
       sodipodi:cx="11.371855"
       sodipodi:cy="-11.214873"
@@ -44,7 +44,7 @@
       transform="rotate(90,0.0802606,-0.028645)"
       inkscape:label="Правая нижняя плашка" />
     <path v-else-if="buildingNumber === 1"
-      class="platform-item color-main"
+      class="platform-item color-darker"
       sodipodi:type="arc"
       sodipodi:cx="11.089598"
       sodipodi:cy="11.39171"

@@ -106,21 +106,21 @@ export default {
 }
 .blueColor {
   .color-main {
-    fill: #00c4ff;
-    &.borderless-color {
-      stroke: #00c4ff;
-    }
-  }
-  .color-lighter {
     fill: #80e5ff;
     &.borderless-color {
       stroke: #80e5ff;
     }
   }
-  .color-darker {
-    fill: #0088aa;
+  .color-lighter {
+    fill: #d2f6ff;
     &.borderless-color {
-      stroke: #0088aa;
+      stroke: #d2f6ff;
+    }
+  }
+  .color-darker {
+    fill: #158caa;
+    &.borderless-color {
+      stroke: #158caa;
     }
   }
 }
