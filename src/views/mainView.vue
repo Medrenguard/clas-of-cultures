@@ -164,14 +164,66 @@ export default {
 }
 .yellowColor {
   .color-main {
-    fill: #fff200;
-    stroke: #fff200;
+    fill: #fff280;
+    stroke: #969300;
+    &.borderless-color {
+      stroke: #fff280;
+    }
+    &.border-color-special {
+      fill: #969300;
+    }
+  }
+  .color-lighter {
+    fill: #fffcd2;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #fffcd2;
+    }
+    &.border-color-special {
+      stroke: #959595;
+    }
+  }
+  .color-darker {
+    fill: #dfc800;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #dfc800;
+    }
+    &.border-color-special {
+      stroke: #959595;
+    }
   }
 }
 .purpleColor {
   .color-main {
-  fill: #8500ff;
-  stroke: #8500ff;
+    fill: #ff80ff;
+    stroke: #96008e;
+    &.borderless-color {
+      stroke: #ff80ff;
+    }
+    &.border-color-special {
+      fill: #96008e;
+    }
+  }
+  .color-lighter {
+    fill: #fed2ff;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #fed2ff;
+    }
+    &.border-color-special {
+      stroke: #959595;
+    }
+  }
+  .color-darker {
+    fill: #9115aa;
+    stroke: #959595;
+    &.borderless-color {
+      stroke: #9115aa;
+    }
+    &.border-color-special {
+      stroke: #959595;
+    }
   }
 }
 </style>
