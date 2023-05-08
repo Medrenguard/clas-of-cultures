@@ -2,6 +2,7 @@
   <g
     inkscape:groupmode="layer"
     class="platform-wrap"
+    :class="colorClass"
     inkscape:label="Платформа"
     style="display:inline">
     <path v-if="buildingNumber === 4"
@@ -79,7 +80,8 @@ export default {
   },
   props: {
     buildingNumber: Number,
-    buildingType: String
+    buildingType: String,
+    colorClass: String
   },
   mounted () {
   },
