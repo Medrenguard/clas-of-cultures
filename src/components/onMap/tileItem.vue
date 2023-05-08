@@ -87,7 +87,7 @@ export default {
       return [...matrixValue[elType], res[0] - shiftUnit * elNumber, res[1]]
     },
     getColorElement (_owner) {
-      return this.PLAYER_COLORS[_owner] + 'SVG'
+      return this.PLAYER_COLORS[_owner] + 'Color'
     }
   },
   mounted () {
