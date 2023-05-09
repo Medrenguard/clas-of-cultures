@@ -64,7 +64,9 @@ export default {
       }
     },
     changeFirstPlayer () {
-      // тут будет функционал выбора первого игрока
+      const res = Math.floor(Math.random() * this.currentCountGamers) ? 'player' : 'AI'
+      alert('Выбирается первый игрок, бросаются кубики... первым игроком становится ' + res + '.')
+      this.$store.commit('updateFirstPlayer', res)
       this.$store.commit('updateStage', 'firstPlayerChanged')
     },
     giveTranslateAttr (numberRegion) {

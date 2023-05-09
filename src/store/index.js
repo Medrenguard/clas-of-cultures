@@ -21,7 +21,7 @@ export default new Vuex.Store({
     // ],
     stage: 'readyToGame',
     firstPlayer: 'player',
-    opponents: {
+    opponents: { // для мультиплеера или большего кол-ва игроков правильнее будет переделать в массив, но для этого нужно будет переписать обращения к объекту
       player: {
         color: 'red',
         nation: undefined,
@@ -135,6 +135,9 @@ export default new Vuex.Store({
     updateOpponentsColor (state, payload) {
       state.opponents.player.color = payload.player
       state.opponents.AI.color = payload.AI
+    },
+    updateFirstPlayer (state, newValue) {
+      state.firstPlayer = newValue
     }
   },
   actions: {
