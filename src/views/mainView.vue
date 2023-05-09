@@ -253,7 +253,8 @@ export default {
   }
 }
 .selection-frame {
-  fill-opacity:0;
+  fill: black !important; // нужно для правильной работы слоя для выбора обьекта
+  fill-opacity: 0 !important;
 }
 </style>
 

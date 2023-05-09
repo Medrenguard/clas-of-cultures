@@ -1,13 +1,18 @@
 <template>
   <g class="tile-wrap">
-    <path
-      :transform="giveTranslateAttr('cell')"
-      d="M 7.494359,12.996442 9.9947349,8.6656632 h 4.9958081 l 2.501396,4.3325488 -2.498864,4.328161 H 9.9960809 Z"
-      class="tile-borders"
-      sodipodi:insensitive="true" />
     <g :transform="transform" class="terrain-item">
       <terrain-item :type="type"/>
     </g>
+    <path
+      :transform="giveTranslateAttr('cell')"
+      d="M 7.494359,12.996442 9.9947349,8.6656632 h 4.9958081 l 2.501396,4.3325488 -2.498864,4.328161 H 9.9960809 Z"
+      class="tile-item selection-frame"
+      data-type-object="tile"
+      :data-region="numberRegion"
+      :data-tile="numberTile"
+      :data-orientation="orientation"
+      :data-position="positionTile"
+      :data-type="type" />
     <city-item v-if="cityInThisTile !== false" :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
     <g v-if="livingSettlersInThisTile.length" class="settlers-container">
       <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settleryOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
@@ -140,8 +145,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tile-borders {
-  fill:none;stroke:#000000;
+.tile-item {
+  fill: none;
+  stroke:#000000;
   stroke-width:0.05px;
   stroke-linecap:butt;
   stroke-linejoin:miter;
