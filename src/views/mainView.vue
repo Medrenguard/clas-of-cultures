@@ -37,10 +37,6 @@ export default {
     if (this.stage === 'beforeStart') { this.$store.commit('updateStage', 'start') }
     this.$store.commit('updateLayoutByCount', this.layoutByCountGamers[this.currentCountGamers])
     this.fillInfoAboutRegions()
-    if (this.stage === 'start' && this.opponents.player.color === undefined) {
-      this.$store.commit('updateStage', 'changeColor')
-      this.suggestColorChoice()
-    }
   },
   mounted () {
   },
@@ -62,10 +58,14 @@ export default {
         const lostColors = { ...this.colors }
         delete lostColors[color]
         this.$store.commit('updateOpponentsColor', { player: this.colors[color], AI: Object.values(lostColors)[0] })
-        this.$store.commit('updateStage', 'readyToGame')
+        this.$store.commit('updateStage', 'colorChanged')
       } else {
         this.suggestColorChoice()
       }
+    },
+    changeFirstPlayer () {
+      // тут будет функционал выбора первого игрока
+      this.$store.commit('updateStage', 'firstPlayerChanged')
     },
     giveTranslateAttr (numberRegion) {
       const res = this.calcTranslateAttr(numberRegion)
@@ -91,8 +91,28 @@ export default {
       'regionItemsOnMap',
       'layoutByCount',
       'stage',
-      'opponents'
+      'opponents',
+      'firstPlayer'
     ])
+  },
+  watch: {
+    stage: function (newValue, oldValue) { // StageLoop
+      if (newValue === 'start') {
+        // если цвета выбраны заранее - значит это тестовый режим, перепрыгиваем этап
+        if (this.opponents.player.color === undefined) { this.$store.commit('updateStage', 'changeColor') } else { this.$store.commit('updateStage', 'colorChanged') }
+      }
+      if (newValue === 'changeColor') {
+        this.suggestColorChoice()
+      }
+      if (newValue === 'colorChanged') {
+        // если первый игрок выбран заранее - значит это тестовый режим, перепрыгиваем этап
+        if (this.firstPlayer === undefined) { this.$store.commit('updateStage', 'changeFirstPlayer') } else { this.$store.commit('updateStage', 'firstPlayerChanged') }
+      }
+      if (newValue === 'changeFirstPlayer') {
+        this.changeFirstPlayer()
+      }
+      if (newValue === 'firstPlayerChanged') { this.$store.commit('updateStage', 'readyToGame') }
+    }
   }
 }
 </script>

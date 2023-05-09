@@ -10,7 +10,17 @@ export default new Vuex.Store({
       regionsCount: null,
       regionsForStart: []
     },
-    stage: 'readyToGame', // beforeStart, start, changeColor, readyToGame
+    // stageLoop: [
+    //   'beforeStart',
+    //   'start',
+    //   'changeColor',
+    //   'colorChanged',
+    //   'changeFirstPlayer',
+    //   'firstPlayerChanged',
+    //   'readyToGame'
+    // ],
+    stage: 'readyToGame',
+    firstPlayer: 'player',
     opponents: {
       player: {
         color: 'red',
