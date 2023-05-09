@@ -41,7 +41,7 @@ export default new Vuex.Store({
           destroyed: false,
           onEventCard: false, // поселение находится на карточке события
           region: 10,
-          tile: 1,
+          tile: 4,
           mood: 'happy', // happy, neutral, angry
           owner: 'player' // player, AI, rebels
         },
@@ -71,7 +71,7 @@ export default new Vuex.Store({
           died_in_battle: false,
           founded_the_city: false,
           region: 10,
-          tile: 1,
+          tile: 4,
           owner: 'player'
         },
         {
