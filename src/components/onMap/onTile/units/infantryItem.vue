@@ -6,22 +6,9 @@
     inkscape:label="Пехота"
     sodipodi:insensitive="true">
     <path
-      sodipodi:type="star"
       class="pentahedron color-darker borderless-color"
-      inkscape:flatsided="true"
-      sodipodi:sides="5"
-      sodipodi:cx="39.03125"
-      sodipodi:cy="23.8125"
-      sodipodi:r1="2.3940437"
-      sodipodi:r2="1.9368221"
-      sodipodi:arg1="0.94295973"
-      sodipodi:arg2="1.5712783"
-      inkscape:rounded="0"
-      inkscape:randomized="0"
       d="m 40.4375,25.75 -2.814367,-0.0014 -0.868397,-2.677041 2.277668,-1.653146 2.276073,1.65534 z"
       transform="matrix(0.1713701,0,0,0.1713701,7.8582465,12.680561)"
-      inkscape:transform-center-x="-6.1344592e-05"
-      inkscape:transform-center-y="-0.039118716"
       inkscape:label="5гранник" />
     <ellipse
       class="helmet-body"
