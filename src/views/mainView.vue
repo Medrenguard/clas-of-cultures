@@ -7,7 +7,8 @@
       version="1.1"
       id="map"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg">
+      xmlns:svg="http://www.w3.org/2000/svg"
+      @click="clickSVG">
         <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :transform="giveTranslateAttr(i)"/>
     </svg>
   </div>
@@ -68,6 +69,9 @@ export default {
       alert('Выбирается первый игрок, бросаются кубики... первым игроком становится ' + res + '.')
       this.$store.commit('updateFirstPlayer', res)
       this.$store.commit('updateStage', 'firstPlayerChanged')
+    },
+    clickSVG (event) {
+      console.log(event.target)
     },
     giveTranslateAttr (numberRegion) {
       const res = this.calcTranslateAttr(numberRegion)

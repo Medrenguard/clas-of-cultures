@@ -17,7 +17,8 @@ export default new Vuex.Store({
     //   'colorChanged',
     //   'changeFirstPlayer',
     //   'firstPlayerChanged',
-    //   'readyToGame'
+    //   'readyToGame',
+    //   'changedActionMove'
     // ],
     stage: 'readyToGame',
     firstPlayer: 'player',
