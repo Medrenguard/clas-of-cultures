@@ -71,7 +71,19 @@ export default {
       this.$store.commit('updateStage', 'firstPlayerChanged')
     },
     clickSVG (event) {
-      console.log(event.target)
+      // использование .closest позволит убрать дублирующий слой на всех элементах
+      // и убрать .selection-frame, убедившись, что все элементы, которые должны быть кликабельными, имеют fill не none
+      const t = event.target.closest('[data-type-object]')
+      if (t !== null) {
+        console.log(t)
+        if (this.stage === 'MOVING_waitingSelection') {
+          // простая проверка на то, что клик был по юниту
+          if (['infantry', 'settler', 'ship'].includes(t.getAttribute('data-type-object'))) {
+            // тут будет функционал выделения юнита
+            // console.log('object: ' + t.getAttribute('data-type-object') + ', id: ' + t.getAttribute('data-id-object'))
+          }
+        }
+      }
     },
     giveTranslateAttr (numberRegion) {
       const res = this.calcTranslateAttr(numberRegion)

@@ -18,9 +18,9 @@ export default new Vuex.Store({
     //   'changeFirstPlayer',
     //   'firstPlayerChanged',
     //   'readyToGame',
-    //   'changedActionMove'
+    //   'MOVING_waitingSelection'
     // ],
-    stage: 'readyToGame',
+    stage: 'MOVING_waitingSelection',
     firstPlayer: 'player',
     opponents: { // для мультиплеера или большего кол-ва игроков правильнее будет переделать в массив, но для этого нужно будет переписать обращения к объекту
       player: {
@@ -55,14 +55,70 @@ export default new Vuex.Store({
         }
       ],
       buildings: [
-        // {
-        //   id: 1,
-        //   cityId: 1,
-        //   type: 'temple',
-        //   destroyed: false,
-        //   onEventCard: false, // здание находится на карточке события
-        //   owner: 'player' // player, AI, rebels ; TODO: переопределить
-        // }
+        {
+          id: 1,
+          cityId: 2,
+          type: 'temple',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'AI' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 2,
+          cityId: 2,
+          type: 'academy',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'AI' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 3,
+          cityId: 2,
+          type: 'castle',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'AI' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 4,
+          cityId: 2,
+          type: 'port',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'AI' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 5,
+          cityId: 1,
+          type: 'temple',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'player' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 6,
+          cityId: 1,
+          type: 'academy',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'player' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 7,
+          cityId: 1,
+          type: 'castle',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'player' // player, AI, rebels ; TODO: переопределить
+        },
+        {
+          id: 8,
+          cityId: 1,
+          type: 'port',
+          destroyed: false,
+          onEventCard: false, // здание находится на карточке события
+          owner: 'player' // player, AI, rebels ; TODO: переопределить
+        }
       ],
       settlers: [
         {
@@ -72,7 +128,18 @@ export default new Vuex.Store({
           founded_the_city: false,
           region: 10,
           tile: 4,
-          owner: 'player'
+          owner: 'player',
+          selected: false
+        },
+        {
+          id: 3,
+          alive: true,
+          died_in_battle: false,
+          founded_the_city: false,
+          region: 10,
+          tile: 4,
+          owner: 'player',
+          selected: false
         },
         {
           id: 2,
@@ -81,19 +148,46 @@ export default new Vuex.Store({
           founded_the_city: false,
           region: 1,
           tile: 4,
-          owner: 'AI'
+          owner: 'AI',
+          selected: false
         }
       ],
       infantry: [
-        // {
-        //   id: 1,
-        //   alive: true,
-        //   region: 10,
-        //   tile: 1,
-        //   owner: 'player'
-        // }
+        {
+          id: 1,
+          alive: true,
+          region: 10,
+          tile: 4,
+          owner: 'player',
+          selected: false
+        },
+        {
+          id: 2,
+          alive: true,
+          region: 1,
+          tile: 4,
+          owner: 'AI',
+          selected: false
+        }
       ],
-      ships: []
+      ships: [
+        {
+          id: 1,
+          alive: true,
+          region: 10,
+          tile: 4,
+          owner: 'player',
+          selected: false
+        }
+        // {
+        //   id: 2,
+        //   alive: true,
+        //   region: 1,
+        //   tile: 4,
+        //   owner: 'AI',
+        // selected: false
+        // }
+      ]
     },
     regionItemsOnMap: []
     //
