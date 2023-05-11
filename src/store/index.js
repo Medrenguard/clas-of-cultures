@@ -34,6 +34,11 @@ export default new Vuex.Store({
         achivements: [/** TODO **/]
       }
     },
+    unitCollections: {
+      infantry: 'infantry',
+      settler: 'settlers',
+      ship: 'ships'
+    },
     layout: {
       city: [
         {
@@ -217,19 +222,7 @@ export default new Vuex.Store({
       return state.layout.ships.filter(unit => unit.alive === true)
     },
     GET_UNIT_BY_TYPEnID: (state) => (info) => {
-      let arrName = null
-      switch (info.type) {
-        case 'infantry':
-          arrName = 'infantry'
-          break
-        case 'settler':
-          arrName = 'settlers'
-          break
-        case 'ship':
-          arrName = 'ships'
-          break
-      }
-      return state.layout[arrName].find(unit => unit.id === Number(info.id))
+      return state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
     }
   },
   mutations: {
