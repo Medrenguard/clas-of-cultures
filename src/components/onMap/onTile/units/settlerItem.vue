@@ -19,6 +19,7 @@
       class="selection-frame"
       data-type-object="settler"
       :data-id-object="settlerID"
+      :data-owner-object="settlerOwner"
       d="m 40.4375,25.75 -2.814367,-0.0014 -0.868397,-2.677041 2.277668,-1.653146 2.276073,1.65534 z"
       transform="matrix(0.1713701,0,0,0.1713701,7.8582465,12.680561)"
       inkscape:label="5гранник" />
