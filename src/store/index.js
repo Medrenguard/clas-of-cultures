@@ -241,6 +241,10 @@ export default new Vuex.Store({
     },
     updateFirstPlayer (state, newValue) {
       state.firstPlayer = newValue
+    },
+    toggleUnitSelection (state, info) {
+      const u = state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected
+      state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected = !u
     }
   },
   actions: {

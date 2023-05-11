@@ -86,7 +86,8 @@ export default {
               unit.owner === t.getAttribute('data-owner-object') && // Проверка истинности владельца
               (Number(tileInfo.getAttribute('data-region')) === unit.region && Number(tileInfo.getAttribute('data-tile')) === unit.tile) // Проверка истинности расположения
             ) {
-              // тут будет функционал выделения юнита
+              // тут будет проверка на то, своего ли ты юнита выбираешь
+              this.$store.commit('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
         }
