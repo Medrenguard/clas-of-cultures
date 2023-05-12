@@ -178,6 +178,13 @@ export default {
       fill: #959595;
     }
   }
+  .selected-pentahedron {
+    filter: drop-shadow(0px 0px 1px #ffd034);
+    stroke: #000000 !important
+  }
+  .selected-pictogram {
+    fill: #ffd034
+  }
 }
 .blueColor {
   .color-main {
@@ -209,6 +216,13 @@ export default {
     &.border-color-special {
       stroke: #959595;
     }
+  }
+  .selected-pentahedron {
+    filter: drop-shadow(0px 0px 1px #f3bf00);
+    stroke: #000000 !important
+  }
+  .selected-pictogram {
+    fill: #f3bf00
   }
 }
 .yellowColor {
@@ -242,6 +256,13 @@ export default {
       stroke: #959595;
     }
   }
+  .selected-pentahedron {
+    filter: drop-shadow(0px 0px 1px #000000);
+    stroke: #000000 !important
+  }
+  .selected-pictogram {
+    fill: #000000
+  }
 }
 .purpleColor {
   .color-main {
@@ -273,6 +294,13 @@ export default {
     &.border-color-special {
       stroke: #959595;
     }
+  }
+  .selected-pentahedron {
+    filter: drop-shadow(0px 0px 1px #ffd034);
+    stroke: #000000 !important
+  }
+  .selected-pictogram {
+    fill: #ffd034
   }
 }
 .selection-frame {

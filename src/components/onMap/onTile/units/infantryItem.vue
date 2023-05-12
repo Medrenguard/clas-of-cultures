@@ -7,11 +7,13 @@
     sodipodi:insensitive="true">
     <path
       class="pentahedron color-darker borderless-color"
+      :class="{ 'selected-pentahedron' : getUnitInfo.selected }"
       d="m 40.4375,25.75 -2.814367,-0.0014 -0.868397,-2.677041 2.277668,-1.653146 2.276073,1.65534 z"
       transform="matrix(0.1713701,0,0,0.1713701,7.8582465,12.680561)"
       inkscape:label="5гранник" />
     <ellipse
       class="helmet-body"
+      :class="{ 'selected-pictogram' : getUnitInfo.selected }"
       ry="0.29493836"
       rx="0.24067806"
       cy="16.780693"
@@ -32,9 +34,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
-  // нужно будет еще в стор добавить информацию о выделении юнитов и возможности их ходить еще на этом ходу
+  // нужно будет еще в стор добавить информацию о возможности юнитов ходить на этом ходу
   name: 'infantryItem',
   props: {
     infantryID: Number,
@@ -44,6 +47,12 @@ export default {
   mounted () {
   },
   computed: {
+    ...mapGetters([
+      'GET_UNIT_BY_TYPEnID'
+    ]),
+    getUnitInfo () {
+      return this.GET_UNIT_BY_TYPEnID({ type: 'infantry', id: this.infantryID })
+    }
   }
 }
 </script>
