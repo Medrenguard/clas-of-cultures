@@ -245,6 +245,15 @@ export default new Vuex.Store({
     },
     GET_UNIT_BY_TYPEnID: (state) => (info) => {
       return state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
+    },
+    SELECTED_UNITS (state) {
+      const res = { units: {}, length: 0 }
+      for (const unitType in state.unitCollections) {
+        const filtered = state.layout[state.unitCollections[unitType]].filter(unit => unit.selected === true)
+        res.units[state.unitCollections[unitType]] = filtered
+        res.length += filtered.length
+      }
+      return res
     }
   },
   mutations: {
