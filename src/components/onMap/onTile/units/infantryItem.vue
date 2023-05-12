@@ -37,7 +37,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  // нужно будет еще в стор добавить информацию о возможности юнитов ходить на этом ходу
   name: 'infantryItem',
   props: {
     infantryID: Number,

@@ -134,7 +134,9 @@ export default new Vuex.Store({
           region: 10,
           tile: 4,
           owner: 'player',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true
         },
         {
           id: 3,
@@ -144,7 +146,9 @@ export default new Vuex.Store({
           region: 10,
           tile: 4,
           owner: 'player',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true
         },
         {
           id: 2,
@@ -154,7 +158,9 @@ export default new Vuex.Store({
           region: 1,
           tile: 4,
           owner: 'AI',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true
         }
       ],
       infantry: [
@@ -164,7 +170,10 @@ export default new Vuex.Store({
           region: 10,
           tile: 4,
           owner: 'player',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true,
+          canAttack: true
         },
         {
           id: 2,
@@ -172,7 +181,10 @@ export default new Vuex.Store({
           region: 1,
           tile: 4,
           owner: 'AI',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true,
+          canAttack: true
         }
       ],
       ships: [
@@ -182,7 +194,10 @@ export default new Vuex.Store({
           region: 10,
           tile: 4,
           owner: 'player',
-          selected: false
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true,
+          canAttack: true
         }
         // {
         //   id: 2,
@@ -190,7 +205,10 @@ export default new Vuex.Store({
         //   region: 1,
         //   tile: 4,
         //   owner: 'AI',
-        // selected: false
+        // selected: false,
+        // canMove_onThisAction: true,
+        // canMove_onThisRound: true,
+        // canAttack: true
         // }
       ]
     },
