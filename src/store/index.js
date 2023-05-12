@@ -273,7 +273,7 @@ export default new Vuex.Store({
     updateFirstPlayer (state, newValue) {
       state.firstPlayer = newValue
     },
-    toggleUnitSelection (state, info) {
+    reverseUnitSelection (state, info) {
       const u = state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected
       state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected = !u
     },
@@ -282,6 +282,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    toggleUnitSelection (context, info) {
+      context.commit('reverseUnitSelection', info)
+      // если при выделении нет точки сбора - проставить её(будет корректно работать, если параметр selected у юнитов не будет сохраняться при перезагрузке)
+      if (context.state.collectionPoint.region === null) {
+        const unit = context.state.layout[context.state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
+        context.commit('updateCollectionPoint', { region: unit.region, tile: unit.tile })
+      }
+      // если всё выделение снято - сбросить точку сбора
+      if (!context.getters.SELECTED_UNITS.length) {
+        context.commit('updateCollectionPoint', { region: null, tile: null })
+      }
+    }
   },
   modules: {
   }

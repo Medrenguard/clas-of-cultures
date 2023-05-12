@@ -95,7 +95,7 @@ export default {
                 } else if (!unit.canMove_onThisAction) {
                   console.log('Этот юнит не может больше ходить в этом действии')
                 } else {
-                  this.$store.commit('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
+                  this.$store.dispatch('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
                 }
               }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
