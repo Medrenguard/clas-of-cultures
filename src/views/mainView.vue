@@ -106,7 +106,8 @@ export default {
     mouseoverSVG (event) {
       const t = event.target.closest('[data-type-object]')
       if (t !== null) {
-        const tile = event.target.closest('.tile-wrap, .region-wrap').querySelector('.selection-frame')
+        const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
+        if (tile === undefined) { return console.log('Временная заглушка от работы с регионами') }
         // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
         const haveSelectAndWantGo = this.collectionPoint.region !== null &&
           (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
