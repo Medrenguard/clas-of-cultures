@@ -87,7 +87,14 @@ export default {
               (Number(tileInfo.getAttribute('data-region')) === unit.region && Number(tileInfo.getAttribute('data-tile')) === unit.tile) // Проверка истинности расположения
             ) {
               // тут будет проверка на то, своего ли ты юнита выбираешь
-              this.$store.commit('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
+              // проверка на то, может ли юнит ходить на этом ходу
+              if (!unit.canMove_onThisRound) {
+                console.log('Этот юнит не может больше ходить в этом раунде')
+              } else if (!unit.canMove_onThisAction) {
+                console.log('Этот юнит не может больше ходить в этом действии')
+              } else {
+                this.$store.commit('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
+              }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
         }
