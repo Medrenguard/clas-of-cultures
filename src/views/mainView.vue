@@ -8,7 +8,8 @@
       id="map"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:svg="http://www.w3.org/2000/svg"
-      @click="clickSVG">
+      @click="clickSVG"
+      @mouseover="mouseoverSVG">
         <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :transform="giveTranslateAttr(i)"/>
     </svg>
   </div>
@@ -88,7 +89,6 @@ export default {
             ) {
               // Простая проверка на то, своего ли ты юнита выбираешь
               if (unit.owner === 'player') {
-                // тут будет проверка на то, в том же тайле находится выделяемый юнит, что и первый выделенный
                 // проверка на то, может ли юнит ходить в этом ходу/раунде
                 if (!unit.canMove_onThisRound) {
                   console.log('Этот юнит не может больше ходить в этом раунде')
@@ -100,6 +100,15 @@ export default {
               }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
+        }
+      }
+    },
+    mouseoverSVG (event) {
+      const t = event.target.closest('[data-type-object]')
+      if (t !== null) {
+        if (this.stage === 'MOVING_waitingSelection') {
+          // тут будет проверка, находится курсор над тайлом точки сбора или нет. Если нет - переключить стадию MOVING_changeWay, если да - переключить на MOVING_waitingSelection
+          console.log(event.target.closest('.tile-wrap, .region-wrap').querySelector('.selection-frame'))
         }
       }
     },

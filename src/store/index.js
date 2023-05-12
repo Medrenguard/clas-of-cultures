@@ -18,7 +18,8 @@ export default new Vuex.Store({
     //   'changeFirstPlayer',
     //   'firstPlayerChanged',
     //   'readyToGame',
-    //   'MOVING_waitingSelection'
+    //   'MOVING_waitingSelection',
+    //   'MOVING_changeWay'
     // ],
     stage: 'MOVING_waitingSelection',
     firstPlayer: 'player',
