@@ -212,6 +212,10 @@ export default new Vuex.Store({
         // }
       ]
     },
+    collectionPoint: { // локация(регион/тайл) выбранных в данный момент юнитов
+      region: null,
+      tile: null
+    },
     regionItemsOnMap: []
     //
 
@@ -263,6 +267,9 @@ export default new Vuex.Store({
     toggleUnitSelection (state, info) {
       const u = state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected
       state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected = !u
+    },
+    updateCollectionPoint (state, newValue) {
+      state.collectionPoint = newValue
     }
   },
   actions: {
