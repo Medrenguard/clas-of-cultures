@@ -1,5 +1,6 @@
 <template>
-  <g class="tile-wrap">
+  <g class="tile-wrap"
+  @mouseleave="mouseleaveTile">
     <g :transform="transform" class="terrain-item">
       <terrain-item :type="type"/>
     </g>
@@ -32,7 +33,7 @@ import cityItem from '@/components/onMap/onTile/city/cityItem.vue'
 import settlerItem from '@/components/onMap/onTile/units/settlerItem.vue'
 import infantryItem from '@/components/onMap/onTile/units/infantryItem.vue'
 import shipItem from '@/components/onMap/onTile/units/shipItem.vue'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'tileItem',
@@ -93,11 +94,20 @@ export default {
     },
     getColorElement (_owner) {
       return this.PLAYER_COLORS[_owner] + 'Color'
+    },
+    mouseleaveTile (event) {
+      const tile = event.target.querySelector('.selection-frame')
+      if (this.stage === 'MOVING_changeWay') {
+        tile.classList.remove('hover')
+      }
     }
   },
   mounted () {
   },
   computed: {
+    ...mapState([
+      'stage'
+    ]),
     ...mapGetters([
       'PLAYER_COLORS',
       'CITIES',

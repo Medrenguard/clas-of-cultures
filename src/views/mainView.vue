@@ -109,15 +109,18 @@ export default {
         const tile = event.target.closest('.tile-wrap, .region-wrap').querySelector('.selection-frame')
         // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
         const haveSelectAndWantGo = this.collectionPoint.region !== null &&
-              (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
-              this.collectionPoint.region !== Number(tile.getAttribute('data-region')))
+          (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
+          this.collectionPoint.region !== Number(tile.getAttribute('data-region')))
         if (this.stage === 'MOVING_waitingSelection') {
           if (haveSelectAndWantGo) {
             this.$store.commit('updateStage', 'MOVING_changeWay')
           }
-        } else if (this.stage === 'MOVING_changeWay') {
+        }
+        if (this.stage === 'MOVING_changeWay') {
           if (!haveSelectAndWantGo) {
             this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          } else {
+            tile.classList.add('hover')
           }
         }
       }
@@ -336,6 +339,10 @@ export default {
 .selection-frame {
   fill: black !important; // нужно для правильной работы слоя для выбора обьекта: делает заполнение однозначно не none
   fill-opacity: 0 !important; // делает заполнение прозрачным
+  &.hover {
+    fill: rgba(255, 196, 0, 0.329) !important;
+    fill-opacity: 1 !important;
+  }
 }
 </style>
 
