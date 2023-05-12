@@ -106,9 +106,19 @@ export default {
     mouseoverSVG (event) {
       const t = event.target.closest('[data-type-object]')
       if (t !== null) {
+        const tile = event.target.closest('.tile-wrap, .region-wrap').querySelector('.selection-frame')
+        // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
+        const haveSelectAndWantGo = this.collectionPoint.region !== null &&
+              (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
+              this.collectionPoint.region !== Number(tile.getAttribute('data-region')))
         if (this.stage === 'MOVING_waitingSelection') {
-          // тут будет проверка, находится курсор над тайлом точки сбора или нет. Если нет - переключить стадию MOVING_changeWay, если да - переключить на MOVING_waitingSelection
-          console.log(event.target.closest('.tile-wrap, .region-wrap').querySelector('.selection-frame'))
+          if (haveSelectAndWantGo) {
+            this.$store.commit('updateStage', 'MOVING_changeWay')
+          }
+        } else if (this.stage === 'MOVING_changeWay') {
+          if (!haveSelectAndWantGo) {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          }
         }
       }
     },
@@ -137,7 +147,8 @@ export default {
       'layoutByCount',
       'stage',
       'opponents',
-      'firstPlayer'
+      'firstPlayer',
+      'collectionPoint'
     ]),
     ...mapGetters([
       'GET_UNIT_BY_TYPEnID'
