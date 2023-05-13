@@ -287,6 +287,7 @@ export default new Vuex.Store({
       unit.tile = info.tile
       unit.selected = false
       unit.canMove_onThisAction = false
+      // тут добавить логику: при попадении в леса - canAttack = false, в горы - canMove_onThisRound = false
     }
   },
   actions: {
@@ -296,10 +297,6 @@ export default new Vuex.Store({
       if (context.state.collectionPoint.region === null) {
         const unit = context.state.layout[context.state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
         context.commit('updateCollectionPoint', { region: unit.region, tile: unit.tile })
-      }
-      // если всё выделение снято - сбросить точку сбора
-      if (!context.getters.SELECTED_UNITS.length) {
-        context.commit('updateCollectionPoint', { region: null, tile: null })
       }
     },
     formationMovement (context, target) {
@@ -311,7 +308,6 @@ export default new Vuex.Store({
           })
         }
       }
-      context.commit('updateCollectionPoint', { region: null, tile: null })
       context.commit('updateStage', 'MOVING_waitingSelection')
     }
   },

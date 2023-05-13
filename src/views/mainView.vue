@@ -169,7 +169,8 @@ export default {
       'collectionPoint'
     ]),
     ...mapGetters([
-      'GET_UNIT_BY_TYPEnID'
+      'GET_UNIT_BY_TYPEnID',
+      'SELECTED_UNITS'
     ])
   },
   watch: {
@@ -189,6 +190,12 @@ export default {
         this.changeFirstPlayer()
       }
       if (newValue === 'firstPlayerChanged') { this.$store.commit('updateStage', 'readyToGame') }
+    },
+    SELECTED_UNITS: function (newValue) {
+      // если всё выделение снято - сбросить точку сбора
+      if (!newValue.length) {
+        this.$store.commit('updateCollectionPoint', { region: null, tile: null })
+      }
     }
   }
 }
