@@ -8,6 +8,7 @@
       id="map"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:svg="http://www.w3.org/2000/svg"
+      data-type-object="map"
       @click="clickSVG"
       @mouseover="mouseoverSVG">
         <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :transform="giveTranslateAttr(i)"/>
@@ -100,12 +101,21 @@ export default {
               }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
+        } else if (this.stage === 'MOVING_selectingTile') {
+          // тут будет логика перемещения
         }
       }
     },
     mouseoverSVG (event) {
       const t = event.target.closest('[data-type-object]')
+      // console.log(t.getAttribute('data-type-object'))
       if (t !== null) {
+        if (t.getAttribute('data-type-object') === 'map') {
+          if (this.stage === 'MOVING_selectingTile') {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          }
+          return
+        }
         const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
         if (tile === undefined) { return console.log('Временная заглушка от работы с регионами') }
         // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
@@ -114,13 +124,15 @@ export default {
           this.collectionPoint.region !== Number(tile.getAttribute('data-region')))
         if (this.stage === 'MOVING_waitingSelection') {
           if (haveSelectAndWantGo) {
-            this.$store.commit('updateStage', 'MOVING_changeWay')
+            // тут нужно добавить проверку, может ли формирование ходить на этот тайл, позволяет ли расстояние
+            this.$store.commit('updateStage', 'MOVING_selectingTile')
           }
         }
-        if (this.stage === 'MOVING_changeWay') {
+        if (this.stage === 'MOVING_selectingTile') {
           if (!haveSelectAndWantGo) {
             this.$store.commit('updateStage', 'MOVING_waitingSelection')
           } else {
+            // тут нужно добавить проверку, может ли формирование ходить на этот тайл, позволяет ли расстояние
             tile.classList.add('hover')
           }
         }

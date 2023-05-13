@@ -97,7 +97,7 @@ export default {
     },
     mouseleaveTile (event) {
       const tile = event.target.querySelector('.selection-frame')
-      if (this.stage === 'MOVING_changeWay') {
+      if (this.stage === 'MOVING_selectingTile') {
         tile.classList.remove('hover')
       }
     }

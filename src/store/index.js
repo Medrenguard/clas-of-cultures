@@ -18,8 +18,8 @@ export default new Vuex.Store({
     //   'changeFirstPlayer',
     //   'firstPlayerChanged',
     //   'readyToGame',
-    //   'MOVING_waitingSelection',
-    //   'MOVING_changeWay'
+    //   'MOVING_waitingSelection', // этап после нажатия кнопки "Передвижение" для выбора юнитов
+    //   'MOVING_selectingTile' // формирование выбрано и курсор наведен на другой тайл(TODO: до которого формирование может дойти)
     // ],
     stage: 'MOVING_waitingSelection',
     firstPlayer: 'player',
