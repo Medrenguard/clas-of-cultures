@@ -280,6 +280,13 @@ export default new Vuex.Store({
     },
     updateCollectionPoint (state, newValue) {
       state.collectionPoint = newValue
+    },
+    unitMovement (state, info) { // тип юнита, id юнита и регион и тайл
+      const unit = state.layout[info.type].find(unit => unit.id === info.id)
+      unit.region = info.region
+      unit.tile = info.tile
+      unit.selected = false
+      unit.canMove_onThisAction = false
     }
   },
   actions: {
@@ -294,6 +301,18 @@ export default new Vuex.Store({
       if (!context.getters.SELECTED_UNITS.length) {
         context.commit('updateCollectionPoint', { region: null, tile: null })
       }
+    },
+    formationMovement (context, target) {
+      const formation = context.getters.SELECTED_UNITS
+      for (const collection in formation.units) {
+        if (formation.units[collection].length) {
+          formation.units[collection].forEach(unit => {
+            context.commit('unitMovement', { ...target, type: collection, id: unit.id })
+          })
+        }
+      }
+      context.commit('updateCollectionPoint', { region: null, tile: null })
+      context.commit('updateStage', 'MOVING_waitingSelection')
     }
   },
   modules: {

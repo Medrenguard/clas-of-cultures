@@ -77,12 +77,12 @@ export default {
       // и убрать .selection-frame, убедившись, что все элементы, которые должны быть кликабельными, имеют fill не none
       const t = event.target.closest('[data-type-object]')
       if (t !== null) {
+        const tileInfo = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
         // console.log(t)
         if (this.stage === 'MOVING_waitingSelection') {
           // простая проверка на то, что клик был по юниту
           if (['infantry', 'settler', 'ship'].includes(t.getAttribute('data-type-object'))) {
             const unit = this.GET_UNIT_BY_TYPEnID({ type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
-            const tileInfo = event.target.closest('.tile-wrap').querySelector('.selection-frame')
             if (
               unit.alive && // Проверка истинности жизни
               unit.owner === t.getAttribute('data-owner-object') && // Проверка истинности владельца
@@ -103,6 +103,8 @@ export default {
           }
         } else if (this.stage === 'MOVING_selectingTile') {
           // тут будет логика перемещения
+          this.$store.dispatch('formationMovement', { region: Number(tileInfo.getAttribute('data-region')), tile: Number(tileInfo.getAttribute('data-tile')) })
+          tileInfo.classList.remove('hover')
         }
       }
     },
