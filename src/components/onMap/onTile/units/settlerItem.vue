@@ -2,7 +2,6 @@
   <g
     inkscape:groupmode="layer"
     class="settler-item"
-    :class="colorClass"
     inkscape:label="Поселенец"
     sodipodi:insensitive="true">
     <path
@@ -35,17 +34,16 @@ export default {
   name: 'settlerItem',
   props: {
     settlerID: Number,
-    settlerOwner: String,
-    colorClass: String
+    settlerOwner: String
   },
   mounted () {
   },
   computed: {
     ...mapGetters([
-      'GET_UNIT_BY_TYPEnID'
+      'GET_UNIT_BY_ID'
     ]),
     getUnitInfo () {
-      return this.GET_UNIT_BY_TYPEnID({ type: 'settler', id: this.settlerID })
+      return this.GET_UNIT_BY_ID(this.settlerID)
     }
   }
 }

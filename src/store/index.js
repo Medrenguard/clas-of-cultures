@@ -35,11 +35,6 @@ export default new Vuex.Store({
         achivements: [/** TODO **/]
       }
     },
-    unitCollections: {
-      infantry: 'infantry',
-      settler: 'settlers',
-      ship: 'ships'
-    },
     layout: {
       city: [
         {
@@ -126,9 +121,23 @@ export default new Vuex.Store({
           owner: 'player' // player, AI, rebels ; TODO: переопределить
         }
       ],
-      settlers: [
+      units: [
         {
           id: 1,
+          type: 'settler',
+          alive: true,
+          died_in_battle: false,
+          founded_the_city: false,
+          region: 10,
+          tile: 4,
+          owner: 'player',
+          selected: false,
+          canMove_onThisAction: true,
+          canMove_onThisRound: true
+        },
+        {
+          id: 2,
+          type: 'settler',
           alive: true,
           died_in_battle: false,
           founded_the_city: false,
@@ -141,18 +150,7 @@ export default new Vuex.Store({
         },
         {
           id: 3,
-          alive: true,
-          died_in_battle: false,
-          founded_the_city: false,
-          region: 10,
-          tile: 4,
-          owner: 'player',
-          selected: false,
-          canMove_onThisAction: true,
-          canMove_onThisRound: true
-        },
-        {
-          id: 2,
+          type: 'settler',
           alive: true,
           died_in_battle: false,
           founded_the_city: false,
@@ -162,11 +160,10 @@ export default new Vuex.Store({
           selected: false,
           canMove_onThisAction: true,
           canMove_onThisRound: true
-        }
-      ],
-      infantry: [
+        },
         {
-          id: 1,
+          id: 4,
+          type: 'infantry',
           alive: true,
           region: 10,
           tile: 4,
@@ -177,41 +174,55 @@ export default new Vuex.Store({
           canAttack: true
         },
         {
-          id: 2,
+          id: 5,
+          type: 'infantry',
           alive: true,
-          region: 1,
-          tile: 4,
-          owner: 'AI',
+          region: 10,
+          tile: 3,
+          owner: 'player',
           selected: false,
           canMove_onThisAction: true,
           canMove_onThisRound: true,
           canAttack: true
-        }
-      ],
-      ships: [
+        },
         {
-          id: 1,
+          id: 6,
+          type: 'infantry',
           alive: true,
-          region: 10,
+          region: 1,
           tile: 4,
-          owner: 'player',
+          owner: 'AI',
           selected: false,
           canMove_onThisAction: true,
           canMove_onThisRound: true,
           canAttack: true
         }
         // {
-        //   id: 2,
+        //   id: 7,
+        //   type: 'ship',
+        //   alive: true,
+        //   region: 10,
+        //   tile: 4,
+        //   owner: 'player',
+        //   selected: false,
+        //   canMove_onThisAction: true,
+        //   canMove_onThisRound: true,
+        //   canAttack: true
+        // },
+        // {
+        //   id: 8,
+        //   type: 'ship',
         //   alive: true,
         //   region: 1,
         //   tile: 4,
         //   owner: 'AI',
-        // selected: false,
-        // canMove_onThisAction: true,
-        // canMove_onThisRound: true,
-        // canAttack: true
+        //   selected: false,
+        //   canMove_onThisAction: true,
+        //   canMove_onThisRound: true,
+        //   canAttack: true
         // }
       ]
+
     },
     collectionPoint: { // локация(регион/тайл) выбранных в данный момент юнитов
       region: null,
@@ -235,26 +246,14 @@ export default new Vuex.Store({
     BUILDINGS (state) {
       return state.layout.buildings.filter(building => building.destroyed === false)
     },
-    LIVING_SETTLERS (state) {
-      return state.layout.settlers.filter(unit => unit.alive === true)
+    LIVING_UNITS (state) {
+      return state.layout.units.filter(unit => unit.alive === true)
     },
-    LIVING_INFANTRY (state) {
-      return state.layout.infantry.filter(unit => unit.alive === true)
-    },
-    LIVING_SHIPS (state) {
-      return state.layout.ships.filter(unit => unit.alive === true)
-    },
-    GET_UNIT_BY_TYPEnID: (state) => (info) => {
-      return state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
+    GET_UNIT_BY_ID: (state) => (payload) => {
+      return state.layout.units.find(unit => unit.id === payload)
     },
     SELECTED_UNITS (state) {
-      const res = { units: {}, length: 0 }
-      for (const unitType in state.unitCollections) {
-        const filtered = state.layout[state.unitCollections[unitType]].filter(unit => unit.selected === true)
-        res.units[state.unitCollections[unitType]] = filtered
-        res.length += filtered.length
-      }
-      return res
+      return state.layout.units.filter(unit => unit.selected === true)
     }
   },
   mutations: {
@@ -274,40 +273,35 @@ export default new Vuex.Store({
     updateFirstPlayer (state, newValue) {
       state.firstPlayer = newValue
     },
-    reverseUnitSelection (state, info) {
-      const u = state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected
-      state.layout[state.unitCollections[info.type]].find(unit => unit.id === Number(info.id)).selected = !u
+    reverseUnitSelection (state, unitId) {
+      const u = state.layout.units.find(unit => unit.id === unitId)
+      u.selected = !u.selected
     },
     updateCollectionPoint (state, newValue) {
       state.collectionPoint = newValue
     },
-    unitMovement (state, info) { // тип юнита, id юнита и регион и тайл
-      const unit = state.layout[info.type].find(unit => unit.id === info.id)
-      unit.region = info.region
-      unit.tile = info.tile
+    unitMovement (state, payload) { // id юнита, регион и тайл
+      const unit = state.layout.units.find(unit => unit.id === payload.id)
+      unit.region = payload.region
+      unit.tile = payload.tile
       unit.selected = false
       unit.canMove_onThisAction = false
       // тут добавить логику: при попадении в леса - canAttack = false, в горы - canMove_onThisRound = false
     }
   },
   actions: {
-    toggleUnitSelection (context, info) {
-      context.commit('reverseUnitSelection', info)
+    toggleUnitSelection (context, unitId) {
+      context.commit('reverseUnitSelection', unitId)
       // если при выделении нет точки сбора - проставить её(будет корректно работать, если параметр selected у юнитов не будет сохраняться при перезагрузке)
       if (context.state.collectionPoint.region === null) {
-        const unit = context.state.layout[context.state.unitCollections[info.type]].find(unit => unit.id === Number(info.id))
+        const unit = context.state.layout.units.find(unit => unit.id === unitId)
         context.commit('updateCollectionPoint', { region: unit.region, tile: unit.tile })
       }
     },
     formationMovement (context, target) {
-      const formation = context.getters.SELECTED_UNITS
-      for (const collection in formation.units) {
-        if (formation.units[collection].length) {
-          formation.units[collection].forEach(unit => {
-            context.commit('unitMovement', { ...target, type: collection, id: unit.id })
-          })
-        }
-      }
+      context.getters.SELECTED_UNITS.forEach(unit => {
+        context.commit('unitMovement', { ...target, id: unit.id })
+      })
       context.commit('updateStage', 'MOVING_waitingSelection')
     }
   },

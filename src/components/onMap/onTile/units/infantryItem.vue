@@ -2,7 +2,6 @@
   <g
     inkscape:groupmode="layer"
     class="infantry-item"
-    :class="colorClass"
     inkscape:label="Пехота"
     sodipodi:insensitive="true">
     <path
@@ -40,17 +39,16 @@ export default {
   name: 'infantryItem',
   props: {
     infantryID: Number,
-    infantryOwner: String,
-    colorClass: String
+    infantryOwner: String
   },
   mounted () {
   },
   computed: {
     ...mapGetters([
-      'GET_UNIT_BY_TYPEnID'
+      'GET_UNIT_BY_ID'
     ]),
     getUnitInfo () {
-      return this.GET_UNIT_BY_TYPEnID({ type: 'infantry', id: this.infantryID })
+      return this.GET_UNIT_BY_ID(this.infantryID)
     }
   }
 }

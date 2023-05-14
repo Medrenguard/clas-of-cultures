@@ -2,7 +2,6 @@
   <g
     inkscape:groupmode="layer"
     class="ship-item"
-    :class="colorClass"
     inkscape:label="Корабль">
     <path
       class="pentahedron color-darker borderless-color"
@@ -32,17 +31,16 @@ export default {
   name: 'shipItem',
   props: {
     shipID: Number,
-    shipOwner: String,
-    colorClass: String
+    shipOwner: String
   },
   mounted () {
   },
   computed: {
     ...mapGetters([
-      'GET_UNIT_BY_TYPEnID'
+      'GET_UNIT_BY_ID'
     ]),
     getUnitInfo () {
-      return this.GET_UNIT_BY_TYPEnID({ type: 'ship', id: this.shipID })
+      return this.GET_UNIT_BY_ID(this.shipID)
     }
   }
 }

@@ -80,9 +80,9 @@ export default {
         const tileInfo = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
         // console.log(t)
         if (this.stage === 'MOVING_waitingSelection') {
-          // простая проверка на то, что клик был по юниту
+          // простая проверка на то, что клик был по юниту TODO упростить
           if (['infantry', 'settler', 'ship'].includes(t.getAttribute('data-type-object'))) {
-            const unit = this.GET_UNIT_BY_TYPEnID({ type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
+            const unit = this.GET_UNIT_BY_ID(Number(t.getAttribute('data-id-object')))
             if (
               unit.alive && // Проверка истинности жизни
               unit.owner === t.getAttribute('data-owner-object') && // Проверка истинности владельца
@@ -96,7 +96,7 @@ export default {
                 } else if (!unit.canMove_onThisAction) {
                   console.log('Этот юнит не может больше ходить в этом действии')
                 } else {
-                  this.$store.dispatch('toggleUnitSelection', { type: t.getAttribute('data-type-object'), id: t.getAttribute('data-id-object') })
+                  this.$store.dispatch('toggleUnitSelection', Number(t.getAttribute('data-id-object')))
                 }
               }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
@@ -169,12 +169,13 @@ export default {
       'collectionPoint'
     ]),
     ...mapGetters([
-      'GET_UNIT_BY_TYPEnID',
+      'GET_UNIT_BY_ID',
       'SELECTED_UNITS'
     ])
   },
   watch: {
     stage: function (newValue, oldValue) { // StageLoop
+      console.log(oldValue + ' > ' + newValue)
       if (newValue === 'start') {
         // если цвета выбраны заранее - значит это тестовый режим, перепрыгиваем этап
         if (this.opponents.player.color === undefined) { this.$store.commit('updateStage', 'changeColor') } else { this.$store.commit('updateStage', 'colorChanged') }

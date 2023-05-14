@@ -15,14 +15,8 @@
       :data-position="positionTile"
       :data-type="type" />
     <city-item v-if="cityInThisTile !== false" :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
-    <g v-if="livingSettlersInThisTile.length" class="settlers-container">
-      <settler-item v-for="(settler, i) in livingSettlersInThisTile" :key="i+1" :transform="giveTranslateAttr('settler', i)" :settlerID="settler.id" :settlerOwner="settler.owner" :colorClass="getColorElement(settler.owner)"/>
-    </g>
-    <g v-if="livingInfantryInThisTile.length" class="infantry-container">
-      <infantry-item v-for="(infantry, i) in livingInfantryInThisTile" :key="i+1" :transform="giveTranslateAttr('infantry', i)" :infantryID="infantry.id" :infantryOwner="infantry.owner" :colorClass="getColorElement(infantry.owner)"/>
-    </g>
-    <g v-if="livingShipsInThisTile.length" class="ships-container">
-      <ship-item v-for="(ship, i) in livingShipsInThisTile" :key="i+1" :transform="giveTranslateAttr('ship', i)" :shipID="ship.id" :shipOwner="ship.owner" :colorClass="getColorElement(ship.owner)"/>
+    <g v-if="getUnitsInThisTile.length" class="units-container">
+      <unit-item v-for="(unit, i) in getUnitsInThisTile" :key="i+1" :transform="giveTranslateAttr(unit.type, unit.id)" :unitID="unit.id" :unitType="unit.type" :unitOwner="unit.owner" :colorClass="getColorElement(unit.owner)"/>
     </g>
   </g>
 </template>
@@ -30,9 +24,7 @@
 <script>
 import terrainItem from '@/components/onMap/onTile/terrainItem.vue'
 import cityItem from '@/components/onMap/onTile/city/cityItem.vue'
-import settlerItem from '@/components/onMap/onTile/units/settlerItem.vue'
-import infantryItem from '@/components/onMap/onTile/units/infantryItem.vue'
-import shipItem from '@/components/onMap/onTile/units/shipItem.vue'
+import unitItem from '@/components/onMap/onTile/units/unitItem.vue'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
@@ -40,9 +32,7 @@ export default {
   components: {
     terrainItem,
     cityItem,
-    settlerItem,
-    infantryItem,
-    shipItem
+    unitItem
   },
   props: {
     numberRegion: Number,
@@ -53,15 +43,15 @@ export default {
     transform: String
   },
   methods: {
-    giveTranslateAttr (elType, elNumber = 0) {
-      const res = this.calcTranslateAttr(this.positionTile, elType, elNumber)
+    giveTranslateAttr (elType, unitId = 0) {
+      const res = this.calcTranslateAttr(this.positionTile, elType, unitId)
       if (['cell'].includes(elType)) { // рисуется не через матрицу на данный момент
         return `translate(${res.toString()})`
       } else {
         return `matrix(${res.toString()})`
       }
     },
-    calcTranslateAttr (position, elType, elNumber) {
+    calcTranslateAttr (position, elType, unitId) {
       // TODO: нужно добавить логику отрисовки на морских тайлах, т.к. на них нет предела военного присутствия, т.е. 4 корабля могут везти 8 сухопутных юнитов
       let res = []
       // при изменении размеров тайлов - изменить значения смещения
@@ -89,8 +79,9 @@ export default {
       if (position === 'top') { res = [startPoint[elType].x, startPoint[elType].y - shiftTile.y * 2] }
       if (position === 'left') { res = [startPoint[elType].x - shiftTile.x, startPoint[elType].y - shiftTile.y] }
       if (position === 'right') { res = [startPoint[elType].x + shiftTile.x, startPoint[elType].y - shiftTile.y] }
+      const finalShiftPoints = ['cell', 'city'].includes(elType) ? 0 : this.getUnitsInThisTile.filter(unit => unit.type === elType).findIndex(unit => unit.id === unitId)
       // возвращает позицию со сдвигом относительно положения тайла и, если нужно, кол-ва юнитов на тайле
-      return [...matrixValue[elType], res[0] - shiftUnit * elNumber, res[1]]
+      return [...matrixValue[elType], res[0] - shiftUnit * finalShiftPoints, res[1]]
     },
     getColorElement (_owner) {
       return this.PLAYER_COLORS[_owner] + 'Color'
@@ -111,9 +102,7 @@ export default {
     ...mapGetters([
       'PLAYER_COLORS',
       'CITIES',
-      'LIVING_SETTLERS',
-      'LIVING_INFANTRY',
-      'LIVING_SHIPS'
+      'LIVING_UNITS'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
@@ -123,31 +112,13 @@ export default {
       }
       return false
     },
-    livingSettlersInThisTile () {
+    getUnitsInThisTile () {
       const res = []
-      for (let i = 0; i < this.LIVING_SETTLERS.length; i++) {
-        if (this.LIVING_SETTLERS[i].region === this.numberRegion && this.LIVING_SETTLERS[i].tile === this.numberTile) {
-          res.push({ id: this.LIVING_SETTLERS[i].id, owner: this.LIVING_SETTLERS[i].owner })
+      this.LIVING_UNITS.forEach(unit => {
+        if (unit.region === this.numberRegion && unit.tile === this.numberTile) {
+          res.push({ id: unit.id, type: unit.type, owner: unit.owner })
         }
-      }
-      return res
-    },
-    livingInfantryInThisTile () {
-      const res = []
-      for (let i = 0; i < this.LIVING_INFANTRY.length; i++) {
-        if (this.LIVING_INFANTRY[i].region === this.numberRegion && this.LIVING_INFANTRY[i].tile === this.numberTile) {
-          res.push({ id: this.LIVING_INFANTRY[i].id, owner: this.LIVING_INFANTRY[i].owner })
-        }
-      }
-      return res
-    },
-    livingShipsInThisTile () {
-      const res = []
-      for (let i = 0; i < this.LIVING_SHIPS.length; i++) {
-        if (this.LIVING_SHIPS[i].region === this.numberRegion && this.LIVING_SHIPS[i].tile === this.numberTile) {
-          res.push({ id: this.LIVING_SHIPS[i].id, owner: this.LIVING_SHIPS[i].owner })
-        }
-      }
+      })
       return res
     }
   }
