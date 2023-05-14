@@ -102,7 +102,6 @@ export default {
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
         } else if (this.stage === 'MOVING_selectingTile') {
-          // тут будет логика перемещения
           this.$store.dispatch('formationMovement', { region: Number(tileInfo.getAttribute('data-region')), tile: Number(tileInfo.getAttribute('data-tile')) })
           tileInfo.classList.remove('hover')
         }
@@ -363,8 +362,11 @@ export default {
   fill: black !important; // нужно для правильной работы слоя для выбора обьекта: делает заполнение однозначно не none
   fill-opacity: 0 !important; // делает заполнение прозрачным
   &.hover {
+    cursor: pointer;
+    &.tile-item {
     fill: rgba(255, 196, 0, 0.329) !important;
     fill-opacity: 1 !important;
+    }
   }
 }
 </style>
