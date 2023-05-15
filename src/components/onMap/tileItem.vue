@@ -100,12 +100,23 @@ export default {
         }
       }
     },
-    exploring () {
+    exploring () { // надо добавить варианты морской, сухопутной и специальной(через карту действия) разведки
       const destination = { region: this.numberRegion, tile: this.numberTile }
-      // console.log(this.regionItemsOnMap[this.numberRegion - 1])
-      console.log(destination)
-      // const filler = { region_type: 3, orientation: 'avers' }
-      // this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
+      const filler = { region_type: 0, orientation: 'avers' }
+
+      // выбираем случайный регион из невыложенных
+      const uniqRegionsOnMap = [...new Set(this.regionItemsOnMap.map(function (region) { return region.region_type }))]
+      const lostTypesOfRegion = []
+      for (let i = 5; i <= 20; i++) {
+        if (!uniqRegionsOnMap.includes(i)) { lostTypesOfRegion.push(i) }
+      }
+      filler.region_type = lostTypesOfRegion[Math.floor(Math.random() * lostTypesOfRegion.length)]
+
+      // тут будет проверка на то, возможны ли 2 варианта ориентации региона, в т.ч. с учётом точки назначения юнита(если это сухопутная разведка)
+
+      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае специальной или морской - часто, в случае сухопутной - с учётом точки назначения юнита)
+
+      this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
     }
   },
   mounted () {

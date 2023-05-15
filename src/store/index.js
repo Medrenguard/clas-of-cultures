@@ -338,8 +338,16 @@ export default new Vuex.Store({
       region: null,
       tile: null
     },
-    regionItemsOnMap: []
-    //
+    regionItemsOnMap: [ // схема данных
+      // {
+      //   orientation: 'avers',
+      //   region_type: 1
+      // },
+      // {
+      //   orientation: 'avers',
+      //   region_type: 0
+      // }
+    ]
 
   },
   getters: {
