@@ -6,14 +6,14 @@
       d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
       class="region-item" />
     <template>
-      <tile-item v-for="(item, i) in getRegionWithOrientation(mapTilesInRegion[region_info.region_type])" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
+      <tile-item v-for="(item, i) in getRegionWithOrientation(this.mapTilesInRegion[region_info.region_type])" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
     </template>
   </g>
 </template>
 
 <script>
-
 import tileItem from '@/components/onMap/tileItem.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'regionItem',
@@ -26,119 +26,7 @@ export default {
     }
   },
   data () {
-    return {
-      // Общий справочник регионов
-      mapTilesInRegion: {
-        0: [// регион под туманом
-          { type: 'fog', translate: 'top' },
-          { type: 'fog', translate: 'left' },
-          { type: 'fog', translate: 'right' },
-          { type: 'fog', translate: 'bottom' }
-        ],
-        1: [// стандартный стартовый регион
-          { type: 'wasteland', translate: 'top' },
-          { type: 'mountains', translate: 'left' },
-          { type: 'forest', translate: 'right' },
-          { type: 'field', translate: 'bottom' }
-        ], // далее идут регионы с присвоением реального номера из игры(кроме специальных стартовых: для них резерв 2,3,4)
-        5: [
-          { type: 'sea', translate: 'top' },
-          { type: 'mountains', translate: 'left' },
-          { type: 'sea', translate: 'right' },
-          { type: 'mountains', translate: 'bottom' }
-        ],
-        6: [
-          { type: 'sea', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'mountains', translate: 'right' },
-          { type: 'field', translate: 'bottom' }
-        ],
-        7: [
-          { type: 'forest', translate: 'top' },
-          { type: 'forest', translate: 'left' },
-          { type: 'sea', translate: 'right' },
-          { type: 'sea', translate: 'bottom' }
-        ],
-        8: [
-          { type: 'field', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'forest', translate: 'right' },
-          { type: 'sea', translate: 'bottom' }
-        ],
-        9: [
-          { type: 'forest', translate: 'top' },
-          { type: 'mountains', translate: 'left' },
-          { type: 'mountains', translate: 'right' },
-          { type: 'sea', translate: 'bottom' }
-        ],
-        10: [
-          { type: 'mountains', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'mountains', translate: 'bottom' }
-        ],
-        11: [
-          { type: 'sea', translate: 'top' },
-          { type: 'field', translate: 'left' },
-          { type: 'forest', translate: 'right' },
-          { type: 'mountains', translate: 'bottom' }
-        ],
-        12: [
-          { type: 'forest', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'forest', translate: 'bottom' }
-        ],
-        13: [
-          { type: 'field', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'wasteland', translate: 'right' },
-          { type: 'mountains', translate: 'bottom' }
-        ],
-        14: [
-          { type: 'sea', translate: 'top' },
-          { type: 'wasteland', translate: 'left' },
-          { type: 'forest', translate: 'right' },
-          { type: 'field', translate: 'bottom' }
-        ],
-        15: [
-          { type: 'sea', translate: 'top' },
-          { type: 'field', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'wasteland', translate: 'bottom' }
-        ],
-        16: [
-          { type: 'field', translate: 'top' },
-          { type: 'sea', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'wasteland', translate: 'bottom' }
-        ],
-        17: [
-          { type: 'mountains', translate: 'top' },
-          { type: 'forest', translate: 'left' },
-          { type: 'mountains', translate: 'right' },
-          { type: 'wasteland', translate: 'bottom' }
-        ],
-        18: [
-          { type: 'forest', translate: 'top' },
-          { type: 'mountains', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'mountains', translate: 'bottom' }
-        ],
-        19: [
-          { type: 'field', translate: 'top' },
-          { type: 'forest', translate: 'left' },
-          { type: 'mountains', translate: 'right' },
-          { type: 'field', translate: 'bottom' }
-        ],
-        20: [
-          { type: 'forest', translate: 'top' },
-          { type: 'field', translate: 'left' },
-          { type: 'field', translate: 'right' },
-          { type: 'field', translate: 'bottom' }
-        ]
-      }
-    }
+    return {}
   },
   methods: {
     giveTranslateAttr (position, tileType) {
@@ -195,6 +83,9 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'mapTilesInRegion'
+    ]),
     isRegionUnderFog () {
       return this.region_info.region_type === 0
     }

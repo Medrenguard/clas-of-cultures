@@ -1,5 +1,6 @@
 <template>
   <g class="tile-wrap"
+  @click="clickTile"
   @mouseleave="mouseleaveTile">
     <g :transform="transform" class="terrain-item" v-if="type !== 'fog'">
       <terrain-item :type="type"/>
@@ -91,13 +92,29 @@ export default {
       if (this.stage === 'MOVING_selectingTile') {
         tile.classList.remove('hover')
       }
+    },
+    clickTile (event) {
+      if (this.stage === 'MOVING_selectingTile') {
+        if (this.type === 'fog') {
+          this.exploring()
+        }
+      }
+    },
+    exploring () {
+      const destination = { region: this.numberRegion, tile: this.numberTile }
+      // console.log(this.regionItemsOnMap[this.numberRegion - 1])
+      console.log(destination)
+      // const filler = { region_type: 3, orientation: 'avers' }
+      // this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
     }
   },
   mounted () {
   },
   computed: {
     ...mapState([
-      'stage'
+      'stage',
+      'regionItemsOnMap',
+      'mapTilesInRegion'
     ]),
     ...mapGetters([
       'PLAYER_COLORS',
