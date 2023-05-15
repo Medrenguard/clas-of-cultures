@@ -368,7 +368,7 @@ export default new Vuex.Store({
   },
   mutations: {
     updateRegionInfo (state, payload) {
-      state.regionItemsOnMap[payload.regionNum] = payload.info
+      state.regionItemsOnMap.splice(payload.regionNum - 1, 1, payload.info)
     },
     updateLayoutByCount (state, payload) {
       state.layoutByCount = payload

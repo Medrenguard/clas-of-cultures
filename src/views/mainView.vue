@@ -11,7 +11,7 @@
       data-type-object="map"
       @click="clickSVG"
       @mouseover="mouseoverSVG">
-        <region-item v-for="i in layoutByCount.regionsCount" :region_info="regionItemsOnMap[i-1]" :key="i" :numberRegion="i" :transform="giveTranslateAttr(i)"/>
+        <region-item v-for="(region, i) in regionItemsOnMap" :region_info="region" :key="i+1" :numberRegion="i+1" :transform="giveTranslateAttr(i+1)"/>
     </svg>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
         if (i === this.layoutByCount.regionsForStart[0]) { filler.region_type = 1 }
         if (i === this.layoutByCount.regionsForStart[1]) { filler.region_type = 1; filler.orientation = 'revers' }
 
-        this.$store.commit('updateRegionInfo', { regionNum: i - 1, info: filler })
+        this.$store.commit('updateRegionInfo', { regionNum: i, info: filler })
       }
     },
     suggestColorChoice () {
