@@ -1,16 +1,11 @@
 <template>
-  <g class="region-wrap">
-    <path v-if="isRegionUnderFog"
+  <g class="region-wrap"
+    :class=" { underFog : isRegionUnderFog }">
+    <path
       transform="translate(-50.614968,-78.206734)"
       d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
-      class="regionUnderFog" />
-      <path v-if="isRegionUnderFog"
-      transform="translate(-50.614968,-78.206734)"
-      d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
-      class="selection-frame"
-      data-type-object="region"
-      :data-region="numberRegion" />
-    <template v-else>
+      class="region-item" />
+    <template>
       <tile-item v-for="(item, i) in getRegionWithOrientation(mapTilesInRegion[region_info.region_type])" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
     </template>
   </g>
@@ -34,6 +29,12 @@ export default {
     return {
       // Общий справочник регионов
       mapTilesInRegion: {
+        0: [// регион под туманом
+          { type: 'fog', translate: 'top' },
+          { type: 'fog', translate: 'left' },
+          { type: 'fog', translate: 'right' },
+          { type: 'fog', translate: 'bottom' }
+        ],
         1: [// стандартный стартовый регион
           { type: 'wasteland', translate: 'top' },
           { type: 'mountains', translate: 'left' },
@@ -195,16 +196,24 @@ export default {
   },
   computed: {
     isRegionUnderFog () {
-      return this.region_info.region_type === null
+      return this.region_info.region_type === 0
     }
   }
 }
 </script>
 
+<style lang="scss">
+.underFog .tile-item {
+  stroke-width: 0;
+}
+</style>
 <style scoped lang="scss">
-.regionUnderFog {
-  fill:#fff6d5;
-  stroke-width:0.05;
+.region-item {
+  fill: none;
+  stroke-width: 0.05;
   stroke: black;
+  .underFog > & {
+    fill:#fff6d5;
+  }
 }
 </style>

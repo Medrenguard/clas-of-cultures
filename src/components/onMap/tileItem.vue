@@ -1,7 +1,7 @@
 <template>
   <g class="tile-wrap"
   @mouseleave="mouseleaveTile">
-    <g :transform="transform" class="terrain-item">
+    <g :transform="transform" class="terrain-item" v-if="type !== 'fog'">
       <terrain-item :type="type"/>
     </g>
     <path

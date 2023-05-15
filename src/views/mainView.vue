@@ -46,9 +46,10 @@ export default {
   methods: {
     fillInfoAboutRegions () {
       for (let i = 1; i <= this.layoutByCount.regionsCount; i++) {
-        const filler = { region_type: null, orientation: undefined }
+        // region_type: 0 - это регион под туманом
+        const filler = { region_type: 0, orientation: 'avers' }
         // Заполнение стартовых тайлов на 2 игроков
-        if (i === this.layoutByCount.regionsForStart[0]) { filler.region_type = 1; filler.orientation = 'avers' }
+        if (i === this.layoutByCount.regionsForStart[0]) { filler.region_type = 1 }
         if (i === this.layoutByCount.regionsForStart[1]) { filler.region_type = 1; filler.orientation = 'revers' }
 
         this.$store.commit('updateRegionInfo', { regionNum: i - 1, info: filler })
@@ -117,8 +118,7 @@ export default {
           }
           return
         }
-        const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
-        if (tile === undefined) { return console.log('Временная заглушка от работы с регионами') }
+        const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
         // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
         const haveSelectAndWantGo = this.collectionPoint.region !== null &&
           (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
@@ -366,6 +366,10 @@ export default {
     &.tile-item {
     fill: rgba(255, 196, 0, 0.329) !important;
     fill-opacity: 1 !important;
+    .underFog & {
+      stroke: #363636;
+      stroke-width: 0.01;
+    }
     }
   }
 }
