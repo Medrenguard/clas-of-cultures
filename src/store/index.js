@@ -372,6 +372,22 @@ export default new Vuex.Store({
     },
     SELECTED_UNITS (state) {
       return state.layout.units.filter(unit => unit.selected === true)
+    },
+    GET_ORIENTED_REGION: (state) => (regionType, orientation) => {
+      let region
+      if (orientation !== 'revers') {
+        region = state.mapTilesInRegion[regionType]
+      } else {
+        region = state.mapTilesInRegion[regionType].map(function (el) {
+          let res
+          if (el.translate === 'top') { res = 'bottom' }
+          if (el.translate === 'bottom') { res = 'top' }
+          if (el.translate === 'left') { res = 'right' }
+          if (el.translate === 'right') { res = 'left' }
+          return { type: el.type, translate: res }
+        })
+      }
+      return region
     }
   },
   mutations: {

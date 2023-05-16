@@ -6,14 +6,14 @@
       d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
       class="region-item" />
     <template>
-      <tile-item v-for="(item, i) in getRegionWithOrientation(this.mapTilesInRegion[region_info.region_type])" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
+      <tile-item v-for="(item, i) in GET_ORIENTED_REGION(region_info.region_type, region_info.orientation)" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
     </template>
   </g>
 </template>
 
 <script>
 import tileItem from '@/components/onMap/tileItem.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'regionItem',
@@ -32,21 +32,6 @@ export default {
     giveTranslateAttr (position, tileType) {
       const res = this.calcTranslateAttr(position, tileType)
       return `translate(${res.toString()})`
-    },
-    getRegionWithOrientation (region) {
-      if (this.region_info.orientation === 'avers') { return region }
-      if (this.region_info.orientation === 'revers') { return this.getReverseRegion(region) }
-    },
-    getReverseRegion (region) {
-      const reversedRegion = region.map(function (el) {
-        let res
-        if (el.translate === 'top') { res = 'bottom' }
-        if (el.translate === 'bottom') { res = 'top' }
-        if (el.translate === 'left') { res = 'right' }
-        if (el.translate === 'right') { res = 'left' }
-        return { type: el.type, translate: res }
-      })
-      return reversedRegion
     },
     calcTranslateAttr (position, tileType) {
       let res = []
@@ -85,6 +70,9 @@ export default {
   computed: {
     ...mapState([
       'mapTilesInRegion'
+    ]),
+    ...mapGetters([
+      'GET_ORIENTED_REGION'
     ]),
     isRegionUnderFog () {
       return this.region_info.region_type === 0
