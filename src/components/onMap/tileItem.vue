@@ -113,6 +113,16 @@ export default {
       filler.region_type = lostTypesOfRegion[Math.floor(Math.random() * lostTypesOfRegion.length)]
 
       // тут будет проверка на то, возможны ли 2 варианта ориентации региона, в т.ч. с учётом точки назначения юнита(если это сухопутная разведка)
+      // ветвление на типы разведки
+      if (this.SELECTED_UNITS.length) {
+        if (this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') === -1) {
+          // сухопутная разведка
+        } else {
+          // морская разведка
+        }
+      } else {
+        // разведка с помощью карты действия "Разведчики"
+      }
 
       // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае специальной или морской - часто, в случае сухопутной - с учётом точки назначения юнита)
 
@@ -130,7 +140,8 @@ export default {
     ...mapGetters([
       'PLAYER_COLORS',
       'CITIES',
-      'LIVING_UNITS'
+      'LIVING_UNITS',
+      'SELECTED_UNITS'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
