@@ -152,7 +152,7 @@ export default new Vuex.Store({
           destroyed: false,
           onEventCard: false, // поселение находится на карточке события
           region: 10,
-          tile: 4,
+          tile: 1,
           mood: 'happy', // happy, neutral, angry
           owner: 'player' // player, AI, rebels
         },
@@ -239,7 +239,7 @@ export default new Vuex.Store({
           died_in_battle: false,
           founded_the_city: false,
           region: 10,
-          tile: 4,
+          tile: 1,
           owner: 'player',
           selected: false,
           canMove_onThisAction: true,
@@ -252,7 +252,7 @@ export default new Vuex.Store({
           died_in_battle: false,
           founded_the_city: false,
           region: 10,
-          tile: 4,
+          tile: 1,
           owner: 'player',
           selected: false,
           canMove_onThisAction: true,
@@ -276,7 +276,7 @@ export default new Vuex.Store({
           type: 'infantry',
           alive: true,
           region: 10,
-          tile: 4,
+          tile: 1,
           owner: 'player',
           selected: false,
           canMove_onThisAction: true,
@@ -288,7 +288,7 @@ export default new Vuex.Store({
           type: 'infantry',
           alive: true,
           region: 10,
-          tile: 3,
+          tile: 2,
           owner: 'player',
           selected: false,
           canMove_onThisAction: true,
@@ -385,7 +385,7 @@ export default new Vuex.Store({
           if (el.translate === 'left') { res = 'right' }
           if (el.translate === 'right') { res = 'left' }
           return { type: el.type, translate: res }
-        })
+        }).reverse()
       }
       return region
     }
