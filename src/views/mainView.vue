@@ -130,11 +130,11 @@ export default {
           }
         }
         if (this.stage === 'MOVING_selectingTile') {
-          if (!haveSelectAndWantGo) {
-            this.$store.commit('updateStage', 'MOVING_waitingSelection')
-          } else {
+          if (haveSelectAndWantGo) {
             // тут нужно добавить проверку, может ли формирование ходить на этот тайл, позволяет ли расстояние
             tile.classList.add('hover')
+          } else {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
           }
         }
       }
