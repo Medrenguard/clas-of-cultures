@@ -112,11 +112,21 @@ export default {
       }
       filler.region_type = lostTypesOfRegion[Math.floor(Math.random() * lostTypesOfRegion.length)]
 
-      // тут будет проверка на то, возможны ли 2 варианта ориентации региона, в т.ч. с учётом точки назначения юнита(если это сухопутная разведка)
+      // тут будет блок проверки на то, возможны ли 2 варианта ориентации региона
+      let restrictionByUnit // ограничивает или нет точка назначения в выборе ориентации региона. true - ограничивает
+      let onlyPossibleOrientation
       // ветвление на типы разведки
       if (this.SELECTED_UNITS.length) {
         if (this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') === -1) {
           // сухопутная разведка
+          const destinationTileTypeOfAvers = this.GET_ORIENTED_REGION(filler.region_type, 'avers')[destination.tile - 1].type
+          const destinationTileTypeOfRevers = this.GET_ORIENTED_REGION(filler.region_type, 'revers')[destination.tile - 1].type
+          restrictionByUnit = destinationTileTypeOfAvers === 'sea' || destinationTileTypeOfRevers === 'sea'
+          if (destinationTileTypeOfAvers === 'sea') {
+            onlyPossibleOrientation = 'revers'
+          } else if (destinationTileTypeOfRevers === 'sea') {
+            onlyPossibleOrientation = 'avers'
+          }
         } else {
           // морская разведка
         }
@@ -124,7 +134,12 @@ export default {
         // разведка с помощью карты действия "Разведчики"
       }
 
-      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае специальной или морской - часто, в случае сухопутной - с учётом точки назначения юнита)
+      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае сухопутной - с учётом точки назначения юнита)
+      if (restrictionByUnit) {
+        filler.orientation = onlyPossibleOrientation
+      } else {
+        // если нет ограничения от тайла
+      }
 
       this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
     }
@@ -141,7 +156,8 @@ export default {
       'PLAYER_COLORS',
       'CITIES',
       'LIVING_UNITS',
-      'SELECTED_UNITS'
+      'SELECTED_UNITS',
+      'GET_ORIENTED_REGION'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
