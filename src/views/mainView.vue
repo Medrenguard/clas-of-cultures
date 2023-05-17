@@ -116,26 +116,6 @@ export default {
           if (this.stage === 'MOVING_selectingTile') {
             this.$store.commit('updateStage', 'MOVING_waitingSelection')
           }
-          return
-        }
-        const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
-        // проверка, находится курсор над тайлом точки сбора и есть ли точка сбора вообще
-        const haveSelectAndWantGo = this.collectionPoint.region !== null &&
-          (this.collectionPoint.tile !== Number(tile.getAttribute('data-tile')) ||
-          this.collectionPoint.region !== Number(tile.getAttribute('data-region')))
-        if (this.stage === 'MOVING_waitingSelection') {
-          if (haveSelectAndWantGo) {
-            // тут нужно добавить проверку, может ли формирование ходить на этот тайл, позволяет ли расстояние
-            this.$store.commit('updateStage', 'MOVING_selectingTile')
-          }
-        }
-        if (this.stage === 'MOVING_selectingTile') {
-          if (haveSelectAndWantGo) {
-            // тут нужно добавить проверку, может ли формирование ходить на этот тайл, позволяет ли расстояние
-            tile.classList.add('hover')
-          } else {
-            this.$store.commit('updateStage', 'MOVING_waitingSelection')
-          }
         }
       }
     },

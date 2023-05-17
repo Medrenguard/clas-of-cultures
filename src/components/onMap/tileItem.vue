@@ -1,6 +1,7 @@
 <template>
   <g class="tile-wrap"
   @click="clickTile"
+  @mouseover="mouseoverTile"
   @mouseleave="mouseleaveTile">
     <g :transform="transform" class="terrain-item" v-if="type !== 'fog'">
       <terrain-item :type="type"/>
@@ -87,10 +88,27 @@ export default {
     getColorElement (_owner) {
       return this.PLAYER_COLORS[_owner] + 'Color'
     },
+    mouseoverTile (event) {
+      const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
+      if (this.isNearToCollectionPoint) {
+        if (this.stage === 'MOVING_waitingSelection') {
+          this.$store.commit('updateStage', 'MOVING_selectingTile')
+        }
+        if (this.stage === 'MOVING_selectingTile') {
+          tile.classList.add('hover')
+        }
+      } else {
+        if (this.stage === 'MOVING_selectingTile') {
+          this.$store.commit('updateStage', 'MOVING_waitingSelection')
+        }
+      }
+    },
     mouseleaveTile (event) {
       const tile = event.target.querySelector('.selection-frame')
-      if (this.stage === 'MOVING_selectingTile') {
-        tile.classList.remove('hover')
+      if (this.isNearToCollectionPoint) {
+        if (this.stage === 'MOVING_selectingTile') {
+          tile.classList.remove('hover')
+        }
       }
     },
     clickTile (event) {
@@ -150,14 +168,16 @@ export default {
     ...mapState([
       'stage',
       'regionItemsOnMap',
-      'mapTilesInRegion'
+      'mapTilesInRegion',
+      'collectionPoint'
     ]),
     ...mapGetters([
       'PLAYER_COLORS',
       'CITIES',
       'LIVING_UNITS',
       'SELECTED_UNITS',
-      'GET_ORIENTED_REGION'
+      'GET_ORIENTED_REGION',
+      'GET_NEAREST_TILES'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
@@ -175,6 +195,9 @@ export default {
         }
       })
       return res
+    },
+    isNearToCollectionPoint () {
+      return this.GET_NEAREST_TILES(this.collectionPoint.region, this.collectionPoint.tile).find(place => (place.region === this.numberRegion && place.tile === this.numberTile)) !== undefined
     }
   }
 }
