@@ -432,6 +432,17 @@ export default new Vuex.Store({
         }).reverse()
       }
       return region
+    },
+    GET_NEAREST_TILES: (state) => (numReg, numTile) => { // принимает номер региона и тайла; отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив
+      if (numReg === null || numTile === null) { return [] }
+      const nodeNum = '' + numReg + numTile
+      const adjacentNodes = state.nodeList[state.currentCountGamers][nodeNum]
+      const res = adjacentNodes.map(function (el) {
+        const region = Number(String(el).slice(0, -1))
+        const tile = Number(String(el).slice(-1))
+        return { region: region, tile: tile }
+      })
+      return res
     }
   },
   mutations: {
