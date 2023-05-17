@@ -433,6 +433,11 @@ export default new Vuex.Store({
       }
       return region
     },
+    GET_TILE_TYPE: (state, getters) => (numReg, numTile) => { // принимает номер региона и тайла, выложенных на карту, возвращает тип тайла(местность)
+      const regionOnMap = state.regionItemsOnMap[numReg - 1] // region_type; orientation
+      const res = getters.GET_ORIENTED_REGION(regionOnMap.region_type, regionOnMap.orientation)[numTile - 1].type
+      return res
+    },
     GET_NEAREST_TILES: (state) => (numReg, numTile) => { // принимает номер региона и тайла; отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив
       if (numReg === null || numTile === null) { return [] }
       const nodeNum = '' + numReg + numTile
