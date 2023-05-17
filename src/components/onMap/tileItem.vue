@@ -131,19 +131,27 @@ export default {
       filler.region_type = lostTypesOfRegion[Math.floor(Math.random() * lostTypesOfRegion.length)]
 
       // тут будет блок проверки на то, возможны ли 2 варианта ориентации региона
-      let restrictionByUnit // ограничивает или нет точка назначения в выборе ориентации региона. true - ограничивает
-      let onlyPossibleOrientation
+      let restrictionByUnit = false // ограничивает или нет точка назначения в выборе ориентации региона. true - ограничивает
+      let restrictionBySea = false // если есть на вытянутом регионе морской тайл - ограничивает или нет он выборе ориентации региона. true - ограничивает
+      let onlyPossibleOrientationByUnit
+      let onlyPossibleOrientationBySea
+      const seaInRegion = {
+        avers: this.GET_ORIENTED_REGION(filler.region_type, 'avers').filter(tile => tile.type === 'sea'),
+        revers: this.GET_ORIENTED_REGION(filler.region_type, 'revers').filter(tile => tile.type === 'sea')
+      }
+
       // ветвление на типы разведки
       if (this.SELECTED_UNITS.length) {
         if (this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') === -1) {
           // сухопутная разведка
+          // проверка на restrictionByUnit
           const destinationTileTypeOfAvers = this.GET_ORIENTED_REGION(filler.region_type, 'avers')[destination.tile - 1].type
           const destinationTileTypeOfRevers = this.GET_ORIENTED_REGION(filler.region_type, 'revers')[destination.tile - 1].type
           restrictionByUnit = destinationTileTypeOfAvers === 'sea' || destinationTileTypeOfRevers === 'sea'
           if (destinationTileTypeOfAvers === 'sea') {
-            onlyPossibleOrientation = 'revers'
+            onlyPossibleOrientationByUnit = 'revers'
           } else if (destinationTileTypeOfRevers === 'sea') {
-            onlyPossibleOrientation = 'avers'
+            onlyPossibleOrientationByUnit = 'avers'
           }
         } else {
           // морская разведка
@@ -152,11 +160,35 @@ export default {
         // разведка с помощью карты действия "Разведчики"
       }
 
+      if (seaInRegion.avers.length) {
+        // проверка на restrictionBySea
+        const tileNumDictionary = { top: 1, left: 2, right: 3, bottom: 4 }
+        const aversSeaFound = [] // массив булевых утверждений нахождения моря по соседству, содержит кол-во элементов равное кол-ву морских тайлов в разведываемом регионе
+        const reversSeaFound = [] // [true, false]
+        // проверяем тип соседей морских тайлов: получаем через GET_NEAREST_TILES, проверяем через GET_TILE_TYPE
+        seaInRegion.avers.forEach(tileWithSea => {
+          const closestToTheSeaTiles = this.GET_NEAREST_TILES(this.numberRegion, tileNumDictionary[tileWithSea.translate])
+          aversSeaFound.push(closestToTheSeaTiles.findIndex(closestTile => this.GET_TILE_TYPE(closestTile.region, closestTile.tile) === 'sea') > 0)
+        })
+        seaInRegion.revers.forEach(tileWithSea => {
+          const closestToTheSeaTiles = this.GET_NEAREST_TILES(this.numberRegion, tileNumDictionary[tileWithSea.translate])
+          reversSeaFound.push(closestToTheSeaTiles.findIndex(closestTile => this.GET_TILE_TYPE(closestTile.region, closestTile.tile) === 'sea') > 0)
+        })
+        // если только в одной ориентации региона у морских тайлов есть морские соседи - наложить ограничение
+        if (aversSeaFound.includes(true) !== reversSeaFound.includes(true)) {
+          restrictionBySea = true
+          onlyPossibleOrientationBySea = aversSeaFound.includes(true) ? 'avers' : 'revers'
+        }
+      }
+
       // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае сухопутной - с учётом точки назначения юнита)
       if (restrictionByUnit) {
-        filler.orientation = onlyPossibleOrientation
+        filler.orientation = onlyPossibleOrientationByUnit
       } else {
         // если нет ограничения от тайла
+        if (restrictionBySea) {
+          filler.orientation = onlyPossibleOrientationBySea
+        }
       }
 
       this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
@@ -177,7 +209,8 @@ export default {
       'LIVING_UNITS',
       'SELECTED_UNITS',
       'GET_ORIENTED_REGION',
-      'GET_NEAREST_TILES'
+      'GET_NEAREST_TILES',
+      'GET_TILE_TYPE'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
