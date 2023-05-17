@@ -131,10 +131,12 @@ export default {
       filler.region_type = lostTypesOfRegion[Math.floor(Math.random() * lostTypesOfRegion.length)]
 
       // тут будет блок проверки на то, возможны ли 2 варианта ориентации региона
-      let restrictionByUnit = false // ограничивает или нет точка назначения в выборе ориентации региона. true - ограничивает
-      let restrictionBySea = false // если есть на вытянутом регионе морской тайл - ограничивает или нет он выборе ориентации региона. true - ограничивает
+      let restrictionByUnit = false // ограничивает ли точка назначения в выборе ориентации региона. true - ограничивает
+      let restrictionBySeaNear = false // если есть на разведываемом регионе морской тайл - ограничивает ли он в выборе ориентации региона из-за соседних морских тайлов. true - ограничивает
+      let restrictionBySeaEnd = false // если есть на разведываемом регионе морской тайл - ограничивает ли он в выборе ориентации региона из-за прилегания к краю. true - ограничивает
       let onlyPossibleOrientationByUnit
-      let onlyPossibleOrientationBySea
+      let onlyPossibleOrientationBySeaNear
+      let onlyPossibleOrientationBySeaEnd
       const seaInRegion = {
         avers: this.GET_ORIENTED_REGION(filler.region_type, 'avers').filter(tile => tile.type === 'sea'),
         revers: this.GET_ORIENTED_REGION(filler.region_type, 'revers').filter(tile => tile.type === 'sea')
@@ -160,10 +162,10 @@ export default {
         // разведка с помощью карты действия "Разведчики"
       }
 
-      if (seaInRegion.avers.length) {
-        // проверка на restrictionBySea
+      if (seaInRegion.avers.length && !restrictionByUnit) {
+        // проверка на restrictionBySeaNear
         const tileNumDictionary = { top: 1, left: 2, right: 3, bottom: 4 }
-        const aversSeaFound = [] // массив булевых утверждений нахождения моря по соседству, содержит кол-во элементов равное кол-ву морских тайлов в разведываемом регионе
+        const aversSeaFound = [] // массив булевых утверждений нахождения моря по соседству с морским тайлом, содержит кол-во элементов равное кол-ву морских тайлов в разведываемом регионе
         const reversSeaFound = [] // [true, false]
         // проверяем тип соседей морских тайлов: получаем через GET_NEAREST_TILES, проверяем через GET_TILE_TYPE
         seaInRegion.avers.forEach(tileWithSea => {
@@ -174,21 +176,44 @@ export default {
           const closestToTheSeaTiles = this.GET_NEAREST_TILES(this.numberRegion, tileNumDictionary[tileWithSea.translate])
           reversSeaFound.push(closestToTheSeaTiles.findIndex(closestTile => this.GET_TILE_TYPE(closestTile.region, closestTile.tile) === 'sea') > 0)
         })
-        // если только в одной ориентации региона у морских тайлов есть морские соседи - наложить ограничение
+
         if (aversSeaFound.includes(true) !== reversSeaFound.includes(true)) {
-          restrictionBySea = true
-          onlyPossibleOrientationBySea = aversSeaFound.includes(true) ? 'avers' : 'revers'
+          // если только в одной ориентации региона у морских тайлов есть морские соседи - наложить ограничение
+          restrictionBySeaNear = true
+          onlyPossibleOrientationBySeaNear = aversSeaFound.includes(true) ? 'avers' : 'revers'
+        } else if (!aversSeaFound.includes(true) && !reversSeaFound.includes(true)) {
+          // проверка на restrictionBySeaEnd
+          const aversEndFound = [] // массив булевых утверждений нахождения края карты возле морского тайла, содержит кол-во элементов равное кол-ву морских тайлов в разведываемом регионе
+          const reversEndFound = [] // [false, true]
+          seaInRegion.avers.forEach(tileWithSea => {
+            // если closestToTheSeaTiles.length меньше 6 - значит тайл находится у края
+            const closestToTheSeaTiles = this.GET_NEAREST_TILES(this.numberRegion, tileNumDictionary[tileWithSea.translate])
+            aversEndFound.push(closestToTheSeaTiles.length < 6)
+          })
+          seaInRegion.revers.forEach(tileWithSea => {
+            const closestToTheSeaTiles = this.GET_NEAREST_TILES(this.numberRegion, tileNumDictionary[tileWithSea.translate])
+            reversEndFound.push(closestToTheSeaTiles.length < 6)
+          })
+          if (aversEndFound.includes(true) !== reversEndFound.includes(true)) {
+            // если только в одной ориентации региона возле морских тайлов есть конец карты - наложить ограничение
+            restrictionBySeaEnd = true
+            onlyPossibleOrientationBySeaEnd = aversEndFound.includes(true) ? 'avers' : 'revers'
+          }
         }
       }
 
-      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения(в случае сухопутной - с учётом точки назначения юнита)
-      if (restrictionByUnit) {
+      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения
+      if (restrictionByUnit) { // если есть ограничение от местоположения пехоты
         filler.orientation = onlyPossibleOrientationByUnit
-      } else {
+      } else if (restrictionBySeaNear) { // если есть ограничение от соседнего моря
         // если нет ограничения от тайла
-        if (restrictionBySea) {
-          filler.orientation = onlyPossibleOrientationBySea
-        }
+        filler.orientation = onlyPossibleOrientationBySeaNear
+      } else if (restrictionBySeaEnd) { // если есть ограничение от края карты
+        // если нет ограничения от тайла
+        filler.orientation = onlyPossibleOrientationBySeaEnd
+      } else {
+        // тут будет функционал ручного выбора ориентации региона
+        console.log('Выберите, как выложить регион')
       }
 
       this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
