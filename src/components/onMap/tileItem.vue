@@ -90,25 +90,38 @@ export default {
     },
     mouseoverTile (event) {
       const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
-      if (this.isNearToCollectionPoint) {
-        if (this.stage === 'MOVING_waitingSelection') {
-          this.$store.commit('updateStage', 'MOVING_selectingTile')
-        }
-        if (this.stage === 'MOVING_selectingTile') {
-          tile.classList.add('hover')
+      if (this.isSelectedFleet) {
+        if (this.thisIsSea && !this.thisIsCollectionPoint) { // тут должна быть проверка, позволяющая плыть не на любой морской тайл, а только на те, что прилегают в текущему водоёму
+          if (this.stage === 'MOVING_waitingSelection') {
+            this.$store.commit('updateStage', 'MOVING_selectingTile')
+          }
+          if (this.stage === 'MOVING_selectingTile') {
+            tile.classList.add('hover')
+          }
+        } else {
+          if (this.stage === 'MOVING_selectingTile') {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          }
         }
       } else {
-        if (this.stage === 'MOVING_selectingTile') {
-          this.$store.commit('updateStage', 'MOVING_waitingSelection')
+        if (this.isNearToCollectionPoint && !this.thisIsSea) { // тут еще нужно добавить возможность грузить юниты на корабли
+          if (this.stage === 'MOVING_waitingSelection') {
+            this.$store.commit('updateStage', 'MOVING_selectingTile')
+          }
+          if (this.stage === 'MOVING_selectingTile') {
+            tile.classList.add('hover')
+          }
+        } else {
+          if (this.stage === 'MOVING_selectingTile') {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          }
         }
       }
     },
     mouseleaveTile (event) {
       const tile = event.target.querySelector('.selection-frame')
-      if (this.isNearToCollectionPoint) {
-        if (this.stage === 'MOVING_selectingTile') {
-          tile.classList.remove('hover')
-        }
+      if (this.stage === 'MOVING_selectingTile') {
+        tile.classList.remove('hover')
       }
     },
     clickTile (event) {
@@ -258,6 +271,12 @@ export default {
     },
     isSelectedFleet () {
       return this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') > -1
+    },
+    thisIsSea () {
+      return this.type === 'sea'
+    },
+    thisIsCollectionPoint () { // временное свойство
+      return this.numberRegion === this.collectionPoint.region && this.numberTile === this.collectionPoint.tile
     }
   }
 }
