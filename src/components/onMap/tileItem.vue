@@ -91,7 +91,7 @@ export default {
     mouseoverTile (event) {
       const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
       if (this.isSelectedFleet) {
-        if (this.thisIsSea && !this.thisIsCollectionPoint && this.thisInWaterArea) {
+        if (!this.thisIsCollectionPoint && this.thisInWaterArea) {
           if (this.stage === 'MOVING_waitingSelection') {
             this.$store.commit('updateStage', 'MOVING_selectingTile')
           }
