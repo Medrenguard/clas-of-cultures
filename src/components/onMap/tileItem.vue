@@ -91,7 +91,7 @@ export default {
     mouseoverTile (event) {
       const tile = event.target.closest('.tile-wrap').querySelector('.selection-frame')
       if (this.isSelectedFleet) {
-        if (this.thisIsSea && !this.thisIsCollectionPoint) { // тут должна быть проверка, позволяющая плыть не на любой морской тайл, а только на те, что прилегают в текущему водоёму
+        if (this.thisIsSea && !this.thisIsCollectionPoint && this.thisInWaterArea) {
           if (this.stage === 'MOVING_waitingSelection') {
             this.$store.commit('updateStage', 'MOVING_selectingTile')
           }
@@ -276,11 +276,11 @@ export default {
     thisIsSea () {
       return this.type === 'sea'
     },
-    thisIsCollectionPoint () { // временное свойство
+    thisIsCollectionPoint () {
       return this.numberRegion === this.collectionPoint.region && this.numberTile === this.collectionPoint.tile
     },
     thisInWaterArea () {
-      return this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).find(tile => tile.region === this.numberRegion && tile.tile === this.numberTile)
+      return this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).find(tile => tile.region === this.numberRegion && tile.tile === this.numberTile) !== undefined
     }
   }
 }

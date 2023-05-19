@@ -468,9 +468,26 @@ export default new Vuex.Store({
     },
     GET_WATER_AREA: (state, getters) => (numReg, numTile) => { // принимает номер региона, тайла(TODO: и опцию "Навигация"); отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив. TODO: должен учитывать врагов на пути
       if (numReg === null || numTile === null || getters.GET_TILE_TYPE(numReg, numTile) !== 'sea') { return [] }
-      // тут будет создание массива для перебора, внесение в него первого значения, затем рекурсивный вызов GET_NEAREST_TILES с последующей проверкой через GET_TILE_TYPE
-      // В случае нахождения типа sea - пополнение массива. Результат - массив объектов, обозначащих акваторию
-      return []
+      const waterAreaNodes = [getters.TILE_TO_NODE(numReg, numTile)]
+      const fogAreaNodes = []
+      // рекурсивно добавляет соседние морские узлы в waterAreaNodes и единично туманные в fogAreaNodes
+      for (let i = 0; i < waterAreaNodes.length; i++) {
+        const waterTile = waterAreaNodes[i]
+        const nearestNodes = getters.GET_NEAREST_NODES(waterTile)
+        nearestNodes.forEach(nearestNode => {
+          const tile = getters.NODE_TO_TILE(nearestNode)
+          if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'sea' && !waterAreaNodes.includes(nearestNode)) {
+            waterAreaNodes.push(nearestNode)
+          } else if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'fog' && !fogAreaNodes.includes(nearestNode)) {
+            fogAreaNodes.push(nearestNode)
+          }
+        })
+      }
+      // объединяет массивы и преобразует данные узлов в данные тайлов
+      const res = [...waterAreaNodes, ...fogAreaNodes].map(function (waterAreaNode) {
+        return getters.NODE_TO_TILE(waterAreaNode)
+      })
+      return res
     }
   },
   mutations: {
