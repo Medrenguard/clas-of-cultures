@@ -144,7 +144,7 @@ export default {
 
       // ветвление на типы разведки
       if (this.SELECTED_UNITS.length) {
-        if (this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') === -1) {
+        if (!this.isSelectedFleet) {
           // сухопутная разведка
           // проверка на restrictionByUnit
           const destinationTileTypeOfAvers = this.GET_ORIENTED_REGION(filler.region_type, 'avers')[destination.tile - 1].type
@@ -255,6 +255,9 @@ export default {
     },
     isNearToCollectionPoint () {
       return this.GET_NEAREST_TILES(this.collectionPoint.region, this.collectionPoint.tile).find(place => (place.region === this.numberRegion && place.tile === this.numberTile)) !== undefined
+    },
+    isSelectedFleet () {
+      return this.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') > -1
     }
   }
 }
