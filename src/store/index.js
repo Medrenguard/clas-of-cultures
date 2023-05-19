@@ -442,6 +442,10 @@ export default new Vuex.Store({
       const res = getters.GET_ORIENTED_REGION(regionOnMap.region_type, regionOnMap.orientation)[numTile - 1].type
       return res
     },
+    GET_UNITS_ON_TILE: (state, getters) => (numReg, numTile) => { // принимает номер региона и тайла, выложенных на карту, возвращает массив юнитов
+      const res = getters.LIVING_UNITS.filter(unit => unit.region === numReg && unit.tile === numTile)
+      return res
+    },
     GET_NEAREST_TILES: (state) => (numReg, numTile) => { // принимает номер региона и тайла; отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив
       if (numReg === null || numTile === null) { return [] }
       const nodeNum = '' + numReg + numTile
