@@ -102,9 +102,14 @@ export default {
               }
             } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
           }
-        } else if (this.stage === 'MOVING_selectingTile') {
+        } else if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_moveThenExploringManual') {
           this.$store.dispatch('formationMovement', { region: Number(tileInfo.getAttribute('data-region')), tile: Number(tileInfo.getAttribute('data-tile')) })
           tileInfo.classList.remove('hover')
+          if (this.stage === 'MOVING_selectingTile') {
+            this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          } else {
+            this.$store.commit('updateStage', 'MOVING_exploringManual')
+          }
         }
       }
     },

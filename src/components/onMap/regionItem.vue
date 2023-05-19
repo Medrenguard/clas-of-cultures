@@ -8,16 +8,23 @@
     <template>
       <tile-item v-for="(item, i) in GET_ORIENTED_REGION(region_info.region_type, region_info.orientation)" :key="i+1" :numberRegion="numberRegion" :numberTile="i+1" :orientation="region_info.orientation" :type="item.type" :positionTile="item.translate" :transform="giveTranslateAttr(item.translate, item.type)"/>
     </template>
+    <rotation-region-block
+      v-if="regionCanRotate"
+      :numberRegion="numberRegion"
+      :region_type="region_info.region_type"
+      :orientation="region_info.orientation"
+      transform="translate(-27.3, 0)"/>
   </g>
 </template>
 
 <script>
 import tileItem from '@/components/onMap/tileItem.vue'
+import rotationRegionBlock from '@/components/onMap/rotationRegionBlock.vue'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'regionItem',
-  components: { tileItem },
+  components: { tileItem, rotationRegionBlock },
   props: {
     numberRegion: Number,
     region_info: {
@@ -69,13 +76,18 @@ export default {
   },
   computed: {
     ...mapState([
-      'mapTilesInRegion'
+      'mapTilesInRegion',
+      'regionForManualOrientation',
+      'stage'
     ]),
     ...mapGetters([
       'GET_ORIENTED_REGION'
     ]),
     isRegionUnderFog () {
       return this.region_info.region_type === 0
+    },
+    regionCanRotate () {
+      return this.regionForManualOrientation === this.numberRegion && this.stage === 'MOVING_exploringManual'
     }
   }
 }

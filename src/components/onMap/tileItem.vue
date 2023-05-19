@@ -206,14 +206,13 @@ export default {
       if (restrictionByUnit) { // если есть ограничение от местоположения пехоты
         filler.orientation = onlyPossibleOrientationByUnit
       } else if (restrictionBySeaNear) { // если есть ограничение от соседнего моря
-        // если нет ограничения от тайла
         filler.orientation = onlyPossibleOrientationBySeaNear
       } else if (restrictionBySeaEnd) { // если есть ограничение от края карты
-        // если нет ограничения от тайла
         filler.orientation = onlyPossibleOrientationBySeaEnd
       } else {
-        // тут будет функционал ручного выбора ориентации региона
-        console.log('Выберите, как выложить регион')
+        // тут переключение на этап ручного выбора ориентации региона
+        this.$store.commit('updateRegionForManualOrientation', destination.region)
+        this.$store.commit('updateStage', 'MOVING_moveThenExploringManual')
       }
 
       this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })

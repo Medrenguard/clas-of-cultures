@@ -173,7 +173,9 @@ export default new Vuex.Store({
     //   'firstPlayerChanged',
     //   'readyToGame',
     //   'MOVING_waitingSelection', // этап после нажатия кнопки "Передвижение" для выбора юнитов
-    //   'MOVING_selectingTile' // формирование выбрано и курсор наведен на другой тайл(TODO: до которого формирование может дойти)
+    //   'MOVING_selectingTile', // формирование выбрано и курсор наведен на другой тайл, до которого формирование может дойти(TODO: расширить эту логику для флота)
+    //   'MOVING_moveThenExploringManual', // этап, на котором юниты делают переход на регион и после этого запускается этап ручного выбора ориентации региона
+    //   'MOVING_exploringManual' // этап ручного выбора ориентации региона
     // ],
     stage: 'MOVING_waitingSelection',
     firstPlayer: 'player',
@@ -189,6 +191,7 @@ export default new Vuex.Store({
         achivements: [/** TODO **/]
       }
     },
+    regionForManualOrientation: null,
     layout: {
       city: [
         {
@@ -481,6 +484,9 @@ export default new Vuex.Store({
       unit.selected = false
       unit.canMove_onThisAction = false
       // тут добавить логику: при попадении в леса - canAttack = false, в горы - canMove_onThisRound = false
+    },
+    updateRegionForManualOrientation (state, newValue) {
+      state.regionForManualOrientation = newValue
     }
   },
   actions: {
@@ -496,7 +502,6 @@ export default new Vuex.Store({
       context.getters.SELECTED_UNITS.forEach(unit => {
         context.commit('unitMovement', { ...target, id: unit.id })
       })
-      context.commit('updateStage', 'MOVING_waitingSelection')
     }
   },
   modules: {
