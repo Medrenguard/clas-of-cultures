@@ -446,14 +446,23 @@ export default new Vuex.Store({
       const res = getters.LIVING_UNITS.filter(unit => unit.region === numReg && unit.tile === numTile)
       return res
     },
-    GET_NEAREST_TILES: (state) => (numReg, numTile) => { // принимает номер региона и тайла; отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив
+    GET_NEAREST_NODES: (state) => (nodeNum) => { // принимает номер узла; отдаёт массив объектов, содержащих номера узлов
+      return state.nodeList[state.currentCountGamers][nodeNum]
+    },
+    NODE_TO_TILE: (state) => (nodeNum) => { // принимает номер узла; отдаёт объект со свойствами region и tile
+      const region = Number(String(nodeNum).slice(0, -1))
+      const tile = Number(String(nodeNum).slice(-1))
+      return { region: region, tile: tile }
+    },
+    TILE_TO_NODE: (state) => (numReg, numTile) => { // принимает номера региона и тайла; отдаёт номер узла
+      return Number('' + numReg + numTile)
+    },
+    GET_NEAREST_TILES: (state, getters) => (numReg, numTile) => { // принимает номер региона и тайла; отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив
       if (numReg === null || numTile === null) { return [] }
-      const nodeNum = '' + numReg + numTile
-      const adjacentNodes = state.nodeList[state.currentCountGamers][nodeNum]
-      const res = adjacentNodes.map(function (el) {
-        const region = Number(String(el).slice(0, -1))
-        const tile = Number(String(el).slice(-1))
-        return { region: region, tile: tile }
+      const nodeNum = getters.TILE_TO_NODE(numReg, numTile)
+      const nearestNodes = getters.GET_NEAREST_NODES(nodeNum)
+      const res = nearestNodes.map(function (el) {
+        return getters.NODE_TO_TILE(el)
       })
       return res
     },
