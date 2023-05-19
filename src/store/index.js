@@ -63,8 +63,8 @@ export default new Vuex.Store({
       ],
       1: [// стандартный стартовый регион
         { type: 'wasteland', translate: 'top' },
-        { type: 'mountains', translate: 'left' },
-        { type: 'forest', translate: 'right' },
+        { type: 'forest', translate: 'left' },
+        { type: 'mountains', translate: 'right' },
         { type: 'field', translate: 'bottom' }
       ], // далее идут регионы с присвоением реального номера из игры(кроме специальных стартовых: для них резерв 2,3,4)
       5: [
