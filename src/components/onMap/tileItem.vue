@@ -247,7 +247,8 @@ export default {
       'SELECTED_UNITS',
       'GET_ORIENTED_REGION',
       'GET_NEAREST_TILES',
-      'GET_TILE_TYPE'
+      'GET_TILE_TYPE',
+      'GET_WATER_AREA'
     ]),
     cityInThisTile () {
       for (let i = 0; i < this.CITIES.length; i++) {
@@ -277,6 +278,9 @@ export default {
     },
     thisIsCollectionPoint () { // временное свойство
       return this.numberRegion === this.collectionPoint.region && this.numberTile === this.collectionPoint.tile
+    },
+    thisInWaterArea () {
+      return this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).find(tile => tile.region === this.numberRegion && tile.tile === this.numberTile)
     }
   }
 }

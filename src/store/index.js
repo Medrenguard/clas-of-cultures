@@ -456,6 +456,12 @@ export default new Vuex.Store({
         return { region: region, tile: tile }
       })
       return res
+    },
+    GET_WATER_AREA: (state, getters) => (numReg, numTile) => { // принимает номер региона, тайла(TODO: и опцию "Навигация"); отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив. TODO: должен учитывать врагов на пути
+      if (numReg === null || numTile === null || getters.GET_TILE_TYPE(numReg, numTile) !== 'sea') { return [] }
+      // тут будет создание массива для перебора, внесение в него первого значения, затем рекурсивный вызов GET_NEAREST_TILES с последующей проверкой через GET_TILE_TYPE
+      // В случае нахождения типа sea - пополнение массива. Результат - массив объектов, обозначащих акваторию
+      return []
     }
   },
   mutations: {
