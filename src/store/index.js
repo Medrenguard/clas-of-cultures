@@ -179,6 +179,7 @@ export default new Vuex.Store({
     // ],
     stage: 'MOVING_waitingSelection',
     firstPlayer: 'player',
+    whoActNow: 'player',
     opponents: { // для мультиплеера или большего кол-ва игроков правильнее будет переделать в массив, но для этого нужно будет переписать обращения к объекту
       player: {
         color: 'red',
