@@ -472,8 +472,7 @@ export default new Vuex.Store({
     GET_WATER_AREA: (state, getters) => (numReg, numTile) => { // принимает номер региона, тайла(TODO: и опцию "Навигация"); отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив. TODO: должен учитывать врагов на пути
       if (numReg === null || numTile === null || getters.GET_TILE_TYPE(numReg, numTile) !== 'sea') { return [] }
       const waterAreaNodes = [getters.TILE_TO_NODE(numReg, numTile)]
-      const fogAreaNodes = []
-      // рекурсивно добавляет соседние морские узлы в waterAreaNodes и единично туманные в fogAreaNodes
+      // рекурсивно добавляет соседние морские узлы в waterAreaNodes
       for (let i = 0; i < waterAreaNodes.length; i++) {
         const waterTile = waterAreaNodes[i]
         const nearestNodes = getters.GET_NEAREST_NODES(waterTile)
@@ -481,16 +480,30 @@ export default new Vuex.Store({
           const tile = getters.NODE_TO_TILE(nearestNode)
           if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'sea' && !waterAreaNodes.includes(nearestNode)) {
             waterAreaNodes.push(nearestNode)
-          } else if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'fog' && !fogAreaNodes.includes(nearestNode)) {
-            fogAreaNodes.push(nearestNode)
           }
         })
       }
-      // объединяет массивы и преобразует данные узлов в данные тайлов
-      const res = [...waterAreaNodes, ...fogAreaNodes].map(function (waterAreaNode) {
+      // Преобразует данные узлов в данные тайлов
+      const res = waterAreaNodes.map(function (waterAreaNode) {
         return getters.NODE_TO_TILE(waterAreaNode)
       })
       return res
+    },
+    GET_FOG_REGIONS_NEAR_WATER_AREA: (state, getters) => (numReg, numTile) => { // принимает номер региона, тайла(TODO: и опцию "Навигация"); отдаёт массив номеров регионов; если пришёл null - отдаст пустой массив.
+      if (numReg === null || numTile === null || getters.GET_TILE_TYPE(numReg, numTile) !== 'sea') { return [] }
+      const waterAreaNodes = getters.GET_WATER_AREA(numReg, numTile)
+      const fogRegions = []
+      for (let i = 0; i < waterAreaNodes.length; i++) {
+        const waterNode = getters.TILE_TO_NODE(waterAreaNodes[i].region, waterAreaNodes[i].tile)
+        const nearestNodes = getters.GET_NEAREST_NODES(waterNode)
+        nearestNodes.forEach(nearestNode => {
+          const tile = getters.NODE_TO_TILE(nearestNode)
+          if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'fog' && !fogRegions.includes(tile.region)) {
+            fogRegions.push(tile.region)
+          }
+        })
+      }
+      return fogRegions
     }
   },
   mutations: {
