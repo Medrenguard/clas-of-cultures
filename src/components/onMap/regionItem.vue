@@ -1,6 +1,9 @@
 <template>
   <g class="region-wrap"
-    :class=" { underFog : isRegionUnderFog }">
+    :class=" { underFog : isRegionUnderFog }"
+    @mouseover="mouseoverRegion"
+    @mouseleave="mouseleaveRegion"
+    @click="clickRegion">
     <path
       transform="translate(-50.614968,-78.206734)"
       d="m 25.101981,82.540149 h 5.004623 l 2.501898,-4.333415 h 4.995404 l 2.500702,4.331343 h 5.004168 l 2.501339,4.332444 -2.499794,4.329769 H 40.11 l -2.501561,4.332829 h -4.999525 l -2.49833,-4.327236 h -4.99691 l -2.498706,-4.327888 z"
@@ -21,10 +24,12 @@
 import tileItem from '@/components/onMap/tileItem.vue'
 import rotationRegionBlock from '@/components/onMap/rotationRegionBlock.vue'
 import { mapState, mapGetters } from 'vuex'
+import exploringMixin from '../../mixins/exploringMixin.js'
 
 export default {
   name: 'regionItem',
   components: { tileItem, rotationRegionBlock },
+  mixins: [exploringMixin],
   props: {
     numberRegion: Number,
     region_info: {
@@ -72,30 +77,67 @@ export default {
           break
       }
       return res
+    },
+    mouseoverRegion (event) {
+      const region = event.target.closest('.region-wrap')
+      if (this.IS_SELECTED_FLEET && this.thisIsFogNearWaterArea) {
+        if (this.stage === 'MOVING_waitingSelection') {
+          this.$store.commit('updateStage', 'MOVING_selectingRegion')
+        }
+        if (this.stage === 'MOVING_selectingRegion') {
+          region.classList.add('hover')
+        }
+      }
+    },
+    mouseleaveRegion (event) {
+      const region = event.target.closest('.region-wrap')
+      if (this.IS_SELECTED_FLEET && this.thisIsFogNearWaterArea) {
+        if (this.stage === 'MOVING_selectingRegion') {
+          this.$store.commit('updateStage', 'MOVING_waitingSelection')
+          region.classList.remove('hover')
+        }
+      }
+    },
+    clickRegion (event) {
+      if (this.stage === 'MOVING_selectingRegion') {
+        this.exploring(this.numberRegion)
+      }
     }
   },
   computed: {
     ...mapState([
       'mapTilesInRegion',
       'regionForManualOrientation',
-      'stage'
+      'stage',
+      'collectionPoint'
     ]),
     ...mapGetters([
-      'GET_ORIENTED_REGION'
+      'GET_ORIENTED_REGION',
+      'IS_SELECTED_FLEET',
+      'GET_FOG_REGIONS_NEAR_WATER_AREA'
     ]),
     isRegionUnderFog () {
       return this.region_info.region_type === 0
     },
     regionCanRotate () {
       return this.regionForManualOrientation === this.numberRegion && this.stage === 'MOVING_exploringManual'
+    },
+    thisIsFogNearWaterArea () {
+      return this.GET_FOG_REGIONS_NEAR_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).includes(this.numberRegion)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.underFog .tile-item {
+.underFog {
+  .tile-item {
   stroke-width: 0;
+  }
+  &.hover .tile-item {
+    cursor: pointer;
+    fill:#b6ad8c;
+  }
 }
 </style>
 <style scoped lang="scss">
@@ -105,6 +147,9 @@ export default {
   stroke: black;
   .underFog > & {
     fill:#fff6d5;
+  }
+  .region-wrap.hover & {
+    fill: rgba(255, 196, 0, 0.329)
   }
 }
 </style>
