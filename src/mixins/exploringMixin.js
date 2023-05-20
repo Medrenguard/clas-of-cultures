@@ -85,17 +85,34 @@ export default {
         }
       }
 
-      // тут будет предложено игроку выбрать ориентацию региона, если есть более одного варианта размещения
-      if (restrictionByUnit) { // если есть ограничение от местоположения пехоты
-        filler.orientation = onlyPossibleOrientationByUnit
-      } else if (restrictionBySeaNear) { // если есть ограничение от соседнего моря
-        filler.orientation = onlyPossibleOrientationBySeaNear
-      } else if (restrictionBySeaEnd) { // если есть ограничение от края карты
-        filler.orientation = onlyPossibleOrientationBySeaEnd
+      if (!this.IS_SELECTED_FLEET) {
+        if (seaInRegion.avers.length) { // если выбрана пехота и в этом регионе есть море
+          if (restrictionByUnit) { // если есть ограничение от местоположения пехоты
+            filler.orientation = onlyPossibleOrientationByUnit
+          } else if (restrictionBySeaNear) { // если есть ограничение от соседнего моря
+            filler.orientation = onlyPossibleOrientationBySeaNear
+          } else if (restrictionBySeaEnd) { // если есть ограничение от края карты
+            filler.orientation = onlyPossibleOrientationBySeaEnd
+          } else {
+            // тут переключение на этап ручного выбора ориентации региона
+            this.$store.commit('updateRegionForManualOrientation', destination.region)
+            this.$store.commit('updateStage', 'MOVING_moveThenExploringManual')
+          }
+        } else { // если выбрана пехота и в этом регионе нет моря
+          // тут переключение на этап ручного выбора ориентации региона
+          this.$store.commit('updateRegionForManualOrientation', destination.region)
+          this.$store.commit('updateStage', 'MOVING_moveThenExploringManual')
+        }
       } else {
-        // тут переключение на этап ручного выбора ориентации региона
-        this.$store.commit('updateRegionForManualOrientation', destination.region)
-        this.$store.commit('updateStage', 'MOVING_moveThenExploringManual')
+        if (seaInRegion.avers.length) { // если выбран флот и в этом регионе есть море
+          // В регионе есть море, нужно проверить, возможно ли установить ориентацию региона так, чтобы море было рядом с акваторией, в которой находится корабль
+          // Если возможны два таких варианта - дать выбор по установке ориентации. Затем, если в этом регионе 2 морских тайла - дать выбор, в какой поставить корабль, а если 1 - поставить в него принудительно.
+          // Если возможен только один вариант - установить ограничение на выбор ориентации. Затем, если в этом регионе 2 морских тайла - дать выбор, в какой поставить корабль, а если 1 - поставить в него принудительно.
+          // Если невозможен такой вариант - проверить по стандартным правилам, флот вернуть на исходную позицию.
+
+        } else { // если выбран флот и в этом регионе нет моря
+        // В регионе нет моря, - дать выбор ориентации региона, флот вернуть на исходную позицию.
+        }
       }
 
       this.$store.commit('updateRegionInfo', { regionNum: destination.region, info: filler })
