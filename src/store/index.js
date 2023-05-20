@@ -421,6 +421,9 @@ export default new Vuex.Store({
     SELECTED_UNITS (state) {
       return state.layout.units.filter(unit => unit.selected === true)
     },
+    IS_SELECTED_FLEET (state, getters) {
+      return getters.SELECTED_UNITS.findIndex(unit => unit.type === 'ship') > -1
+    },
     GET_ORIENTED_REGION: (state) => (regionType, orientation) => {
       let region
       if (orientation !== 'revers') {
