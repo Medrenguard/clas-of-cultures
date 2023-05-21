@@ -13,17 +13,20 @@
       @mouseover="mouseoverSVG">
         <region-item v-for="(region, i) in regionItemsOnMap" :region_info="region" :key="i+1" :numberRegion="i+1" :transform="giveTranslateAttr(i+1)"/>
     </svg>
+    <the-help-block />
   </div>
 </template>
 
 <script>
 import regionItem from '@/components/onMap/regionItem.vue'
+import TheHelpBlock from '@/components/TheHelpBlock.vue'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'mainView',
   components: {
-    regionItem
+    regionItem,
+    TheHelpBlock
   },
   data () {
     return {
