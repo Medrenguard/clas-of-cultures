@@ -34,7 +34,7 @@ export default {
       } else if (nV === 'MOVING_selectingRegion') {
         this.text = 'Нажмите на регион для разведки флотом'
       } else if ([nV, oV].includes('MOVING_shipsCantMoveAndTheyExploringManual')) {
-        this.text = 'В этом регионе нет моря для размещения флота, флот останется на месте старта. Выберите ориентацию региона'
+        this.text = 'В этом регионе нет моря для размещения флота или оно недостижимо, флот останется на месте старта. Выберите ориентацию региона'
       } else if (nV === 'MOVING_exploringManual') {
         this.text = 'Этот регион можно расположить 2 способами. Выберите ориентацию региона'
       }

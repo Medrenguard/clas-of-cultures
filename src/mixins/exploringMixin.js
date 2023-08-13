@@ -113,8 +113,27 @@ export default {
           const adjacentSeaTilesInNewRegionAvers = this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile, { numReg: numReg, region_type: filler.region_type, orientation: 'avers' }).filter(tile => tile.region === numReg)
           const adjacentSeaTilesInNewRegionRevers = this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile, { numReg: numReg, region_type: filler.region_type, orientation: 'revers' }).filter(tile => tile.region === numReg)
           // тут написать условия для предоставления возможности выбора ориентации
-          console.log(adjacentSeaTilesInNewRegionAvers)
-          console.log(adjacentSeaTilesInNewRegionRevers)
+          const restrictionByWaterArea = { // true - есть ограничение
+            data: {
+              avers: !adjacentSeaTilesInNewRegionAvers.length,
+              revers: !adjacentSeaTilesInNewRegionRevers.length
+            },
+            limitless: undefined, // признак, что ограничений нет
+            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в data
+          }
+          // TODO: добавить логику возможности выбора тайла для размещения корабля
+          restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.data).filter(or => or === false).length === 2
+          restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.data).find(or => or[1] === false)?.[0]
+          console.log(restrictionByWaterArea)
+          if (restrictionByWaterArea.limitless) {
+            // переключить loop и предложить выбор ориентации тайла
+          } else if (restrictionByWaterArea.onlyPossibleOrientation !== undefined) {
+            // принудительно установить ориентацию
+          } else if (restrictionByWaterArea.onlyPossibleOrientation === undefined) {
+            // море недостижимо для корабля - дать выбор ориентации региона, флот вернуть на исходную позицию.
+            this.$store.commit('updateRegionForManualOrientation', destination.region)
+            this.$store.commit('updateStage', 'MOVING_shipsCantMoveAndTheyExploringManual')
+          }
         } else { // если выбран флот и в этом регионе нет моря
         // В регионе нет моря, - дать выбор ориентации региона, флот вернуть на исходную позицию.
           this.$store.commit('updateRegionForManualOrientation', destination.region)
