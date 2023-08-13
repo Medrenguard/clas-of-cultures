@@ -442,8 +442,10 @@ export default new Vuex.Store({
       }
       return region
     },
-    GET_TILE_TYPE: (state, getters) => (numReg, numTile) => { // принимает номер региона и тайла, выложенных на карту, возвращает тип тайла(местность)
+    GET_TILE_TYPE: (state, getters) => (numReg, numTile, mockup) => { // принимает номер региона и тайла, выложенных на карту, возвращает тип тайла(местность)
       const regionOnMap = state.regionItemsOnMap[numReg - 1] // region_type; orientation
+      // mockup - опциональный параметр, принимает номер и тип региона для подстановки для расчёта
+      if (mockup?.numReg === numReg) { return getters.GET_ORIENTED_REGION(mockup.region_type, mockup.orientation)[numTile - 1].type }
       const res = getters.GET_ORIENTED_REGION(regionOnMap.region_type, regionOnMap.orientation)[numTile - 1].type
       return res
     },
@@ -471,7 +473,7 @@ export default new Vuex.Store({
       })
       return res
     },
-    GET_WATER_AREA: (state, getters) => (numReg, numTile) => { // принимает номер региона, тайла(TODO: и опцию "Навигация"); отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив. TODO: должен учитывать врагов на пути
+    GET_WATER_AREA: (state, getters) => (numReg, numTile, mockup) => { // принимает номер региона, тайла и, опционально, подстановленный регион(TODO: и опцию "Навигация"); отдаёт массив объектов, содержащих номер региона и тайла; если пришёл null - отдаст пустой массив. TODO: должен учитывать врагов на пути
       if (numReg === null || numTile === null || getters.GET_TILE_TYPE(numReg, numTile) !== 'sea') { return [] }
       const waterAreaNodes = [getters.TILE_TO_NODE(numReg, numTile)]
       // рекурсивно добавляет соседние морские узлы в waterAreaNodes
@@ -480,7 +482,7 @@ export default new Vuex.Store({
         const nearestNodes = getters.GET_NEAREST_NODES(waterTile)
         nearestNodes.forEach(nearestNode => {
           const tile = getters.NODE_TO_TILE(nearestNode)
-          if (getters.GET_TILE_TYPE(tile.region, tile.tile) === 'sea' && !waterAreaNodes.includes(nearestNode)) {
+          if (getters.GET_TILE_TYPE(tile.region, tile.tile, mockup) === 'sea' && !waterAreaNodes.includes(nearestNode)) {
             waterAreaNodes.push(nearestNode)
           }
         })
