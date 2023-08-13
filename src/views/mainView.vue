@@ -113,6 +113,9 @@ export default {
           } else {
             this.$store.commit('updateStage', 'MOVING_exploringManual')
           }
+        } else if (this.stage === 'MOVING_shipsCantMoveAndTheyExploringManual') {
+          this.$store.dispatch('formationMovement')
+          this.$store.commit('updateStage', 'MOVING_exploringManual')
         }
       }
     },

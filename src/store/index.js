@@ -176,6 +176,7 @@ export default new Vuex.Store({
     //   'MOVING_selectingTile', // пехотное формирование выбрано и курсор наведен на другой тайл, до которого формирование может дойти
     //   'MOVING_selectingRegion', // флот выбран и курсор наведен на неизвестный регион, до которого флот может доплыть
     //   'MOVING_moveThenExploringManual', // этап, на котором юниты делают переход на регион и после этого запускается этап ручного выбора ориентации региона
+    //   'MOVING_shipsCantMoveAndTheyExploringManual', // этап, на котором корабли не могут сделать переход на регион из-за того, что в нём нет воды, запускается этап ручного выбора ориентации региона
     //   'MOVING_exploringManual' // этап ручного выбора ориентации региона
     // ],
     stage: 'MOVING_waitingSelection',
@@ -531,10 +532,12 @@ export default new Vuex.Store({
     updateCollectionPoint (state, newValue) {
       state.collectionPoint = newValue
     },
-    unitMovement (state, payload) { // id юнита, регион и тайл
+    unitMovement (state, payload) { // id юнита, регион и тайл; если точка назначения пустая - не перемещать юнит, завершить перемещение
       const unit = state.layout.units.find(unit => unit.id === payload.id)
-      unit.region = payload.region
-      unit.tile = payload.tile
+      if (!!payload.region && !!payload.tile) {
+        unit.region = payload.region
+        unit.tile = payload.tile
+      }
       unit.selected = false
       unit.canMove_onThisAction = false
       // тут добавить логику: при попадении в леса - canAttack = false, в горы - canMove_onThisRound = false

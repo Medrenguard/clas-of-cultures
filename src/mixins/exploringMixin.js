@@ -112,6 +112,8 @@ export default {
 
         } else { // если выбран флот и в этом регионе нет моря
         // В регионе нет моря, - дать выбор ориентации региона, флот вернуть на исходную позицию.
+          this.$store.commit('updateRegionForManualOrientation', destination.region)
+          this.$store.commit('updateStage', 'MOVING_shipsCantMoveAndTheyExploringManual')
         }
       }
 
