@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
   name: 'TheHelpBlock',
@@ -20,6 +21,24 @@ export default {
   methods: {
   },
   computed: {
+    ...mapState([
+      'stage'
+    ])
+  },
+  watch: {
+    stage: function (nV, oV) { // StageLoop
+      if (nV === 'MOVING_waitingSelection') {
+        this.text = 'Выберите юнит(ы) для передвижения'
+      } else if (nV === 'MOVING_selectingTile') {
+        this.text = 'Нажмите на тайл для перемещения формирования'
+      } else if (nV === 'MOVING_selectingRegion') {
+        this.text = 'Нажмите на регион для разведки флотом'
+      } else if ([nV, oV].includes('MOVING_shipsCantMoveAndTheyExploringManual')) {
+        this.text = 'В этом регионе нет моря для размещения флота, флот останется на месте старта. Выберите ориентацию региона'
+      } else if (nV === 'MOVING_exploringManual') {
+        this.text = 'Этот регион можно расположить 2 способами. Выберите ориентацию региона'
+      }
+    }
   }
 }
 </script>
