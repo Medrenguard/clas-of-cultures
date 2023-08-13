@@ -110,6 +110,11 @@ export default {
           // Если возможен только один вариант - установить ограничение на выбор ориентации. Затем, если в этом регионе 2 морских тайла - дать выбор, в какой поставить корабль, а если 1 - поставить в него принудительно.
           // Если невозможен такой вариант - запустить разведку по стандартным правилам, флот вернуть на исходную позицию.
 
+          const adjacentSeaTilesInNewRegionAvers = this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile, { numReg: numReg, region_type: filler.region_type, orientation: 'avers' }).filter(tile => tile.region === numReg)
+          const adjacentSeaTilesInNewRegionRevers = this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile, { numReg: numReg, region_type: filler.region_type, orientation: 'revers' }).filter(tile => tile.region === numReg)
+          // тут написать условия для предоставления возможности выбора ориентации
+          console.log(adjacentSeaTilesInNewRegionAvers)
+          console.log(adjacentSeaTilesInNewRegionRevers)
         } else { // если выбран флот и в этом регионе нет моря
         // В регионе нет моря, - дать выбор ориентации региона, флот вернуть на исходную позицию.
           this.$store.commit('updateRegionForManualOrientation', destination.region)
@@ -130,7 +135,8 @@ export default {
       'IS_SELECTED_FLEET',
       'GET_ORIENTED_REGION',
       'GET_NEAREST_TILES',
-      'GET_TILE_TYPE'
+      'GET_TILE_TYPE',
+      'GET_WATER_AREA'
     ])
   }
 }
