@@ -45,6 +45,7 @@ export default {
     this.fillInfoAboutRegions()
   },
   mounted () {
+    this.$store.commit('updateStage', 'MOVING_waitingSelection')
   },
   methods: {
     fillInfoAboutRegions () {

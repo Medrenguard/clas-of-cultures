@@ -179,7 +179,7 @@ export default new Vuex.Store({
     //   'MOVING_shipsCantMoveAndTheyExploringManual', // этап, на котором корабли не могут сделать переход на регион из-за того, что в нём нет воды, запускается этап ручного выбора ориентации региона
     //   'MOVING_exploringManual' // этап ручного выбора ориентации региона
     // ],
-    stage: 'MOVING_waitingSelection',
+    stage: 'readyToGame',
     firstPlayer: 'player',
     whoActNow: 'player',
     opponents: { // для мультиплеера или большего кол-ва игроков правильнее будет переделать в массив, но для этого нужно будет переписать обращения к объекту
