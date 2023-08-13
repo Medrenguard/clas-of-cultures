@@ -14,7 +14,7 @@ export default {
   },
   data () {
     return {
-      text: ''
+      text: 'Тут будет подсказка по действиям'
     }
   },
   methods: {
@@ -27,9 +27,19 @@ export default {
 <style scoped lang="scss">
 .help__wrap {
   position: fixed;
-  width: 100%;
-  top: 0;
+  top: 33%;
+  right: 20px;
+  max-width: 30%;
   display: flex;
   justify-content: center;
+}
+.help__content {
+  background: rgb(0 0 0 / 53%);
+  color: white;
+  font-size: 1.5vw;
+  border-radius: 7px;
+  padding: 10px 20px;
+  cursor: default;
+  user-select: none;
 }
 </style>
