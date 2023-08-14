@@ -114,20 +114,23 @@ export default {
           const adjacentSeaTilesInNewRegionRevers = this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile, { numReg: numReg, region_type: filler.region_type, orientation: 'revers' }).filter(tile => tile.region === numReg)
           // тут написать условия для предоставления возможности выбора ориентации
           const restrictionByWaterArea = { // true - есть ограничение
-            data: {
+            data: { // сырые данные о доступных тайлах для перемещения в новом регионе
+              avers: adjacentSeaTilesInNewRegionAvers,
+              revers: adjacentSeaTilesInNewRegionRevers
+            },
+            count: { // кол-во тайлов для возможного перемещения в новом регионе
               avers: adjacentSeaTilesInNewRegionAvers.length,
               revers: adjacentSeaTilesInNewRegionRevers.length
             },
-            count: {
+            have: { // признак наличия ограничения на каждой ориентации
               avers: !adjacentSeaTilesInNewRegionAvers.length,
               revers: !adjacentSeaTilesInNewRegionRevers.length
             },
             limitless: undefined, // признак, что ограничений нет
-            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в count
+            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в have
           }
-          // TODO: добавить логику возможности выбора тайла для размещения корабля
-          restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.count).filter(or => or === false).length === 2
-          restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.count).find(or => or[1] === false)?.[0]
+          restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.have).filter(or => or === false).length === 2
+          restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.have).find(or => or[1] === false)?.[0]
           console.log(restrictionByWaterArea)
           if (restrictionByWaterArea.limitless) {
             // переключить loop и предложить выбор ориентации тайла
