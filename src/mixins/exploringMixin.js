@@ -115,15 +115,19 @@ export default {
           // тут написать условия для предоставления возможности выбора ориентации
           const restrictionByWaterArea = { // true - есть ограничение
             data: {
+              avers: adjacentSeaTilesInNewRegionAvers.length,
+              revers: adjacentSeaTilesInNewRegionRevers.length
+            },
+            count: {
               avers: !adjacentSeaTilesInNewRegionAvers.length,
               revers: !adjacentSeaTilesInNewRegionRevers.length
             },
             limitless: undefined, // признак, что ограничений нет
-            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в data
+            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в count
           }
           // TODO: добавить логику возможности выбора тайла для размещения корабля
-          restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.data).filter(or => or === false).length === 2
-          restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.data).find(or => or[1] === false)?.[0]
+          restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.count).filter(or => or === false).length === 2
+          restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.count).find(or => or[1] === false)?.[0]
           console.log(restrictionByWaterArea)
           if (restrictionByWaterArea.limitless) {
             // переключить loop и предложить выбор ориентации тайла
