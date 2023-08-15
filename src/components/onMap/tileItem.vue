@@ -100,6 +100,9 @@ export default {
           if (this.stage === 'MOVING_selectingTile') {
             tile.classList.add('hover')
           }
+          if (this.stage === 'MOVING_shipsExploringThenChange' && this.thisWaterOnExploringRegion) {
+            tile.classList.add('hover')
+          }
         } else {
           if (this.stage === 'MOVING_selectingTile') {
             this.$store.commit('updateStage', 'MOVING_waitingSelection')
@@ -122,15 +125,21 @@ export default {
     },
     mouseleaveTile (event) {
       const tile = event.target.querySelector('.selection-frame')
-      if (this.stage === 'MOVING_selectingTile') {
+      if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_shipsExploringThenChange') {
         tile.classList.remove('hover')
       }
     },
     clickTile (event) {
+      const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
       if (this.stage === 'MOVING_selectingTile') {
         if (this.type === 'fog') {
           this.exploring(this.numberRegion, this.numberTile)
         }
+      } else if (this.stage === 'MOVING_shipsExploringThenChange' && this.thisWaterOnExploringRegion) {
+        this.$store.dispatch('formationMovement', { region: this.numberRegion, tile: this.numberTile })
+        tile.classList.remove('hover')
+        this.$store.commit('updateShipExploringData', {})
+        this.$store.commit('updateStage', 'MOVING_waitingSelection')
       }
     }
   },
@@ -139,7 +148,8 @@ export default {
   computed: {
     ...mapState([
       'stage',
-      'collectionPoint'
+      'collectionPoint',
+      'shipExploringData'
     ]),
     ...mapGetters([
       'PLAYER_COLORS',
@@ -177,6 +187,9 @@ export default {
     },
     thisInWaterArea () {
       return this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).find(tile => tile.region === this.numberRegion && tile.tile === this.numberTile) !== undefined
+    },
+    thisWaterOnExploringRegion () {
+      return this.shipExploringData.data[this.shipExploringData.onlyPossibleOrientation].findIndex(water => water.region === this.numberRegion && water.tile === this.numberTile) >= 0
     }
   }
 }

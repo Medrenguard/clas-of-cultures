@@ -148,7 +148,8 @@ export default {
             filler.orientation = restrictionByWaterArea.onlyPossibleOrientation
             // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
             if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
-              // дать выбор
+              // Записывает данные в стор о водных тайлах, доступных для перемещения в новом регионе и переключает на этап выбора рабположения флота
+              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringThenChange')
             } else {
               // принудительная установка флота в единственное доступное место

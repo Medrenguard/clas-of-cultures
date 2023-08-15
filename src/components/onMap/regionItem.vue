@@ -99,9 +99,16 @@ export default {
       }
     },
     clickRegion (event) {
+      const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
       if (this.stage === 'MOVING_selectingRegion') {
         this.exploring(this.numberRegion)
+        if (this.thisWaterOnExploringRegion(Number(tile.attributes['data-region'].value), Number(tile.attributes['data-tile'].value))) {
+          tile.classList.add('hover')
+        }
       }
+    },
+    thisWaterOnExploringRegion (region, tile) {
+      return this.shipExploringData.data[this.shipExploringData.onlyPossibleOrientation].findIndex(water => water.region === region && water.tile === tile) >= 0
     }
   },
   computed: {
@@ -109,7 +116,8 @@ export default {
       'mapTilesInRegion',
       'regionForManualOrientation',
       'stage',
-      'collectionPoint'
+      'collectionPoint',
+      'shipExploringData'
     ]),
     ...mapGetters([
       'GET_ORIENTED_REGION',
