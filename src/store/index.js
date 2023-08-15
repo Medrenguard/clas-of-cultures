@@ -198,7 +198,6 @@ export default new Vuex.Store({
         achivements: [/** TODO **/]
       }
     },
-    regionForManualOrientation: null,
     layout: {
       city: [
         {
@@ -388,9 +387,26 @@ export default new Vuex.Store({
       ]
 
     },
+    regionForManualOrientation: null,
     collectionPoint: { // локация(регион/тайл) выбранных в данный момент юнитов
       region: null,
       tile: null
+    },
+    shipExploringData: {
+      // data: { // сырые данные о доступных тайлах для перемещения в новом регионе
+      //   avers: массив объектов {region: 6, tile: 2} или пустой массив,
+      //   revers: массив объектов {region: 6, tile: 2} или пустой массив
+      // },
+      // count: { // кол-во тайлов для возможного перемещения в новом регионе
+      //   avers: Number
+      //   revers: Number
+      // },
+      // have: { // признак наличия ограничения на каждой ориентации
+      //   avers: Boolean,
+      //   revers: Boolean
+      // },
+      // limitless: undefined || true || false, // признак, что ограничений нет
+      // onlyPossibleOrientation: String || undefined // Вытаскивает значение ориентации для первого false в have
     },
     regionItemsOnMap: [ // схема данных
       // {
@@ -550,6 +566,9 @@ export default new Vuex.Store({
     },
     updateRegionForManualOrientation (state, newValue) {
       state.regionForManualOrientation = newValue
+    },
+    updateShipExploringData (state, newValue) {
+      state.shipExploringData = newValue
     }
   },
   actions: {
