@@ -133,9 +133,27 @@ export default {
           restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.have).find(or => or[1] === false)?.[0]
           console.log(restrictionByWaterArea)
           if (restrictionByWaterArea.limitless) {
-            // переключить loop и предложить выбор ориентации тайла
+            // предложить выбор ориентации тайла, переключить loop
+            this.$store.commit('updateRegionForManualOrientation', destination.region)
+            // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
+            if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
+              // дать выбор
+              this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenChange')
+            } else {
+              // принудительная установка флота в единственное доступное место
+              this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenMoveStrict')
+            }
           } else if (restrictionByWaterArea.onlyPossibleOrientation !== undefined) {
             // принудительно установить ориентацию
+            filler.orientation = restrictionByWaterArea.onlyPossibleOrientation
+            // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
+            if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
+              // дать выбор
+              this.$store.commit('updateStage', 'MOVING_shipsExploringThenChange')
+            } else {
+              // принудительная установка флота в единственное доступное место
+              this.$store.commit('updateStage', 'MOVING_shipsExploringThenMoveStrict')
+            }
           } else if (restrictionByWaterArea.onlyPossibleOrientation === undefined) {
             // море недостижимо для корабля - дать выбор ориентации региона, флот вернуть на исходную позицию.
             this.$store.commit('updateRegionForManualOrientation', destination.region)
