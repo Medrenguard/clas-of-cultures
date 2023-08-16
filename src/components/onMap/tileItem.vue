@@ -100,7 +100,7 @@ export default {
           if (this.stage === 'MOVING_selectingTile') {
             tile.classList.add('hover')
           }
-          if (this.stage === 'MOVING_shipsExploringThenChange' && this.thisWaterOnExploringRegion) {
+          if (this.stage === 'MOVING_shipsMoveAfterExploring' && this.thisWaterOnExploringRegion) {
             tile.classList.add('hover')
           }
         } else {
@@ -125,7 +125,7 @@ export default {
     },
     mouseleaveTile (event) {
       const tile = event.target.querySelector('.selection-frame')
-      if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_shipsExploringThenChange') {
+      if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_shipsMoveAfterExploring') {
         tile.classList.remove('hover')
       }
     },
@@ -135,7 +135,7 @@ export default {
         if (this.type === 'fog') {
           this.exploring(this.numberRegion, this.numberTile)
         }
-      } else if (this.stage === 'MOVING_shipsExploringThenChange' && this.thisWaterOnExploringRegion) {
+      } else if (this.stage === 'MOVING_shipsMoveAfterExploring' && this.thisWaterOnExploringRegion) {
         this.$store.dispatch('formationMovement', { region: this.numberRegion, tile: this.numberTile })
         tile.classList.remove('hover')
         this.$store.commit('updateShipExploringData', {})
