@@ -73,12 +73,17 @@ export default {
     applyRotate () {
       this.$store.commit('updateRegionForManualOrientation', null)
       // заглушка для ускоренного завершения режима выбора ориентации. TODO: переключать на предыдущий этап или следующий, если этот закончен(через стор и mainView)
-      this.$store.commit('updateStage', 'MOVING_waitingSelection')
+      if (this.stage === 'MOVING_shipsExploringManualThenChange') {
+        this.$store.commit('updateStage', 'MOVING_shipsMoveAfterExploring')
+      } else {
+        this.$store.commit('updateStage', 'MOVING_waitingSelection')
+      }
     }
   },
   computed: {
     ...mapState([
-      'regionItemsOnMap'
+      'regionItemsOnMap',
+      'stage'
     ])
   }
 }

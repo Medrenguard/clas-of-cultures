@@ -102,7 +102,7 @@ export default {
       const tile = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
       if (this.stage === 'MOVING_selectingRegion') {
         this.exploring(this.numberRegion)
-        if (this.thisWaterOnExploringRegion(Number(tile.attributes['data-region'].value), Number(tile.attributes['data-tile'].value))) {
+        if (this.thisWaterOnExploringRegion(Number(tile.attributes['data-region'].value), Number(tile.attributes['data-tile'].value)) && !this.regionCanRotate) {
           tile.classList.add('hover')
         }
       }
@@ -128,7 +128,9 @@ export default {
       return this.region_info.region_type === 0
     },
     regionCanRotate () {
-      return this.regionForManualOrientation === this.numberRegion && this.stage === 'MOVING_exploringManual'
+      return this.regionForManualOrientation === this.numberRegion &&
+      (this.stage === 'MOVING_exploringManual' ||
+      this.stage === 'MOVING_shipsExploringManualThenChange')
     },
     thisIsFogNearWaterArea () {
       return this.GET_FOG_REGIONS_NEAR_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).includes(this.numberRegion)

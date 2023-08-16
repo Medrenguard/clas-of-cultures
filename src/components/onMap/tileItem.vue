@@ -189,7 +189,7 @@ export default {
       return this.GET_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).find(tile => tile.region === this.numberRegion && tile.tile === this.numberTile) !== undefined
     },
     thisWaterOnExploringRegion () {
-      return this.shipExploringData.data[this.shipExploringData.onlyPossibleOrientation].findIndex(water => water.region === this.numberRegion && water.tile === this.numberTile) >= 0
+      return this.thisIsSea && this.shipExploringData.regionNum === this.numberRegion
     }
   }
 }

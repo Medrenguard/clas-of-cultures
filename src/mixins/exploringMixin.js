@@ -127,7 +127,8 @@ export default {
               revers: !adjacentSeaTilesInNewRegionRevers.length
             },
             limitless: undefined, // признак, что ограничений нет
-            onlyPossibleOrientation: undefined // Вытаскивает значение ориентации для первого false в have
+            onlyPossibleOrientation: undefined, // Вытаскивает значение ориентации для первого false в have
+            regionNum: numReg
           }
           restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.have).filter(or => or === false).length === 2
           restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.have).find(or => or[1] === false)?.[0]
@@ -138,6 +139,7 @@ export default {
             // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
             if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
               // дать выбор
+              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenChange')
             } else {
               // принудительная установка флота в единственное доступное место
