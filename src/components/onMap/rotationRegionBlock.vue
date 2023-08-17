@@ -72,10 +72,15 @@ export default {
     },
     applyRotate () {
       this.$store.commit('updateRegionForManualOrientation', null)
-      // заглушка для ускоренного завершения режима выбора ориентации. TODO: переключать на предыдущий этап или следующий, если этот закончен(через стор и mainView)
       if (this.stage === 'MOVING_shipsExploringManualThenChange') {
         this.$store.commit('updateStage', 'MOVING_shipsMoveAfterExploring')
+      } else if (this.stage === 'MOVING_shipsExploringManualThenMoveStrict') {
+        // принудительное перемещение на единственный доступный для перемещения тайл
+        this.$store.dispatch('formationMovement', { region: this.numberRegion, tile: this.shipExploringData.data[this.orientation][0].tile })
+        this.$store.commit('updateShipExploringData', {})
+        this.$store.commit('updateStage', 'MOVING_waitingSelection')
       } else {
+      // заглушка для ускоренного завершения режима выбора ориентации. TODO: переключать на предыдущий этап или следующий, если этот закончен(через стор и mainView)
         this.$store.commit('updateStage', 'MOVING_waitingSelection')
       }
     }
@@ -83,7 +88,8 @@ export default {
   computed: {
     ...mapState([
       'regionItemsOnMap',
-      'stage'
+      'stage',
+      'shipExploringData'
     ])
   }
 }

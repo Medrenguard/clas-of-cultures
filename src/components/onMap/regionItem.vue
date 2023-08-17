@@ -130,7 +130,8 @@ export default {
     regionCanRotate () {
       return this.regionForManualOrientation === this.numberRegion &&
       (this.stage === 'MOVING_exploringManual' ||
-      this.stage === 'MOVING_shipsExploringManualThenChange')
+      this.stage === 'MOVING_shipsExploringManualThenChange' ||
+      this.stage === 'MOVING_shipsExploringManualThenMoveStrict')
     },
     thisIsFogNearWaterArea () {
       return this.GET_FOG_REGIONS_NEAR_WATER_AREA(this.collectionPoint.region, this.collectionPoint.tile).includes(this.numberRegion)

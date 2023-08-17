@@ -143,6 +143,7 @@ export default {
               this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenChange')
             } else {
               // принудительная установка флота в единственное доступное место
+              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenMoveStrict')
             }
           } else if (restrictionByWaterArea.onlyPossibleOrientation !== undefined) {
