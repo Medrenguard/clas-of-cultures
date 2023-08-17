@@ -111,7 +111,8 @@ export default {
       }
     },
     thisWaterOnExploringRegion (region, tile) {
-      return this.shipExploringData.data[this.shipExploringData.onlyPossibleOrientation].findIndex(water => water.region === region && water.tile === tile) >= 0
+      if (this.shipExploringData.limitless === undefined) { return false }
+      return this.shipExploringData.data[this.region_info.orientation].findIndex(water => water.region === region && water.tile === tile) >= 0
     }
   },
   computed: {
