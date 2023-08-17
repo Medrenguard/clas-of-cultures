@@ -117,6 +117,11 @@ export default {
         } else if (this.stage === 'MOVING_shipsCantMoveAndTheyExploringManual') {
           this.$store.dispatch('formationMovement')
           this.$store.commit('updateStage', 'MOVING_exploringManual')
+        } else if (this.stage === 'MOVING_shipsExploringThenMoveStrict') {
+          // принудительное перемещение на единственный доступный для перемещения тайл
+          this.$store.dispatch('formationMovement', { region: Number(tileInfo.getAttribute('data-region')), tile: this.shipExploringData.data[tileInfo.getAttribute('data-orientation')][0].tile })
+          this.$store.commit('updateShipExploringData', {})
+          this.$store.commit('updateStage', 'MOVING_waitingSelection')
         }
       }
     },
@@ -157,7 +162,8 @@ export default {
       'stage',
       'opponents',
       'firstPlayer',
-      'collectionPoint'
+      'collectionPoint',
+      'shipExploringData'
     ]),
     ...mapGetters([
       'GET_UNIT_BY_ID',

@@ -106,6 +106,9 @@ export default {
           tile.classList.add('hover')
         }
       }
+      if (this.stage === 'MOVING_shipsExploringThenMoveStrict') {
+        tile.classList.remove('hover')
+      }
     },
     thisWaterOnExploringRegion (region, tile) {
       return this.shipExploringData.data[this.shipExploringData.onlyPossibleOrientation].findIndex(water => water.region === region && water.tile === tile) >= 0
