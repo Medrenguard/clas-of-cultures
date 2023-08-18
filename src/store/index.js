@@ -406,7 +406,8 @@ export default new Vuex.Store({
       //   revers: Boolean
       // },
       // limitless: undefined || true || false, // признак, что ограничений нет
-      // onlyPossibleOrientation: String || undefined // Вытаскивает значение ориентации для первого false в have
+      // onlyPossibleOrientation: String || undefined, // Вытаскивает значение ориентации для первого false в have
+      // regionNum: Number // номер разведываемого региона
     },
     regionItemsOnMap: [ // схема данных
       // {

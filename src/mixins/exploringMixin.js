@@ -132,31 +132,28 @@ export default {
           }
           restrictionByWaterArea.limitless = Object.values(restrictionByWaterArea.have).filter(or => or === false).length === 2
           restrictionByWaterArea.onlyPossibleOrientation = Object.entries(restrictionByWaterArea.have).find(or => or[1] === false)?.[0]
-          console.log(restrictionByWaterArea)
           if (restrictionByWaterArea.limitless) {
-            // предложить выбор ориентации тайла, переключить loop
+            // предложить выбор ориентации тайла, записать данные о разведке
             this.$store.commit('updateRegionForManualOrientation', destination.region)
+            this.$store.commit('updateShipExploringData', restrictionByWaterArea)
             // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
             if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
               // дать выбор
-              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenChange')
             } else {
               // принудительная установка флота в единственное доступное место
-              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringManualThenMoveStrict')
             }
           } else if (restrictionByWaterArea.onlyPossibleOrientation !== undefined) {
-            // принудительно установить ориентацию
+            // принудительно установить ориентацию, записать данные о разведке
             filler.orientation = restrictionByWaterArea.onlyPossibleOrientation
+            this.$store.commit('updateShipExploringData', restrictionByWaterArea)
             // проверка на кол-во тайлов для возможного размещения флота; если больше 1 - дать выбор
             if (restrictionByWaterArea.count[restrictionByWaterArea.onlyPossibleOrientation] > 1) {
-              // Записывает данные в стор о водных тайлах, доступных для перемещения в новом регионе и переключает на этап выбора рабположения флота
-              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
+              // Переключает на этап выбора расположения флота
               this.$store.commit('updateStage', 'MOVING_shipsMoveAfterExploring')
             } else {
               // принудительная установка флота в единственное доступное место
-              this.$store.commit('updateShipExploringData', restrictionByWaterArea)
               this.$store.commit('updateStage', 'MOVING_shipsExploringThenMoveStrict')
             }
           } else if (restrictionByWaterArea.onlyPossibleOrientation === undefined) {
