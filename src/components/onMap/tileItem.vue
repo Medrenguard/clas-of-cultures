@@ -109,7 +109,7 @@ export default {
           }
         }
       } else {
-        if (this.isNearToCollectionPoint && !this.thisIsSea) { // тут еще нужно добавить возможность грузить юниты на корабли
+        if (this.isNearToCollectionPoint && (!this.thisIsSea || this.peopleCanBoard)) {
           if (this.stage === 'MOVING_waitingSelection') {
             this.$store.commit('updateStage', 'MOVING_selectingTile')
           }
@@ -190,6 +190,14 @@ export default {
     },
     thisWaterOnExploringRegion () {
       return this.thisIsSea && this.shipExploringData.regionNum === this.numberRegion
+    },
+    ourShipsCountOnTile () {
+      return this.getUnitsInThisTile.filter(unit => unit.type === 'ship' && unit.owner === 'player').length
+    },
+    peopleCanBoard () {
+      // 1 корабль вмещает до 2 юнитов
+      const peopleOnBoard = this.getUnitsInThisTile.filter(unit => unit.type !== 'ship').length
+      return (this.SELECTED_UNITS.length + peopleOnBoard) / 2 <= this.ourShipsCountOnTile
     }
   }
 }
