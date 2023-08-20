@@ -210,6 +210,9 @@ export default {
   stroke-width:0.05px;
   stroke-linecap:butt;
   stroke-linejoin:miter;
-  stroke-opacity:1
+  stroke-opacity:1;
+  &.hover ~ * {
+    cursor: pointer;
+  }
 }
 </style>
