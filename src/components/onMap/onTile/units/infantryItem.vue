@@ -6,13 +6,11 @@
     sodipodi:insensitive="true">
     <path
       class="pentahedron color-darker borderless-color"
-      :class="{ 'selected-pentahedron' : unitInfo.selected }"
       d="m 40.4375,25.75 -2.814367,-0.0014 -0.868397,-2.677041 2.277668,-1.653146 2.276073,1.65534 z"
       transform="matrix(0.1713701,0,0,0.1713701,7.8582465,12.680561)"
       inkscape:label="5гранник" />
     <ellipse
-      class="helmet-body"
-      :class="{ 'selected-pictogram' : unitInfo.selected }"
+      class="helmet-body pictogram"
       ry="0.29493836"
       rx="0.24067806"
       cy="16.780693"
@@ -52,5 +50,21 @@ export default {
   fill-opacity:1;
   stroke:#000000;
   stroke-width:0.0521119;
+  .redColor.disabled & {
+    fill: #cc7373;
+    stroke: #cc7373;
+  }
+  .blueColor.disabled & {
+    fill: #73bacc;
+    stroke: #73bacc;
+  }
+  .yellowColor.disabled & {
+    fill: #ecde66;
+    stroke: #ecde66;
+  }
+  .purpleColor.disabled & {
+    fill: #bd73cc;
+    stroke: #bd73cc;
+  }
 }
 </style>

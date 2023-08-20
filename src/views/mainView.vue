@@ -231,12 +231,18 @@ export default {
       fill: #959595;
     }
   }
-  .selected-pentahedron {
+  &.selected .pentahedron {
     filter: drop-shadow(0px 0px 1px #ffd034);
     stroke: #000000 !important
   }
-  .selected-pictogram {
+  &.selected .pictogram {
     fill: #ffd034
+  }
+  &.disabled .pentahedron {
+    fill: #cc7373;
+  }
+  &.disabled .pictogram {
+    fill: #ebc7c7;
   }
 }
 .blueColor {
@@ -270,12 +276,18 @@ export default {
       stroke: #959595;
     }
   }
-  .selected-pentahedron {
+  &.selected .pentahedron {
     filter: drop-shadow(0px 0px 1px #f3bf00);
     stroke: #000000 !important
   }
-  .selected-pictogram {
+  &.selected .pictogram {
     fill: #f3bf00
+  }
+  &.disabled .pentahedron {
+    fill: #73bacc;
+  }
+  &.disabled .pictogram {
+    fill: #f9f9f999;
   }
 }
 .yellowColor {
@@ -309,12 +321,18 @@ export default {
       stroke: #959595;
     }
   }
-  .selected-pentahedron {
+  &.selected .pentahedron {
     filter: drop-shadow(0px 0px 1px #000000);
     stroke: #000000 !important
   }
-  .selected-pictogram {
+  &.selected .pictogram {
     fill: #000000
+  }
+  &.disabled .pentahedron {
+    fill: #ecde66;
+  }
+  &.disabled .pictogram {
+    fill: #f7f2c2;
   }
 }
 .purpleColor {
@@ -348,12 +366,18 @@ export default {
       stroke: #959595;
     }
   }
-  .selected-pentahedron {
+  &.selected .pentahedron {
     filter: drop-shadow(0px 0px 1px #ffd034);
     stroke: #000000 !important
   }
-  .selected-pictogram {
+  &.selected .pictogram {
     fill: #ffd034
+  }
+  &.disabled .pentahedron {
+    fill: #bd73cc;
+  }
+  &.disabled .pictogram {
+    fill: #e1c3e7;
   }
 }
 .selection-frame {

@@ -18,7 +18,7 @@
       :data-type="type" />
     <city-item v-if="cityInThisTile !== false" :transform="giveTranslateAttr('city')" :cityInfo="cityInThisTile" :colorClass="getColorElement(cityInThisTile.owner)"/>
     <g v-if="getUnitsInThisTile.length" class="units-container">
-      <unit-item v-for="(unit, i) in getUnitsInThisTile" :key="i+1" :transform="giveTranslateAttr(unit.type, unit.id)" :unitID="unit.id" :colorClass="getColorElement(unit.owner)"/>
+      <unit-item v-for="(unit, i) in getUnitsInThisTile" :key="i+1" :transform="giveTranslateAttr(unit.type, unit.id)" :unitID="unit.id" :colorClass="getColorElement(unit.owner)" :selected="unit.selected" :canMove="unit.canMove"/>
     </g>
   </g>
 </template>
@@ -171,7 +171,7 @@ export default {
       const res = []
       this.LIVING_UNITS.forEach(unit => {
         if (unit.region === this.numberRegion && unit.tile === this.numberTile) {
-          res.push({ id: unit.id, type: unit.type, owner: unit.owner })
+          res.push({ id: unit.id, type: unit.type, owner: unit.owner, selected: unit.selected, canMove: unit.canMove_onThisAction })
         }
       })
       return res

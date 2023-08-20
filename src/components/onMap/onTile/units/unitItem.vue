@@ -2,7 +2,7 @@
   <g
     inkscape:groupmode="layer"
     class="unit-item"
-    :class="colorClass"
+    :class="[colorClass, selected ? 'selected' : '', canMove ? '' : 'disabled']"
     inkscape:label="Юнит"
     data-type-object="unit"
     @mouseover="mouseoverUnit"
@@ -35,7 +35,9 @@ export default {
   },
   props: {
     unitID: Number,
-    colorClass: String
+    colorClass: String,
+    selected: Boolean,
+    canMove: Boolean
   },
   mounted () {
   },
