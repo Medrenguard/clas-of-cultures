@@ -5,6 +5,7 @@
     :class="[colorClass, selected ? 'selected' : '', canMove ? '' : 'disabled']"
     inkscape:label="Юнит"
     data-type-object="unit"
+    @click="mouseclickUnit"
     @mouseover="mouseoverUnit"
     @mouseout="mouseoutUnit">
       <settler-item v-if="unitInfo.type === 'settler'" :unitInfo="unitInfo"/>
@@ -53,6 +54,16 @@ export default {
     }
   },
   methods: {
+    mouseclickUnit (event) {
+      if (this.stage === 'MOVING_waitingSelection') {
+      // проверка на то, что юнит еще может ходить, а так же, что юнит твой
+        if (this.unitInfo.owner === 'player') {
+          if (this.unitInfo.canMove_onThisAction) {
+            this.$store.dispatch('toggleUnitSelection', this.unitID)
+          }
+        }
+      }
+    },
     mouseoverUnit (event) {
       if (this.stage === 'MOVING_waitingSelection') {
       // проверка на то, что юнит еще может ходить, а так же, что юнит твой

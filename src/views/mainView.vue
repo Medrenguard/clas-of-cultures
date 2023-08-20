@@ -84,29 +84,7 @@ export default {
       if (t !== null) {
         const tileInfo = event.target.closest('.tile-wrap')?.querySelector('.selection-frame')
         // console.log(t)
-        if (this.stage === 'MOVING_waitingSelection') {
-          // простая проверка на то, что клик был по юниту TODO упростить
-          if (['infantry', 'settler', 'ship'].includes(t.getAttribute('data-type-object'))) {
-            const unit = this.GET_UNIT_BY_ID(Number(t.getAttribute('data-id-object')))
-            if (
-              unit.alive && // Проверка истинности жизни
-              unit.owner === t.getAttribute('data-owner-object') && // Проверка истинности владельца
-              (Number(tileInfo.getAttribute('data-region')) === unit.region && Number(tileInfo.getAttribute('data-tile')) === unit.tile) // Проверка истинности расположения
-            ) {
-              // Простая проверка на то, своего ли ты юнита выбираешь
-              if (unit.owner === 'player') {
-                // проверка на то, может ли юнит ходить в этом ходу/раунде
-                if (!unit.canMove_onThisRound) {
-                  console.log('Этот юнит не может больше ходить в этом раунде')
-                } else if (!unit.canMove_onThisAction) {
-                  console.log('Этот юнит не может больше ходить в этом действии')
-                } else {
-                  this.$store.dispatch('toggleUnitSelection', Number(t.getAttribute('data-id-object')))
-                }
-              }
-            } else (console.log('Целостность данных нарушена, пожалуйста, обновите страницу.'))
-          }
-        } else if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_moveThenExploringManual') {
+        if (this.stage === 'MOVING_selectingTile' || this.stage === 'MOVING_moveThenExploringManual') {
           this.$store.dispatch('formationMovement', { region: Number(tileInfo.getAttribute('data-region')), tile: Number(tileInfo.getAttribute('data-tile')) })
           tileInfo.classList.remove('hover')
           if (this.stage === 'MOVING_selectingTile') {
